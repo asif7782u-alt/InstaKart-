@@ -1,0 +1,2388 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="system">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<meta name="theme-color" content="#9FD4FD" />
+<title>InstaKart — Rent • Buy • Repair • Premium</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   INSTAKART — THEME ENGINE
+   ============================================================ */
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;width:100%}
+body{
+  font-family:'Plus Jakarta Sans',-apple-system,sans-serif;
+  background:linear-gradient(160deg,var(--bg-1) 0%,var(--bg-2) 60%,var(--bg-3) 100%);
+  background-attachment:fixed;color:var(--txt-main);overflow-x:hidden;
+  transition:background .7s ease,color .5s ease;min-height:100vh;
+}
+body::before{
+  content:'';position:fixed;inset:0;
+  background:radial-gradient(circle at 12% 18%,rgba(255,255,255,.55),transparent 45%),
+    radial-gradient(circle at 88% 78%,var(--bubble-2),transparent 50%),
+    radial-gradient(circle at 50% 50%,var(--bubble-3),transparent 60%);
+  pointer-events:none;z-index:0;animation:bgFloat 24s ease-in-out infinite;
+}
+@keyframes bgFloat{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(2%,-2%) scale(1.05)}66%{transform:translate(-2%,2%) scale(.98)}}
+
+/* THEMES */
+html[data-theme="system"]{
+  --bg-1:#9ED5FD;--bg-2:#89C7FC;--bg-3:#BFE3FD;
+  --bubble-2:rgba(76,132,247,.25);--bubble-3:rgba(186,230,253,.5);
+  --surface:rgba(255,255,255,.74);--txt-main:#0E1F38;--txt-sub:#4A6382;--txt-muted:#829BB9;
+  --brand-1:#4C84F7;--brand-2:#38BDF8;
+  --brand-grad:linear-gradient(135deg,#4C84F7 0%,#38BDF8 100%);
+  --icon-bg:linear-gradient(135deg,#DBEAFE,#BFDBFE);--icon-color:#4C84F7;
+  --card-bg:rgba(255,255,255,.68);--card-border:1.5px solid rgba(255,255,255,.95);
+  --card-shadow:0 16px 36px rgba(50,115,185,.22),inset 0 2px 3px rgba(255,255,255,.95);
+  --inset-shadow:inset 0 3px 6px rgba(70,130,200,.18),inset 0 -1px 2px rgba(255,255,255,.8);
+  --btn-shadow:0 10px 24px rgba(50,110,210,.32),inset 0 2px 2px rgba(255,255,255,.6);
+  --success:#10B981;--danger:#EF4444;--warning:#F59E0B;--nav-bg:rgba(255,255,255,.88);
+}
+html[data-theme="neumorphism"]{
+  --bg-1:#F5EFE6;--bg-2:#EBE2D5;--bg-3:#FCF8F2;
+  --bubble-2:rgba(200,180,155,.3);--bubble-3:rgba(255,250,240,.6);
+  --surface:rgba(252,248,242,.85);--txt-main:#2D2723;--txt-sub:#787068;--txt-muted:#A39B92;
+  --brand-1:#D97757;--brand-2:#F4A261;
+  --brand-grad:linear-gradient(135deg,#D97757 0%,#F4A261 100%);
+  --icon-bg:linear-gradient(135deg,#FDE8D9,#F8D1BC);--icon-color:#D97757;
+  --card-bg:#EFE9E1;--card-border:1px solid rgba(255,255,255,.6);
+  --card-shadow:10px 10px 22px rgba(182,172,160,.5),-10px -10px 22px rgba(255,255,255,.95);
+  --inset-shadow:inset 0 3px 6px rgba(160,145,130,.18),inset 0 1px 2px rgba(160,145,130,.2);
+  --btn-shadow:0 8px 18px rgba(217,119,87,.32),inset 0 2px 2px rgba(255,255,255,.6);
+  --success:#10B981;--danger:#EF4444;--warning:#F59E0B;--nav-bg:rgba(252,248,242,.92);
+}
+html[data-theme="drop-shadow"]{
+  --bg-1:#E8E7F5;--bg-2:#D6D4EE;--bg-3:#F3F1FE;
+  --bubble-2:rgba(139,130,220,.25);--bubble-3:rgba(230,225,250,.55);
+  --surface:rgba(255,255,255,.82);--txt-main:#2A2540;--txt-sub:#66608B;--txt-muted:#9C95BC;
+  --brand-1:#8B7FE8;--brand-2:#C4B5FD;
+  --brand-grad:linear-gradient(135deg,#8B7FE8 0%,#C4B5FD 100%);
+  --icon-bg:linear-gradient(135deg,#E8E3FF,#D5CCFF);--icon-color:#8B7FE8;
+  --card-bg:rgba(255,255,255,.85);--card-border:1px solid rgba(255,255,255,.95);
+  --card-shadow:0 20px 40px -12px rgba(120,110,200,.22),0 6px 14px -3px rgba(120,110,200,.1);
+  --inset-shadow:inset 0 3px 6px rgba(140,130,210,.15);
+  --btn-shadow:0 10px 24px rgba(139,127,232,.35);
+  --success:#10B981;--danger:#EF4444;--warning:#F59E0B;--nav-bg:rgba(255,255,255,.9);
+}
+html[data-theme="glow"]{
+  --bg-1:#FFE9D9;--bg-2:#FFD5C2;--bg-3:#FFF3E8;
+  --bubble-2:rgba(255,170,130,.3);--bubble-3:rgba(255,220,200,.55);
+  --surface:rgba(255,250,245,.85);--txt-main:#4A2519;--txt-sub:#8B5A3F;--txt-muted:#B88870;
+  --brand-1:#FF8A5B;--brand-2:#FFB088;
+  --brand-grad:linear-gradient(135deg,#FF8A5B 0%,#FFB088 100%);
+  --icon-bg:linear-gradient(135deg,#FFE4D5,#FFD1BA);--icon-color:#FF8A5B;
+  --card-bg:rgba(255,250,245,.85);--card-border:1px solid rgba(255,255,255,.9);
+  --card-shadow:0 0 24px rgba(255,170,130,.35),inset 0 0 12px rgba(255,220,200,.4);
+  --inset-shadow:inset 0 3px 6px rgba(220,150,110,.18);
+  --btn-shadow:0 10px 24px rgba(255,138,91,.4);
+  --success:#10B981;--danger:#EF4444;--warning:#F59E0B;--nav-bg:rgba(255,250,245,.92);
+}
+html[data-theme="gradient"]{
+  --bg-1:#EDE4FF;--bg-2:#D9C6FF;--bg-3:#FCE8F3;
+  --bubble-2:rgba(168,85,247,.25);--bubble-3:rgba(236,72,153,.2);
+  --surface:rgba(255,255,255,.82);--txt-main:#2D1B4E;--txt-sub:#6B4C8F;--txt-muted:#9E85B8;
+  --brand-1:#A855F7;--brand-2:#EC4899;
+  --brand-grad:linear-gradient(135deg,#A855F7 0%,#EC4899 100%);
+  --icon-bg:linear-gradient(135deg,#F3D9FF,#FFD4E8);--icon-color:#A855F7;
+  --card-bg:rgba(255,255,255,.82);--card-border:1px solid rgba(255,255,255,.95);
+  --card-shadow:0 16px 36px rgba(168,85,247,.22),inset 0 2px 3px #fff;
+  --inset-shadow:inset 0 3px 6px rgba(168,85,247,.15);
+  --btn-shadow:0 10px 24px rgba(168,85,247,.38);
+  --success:#10B981;--danger:#EF4444;--warning:#F59E0B;--nav-bg:rgba(255,255,255,.9);
+}
+html[data-theme="outer-glow"]{
+  --bg-1:#E6F4FF;--bg-2:#C5E5FF;--bg-3:#FFF9E5;
+  --bubble-2:rgba(80,185,255,.3);--bubble-3:rgba(255,220,130,.25);
+  --surface:rgba(255,255,255,.88);--txt-main:#103A5E;--txt-sub:#4C7392;--txt-muted:#8AAAC2;
+  --brand-1:#3BA1E0;--brand-2:#FFCB61;
+  --brand-grad:linear-gradient(135deg,#3BA1E0 0%,#FFCB61 100%);
+  --icon-bg:linear-gradient(135deg,#D5EDFF,#FFECB8);--icon-color:#3BA1E0;
+  --card-bg:rgba(255,255,255,.88);--card-border:1.5px solid #A5DCFF;
+  --card-shadow:0 0 35px rgba(80,185,255,.35),inset 0 1px 2px #fff;
+  --inset-shadow:inset 0 3px 6px rgba(80,185,255,.15);
+  --btn-shadow:0 10px 24px rgba(59,161,224,.38);
+  --success:#10B981;--danger:#EF4444;--warning:#F59E0B;--nav-bg:rgba(255,255,255,.92);
+}
+html[data-theme="inner-shadow"]{
+  --bg-1:#F0EAE1;--bg-2:#E5DCCF;--bg-3:#F5EFE4;
+  --bubble-2:rgba(170,150,120,.2);--bubble-3:rgba(255,245,230,.5);
+  --surface:rgba(240,234,225,.9);--txt-main:#3A3128;--txt-sub:#7A6E5C;--txt-muted:#A89B84;
+  --brand-1:#B8895A;--brand-2:#D9A577;
+  --brand-grad:linear-gradient(135deg,#B8895A 0%,#D9A577 100%);
+  --icon-bg:linear-gradient(135deg,#E8DAC8,#D9C4A9);--icon-color:#B8895A;
+  --card-bg:#E4DDD3;--card-border:1px solid rgba(255,255,255,.5);
+  --card-shadow:inset 6px 6px 14px rgba(150,136,120,.4),inset -6px -6px 14px rgba(255,255,255,.85);
+  --inset-shadow:inset 0 4px 8px rgba(150,136,120,.3);
+  --btn-shadow:0 8px 18px rgba(184,137,90,.35),inset 0 2px 2px rgba(255,255,255,.5);
+  --success:#10B981;--danger:#EF4444;--warning:#F59E0B;--nav-bg:rgba(240,234,225,.95);
+}
+html[data-theme="bevel"]{
+  --bg-1:#F0EFEC;--bg-2:#E0DED9;--bg-3:#F8F6F2;
+  --bubble-2:rgba(150,145,135,.2);--bubble-3:rgba(250,245,235,.5);
+  --surface:rgba(248,246,242,.9);--txt-main:#2F2B25;--txt-sub:#6B6558;--txt-muted:#9C9585;
+  --brand-1:#7C8DB5;--brand-2:#A5B4D6;
+  --brand-grad:linear-gradient(135deg,#7C8DB5 0%,#A5B4D6 100%);
+  --icon-bg:linear-gradient(135deg,#DDE2EE,#C8D0E5);--icon-color:#7C8DB5;
+  --card-bg:#F7F6F4;--card-border:2px solid #FFFFFF;
+  --card-shadow:inset 3px 3px 2px #FFFFFF,inset -3px -3px 3px rgba(120,115,105,.28),0 10px 20px rgba(130,125,115,.15);
+  --inset-shadow:inset 0 3px 6px rgba(130,125,115,.2);
+  --btn-shadow:0 8px 20px rgba(124,141,181,.35),inset 0 2px 2px #fff;
+  --success:#10B981;--danger:#EF4444;--warning:#F59E0B;--nav-bg:rgba(248,246,242,.95);
+}
+html[data-theme="satin"]{
+  --bg-1:#FFF1F3;--bg-2:#FCE0E4;--bg-3:#FFF5F0;
+  --bubble-2:rgba(244,114,182,.25);--bubble-3:rgba(255,220,210,.5);
+  --surface:rgba(255,250,250,.88);--txt-main:#4A1B2E;--txt-sub:#8B4A62;--txt-muted:#B88897;
+  --brand-1:#F472B6;--brand-2:#FB923C;
+  --brand-grad:linear-gradient(135deg,#F472B6 0%,#FB923C 100%);
+  --icon-bg:linear-gradient(135deg,#FFD9EC,#FFE0C7);--icon-color:#F472B6;
+  --card-bg:radial-gradient(circle at 30% 20%,#FFFFFF 0%,#FDE7E0 50%,#F8D1C6 100%);
+  --card-border:1.5px solid rgba(255,255,255,.85);
+  --card-shadow:0 16px 36px rgba(244,114,182,.22),inset 0 4px 8px rgba(255,255,255,.9),inset 0 -4px 8px rgba(200,100,120,.1);
+  --inset-shadow:inset 0 3px 6px rgba(200,120,140,.15);
+  --btn-shadow:0 10px 24px rgba(244,114,182,.35);
+  --success:#10B981;--danger:#EF4444;--warning:#F59E0B;--nav-bg:rgba(255,250,250,.92);
+}
+html[data-theme="texture"]{
+  --bg-1:#F5F1E3;--bg-2:#E8E2CE;--bg-3:#FAF5E8;
+  --bubble-2:rgba(150,140,100,.2);--bubble-3:rgba(240,235,200,.55);
+  --surface:rgba(250,245,235,.9);--txt-main:#38321D;--txt-sub:#6E6344;--txt-muted:#9C9068;
+  --brand-1:#A8A065;--brand-2:#C9BE7E;
+  --brand-grad:linear-gradient(135deg,#A8A065 0%,#C9BE7E 100%);
+  --icon-bg:linear-gradient(135deg,#E8E2C4,#D9D19A);--icon-color:#8B8450;
+  --card-bg:#FAF5EB;--card-border:1.5px solid #E4D8C4;
+  --card-shadow:0 12px 24px rgba(140,125,105,.18),inset 0 0 10px rgba(180,160,140,.1);
+  --inset-shadow:inset 0 3px 6px rgba(160,145,110,.15);
+  --btn-shadow:0 8px 18px rgba(168,160,101,.35);
+  --success:#10B981;--danger:#EF4444;--warning:#F59E0B;--nav-bg:rgba(250,245,235,.95);
+}
+:root{--r-s:14px;--r-m:20px;--r-l:26px;--r-xl:34px;--r-full:9999px;--ease:cubic-bezier(.34,1.56,.64,1);--trans:all .4s cubic-bezier(.2,.9,.3,1)}
+
+/* ============================================================
+   BEAUTIFUL LOADING SCREEN
+   ============================================================ */
+.loader-screen{position:fixed;inset:0;z-index:9000;background:#050810;display:grid;place-items:center;transition:opacity .8s ease,visibility .8s;overflow:hidden;opacity:0;visibility:hidden}
+.loader-screen.visible{opacity:1;visibility:visible}
+.loader-screen.done{opacity:0;visibility:hidden}
+.loader-gradient-bg{position:absolute;inset:0;background:
+  radial-gradient(circle at 20% 30%, rgba(225,48,108,.4), transparent 45%),
+  radial-gradient(circle at 80% 70%, rgba(64,93,230,.4), transparent 45%),
+  radial-gradient(circle at 50% 50%, rgba(252,175,69,.15), transparent 60%);
+  animation:gradientShift 10s ease-in-out infinite}
+@keyframes gradientShift{0%,100%{opacity:1}50%{opacity:.6}}
+.loader-particles{position:absolute;inset:0;overflow:hidden}
+.loader-particle{position:absolute;border-radius:50%;pointer-events:none}
+.loader-particle.glow{animation:particleRise 6s linear infinite}
+@keyframes particleRise{0%{transform:translateY(100vh) scale(.5);opacity:0}20%{opacity:.8}100%{transform:translateY(-20vh) scale(1.2);opacity:0}}
+.loader-rings{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none}
+.loader-orbit-ring{position:absolute;border:1.5px solid;border-radius:50%;top:50%;left:50%;transform:translate(-50%,-50%)}
+.ring-1{width:200px;height:200px;border-color:rgba(225,48,108,.35);border-top-color:#E1306C;animation:orbitSpin 3s linear infinite}
+.ring-2{width:280px;height:280px;border-color:rgba(64,93,230,.3);border-right-color:#405DE6;animation:orbitSpin 4.5s linear infinite reverse}
+.ring-3{width:360px;height:360px;border-color:rgba(252,175,69,.25);border-bottom-color:#FCAF45;animation:orbitSpin 6s linear infinite}
+@keyframes orbitSpin{to{transform:translate(-50%,-50%) rotate(360deg)}}
+.loader-brand-wrap{position:relative;z-index:3;text-align:center;padding:0 24px}
+.loader-logo-cube{width:110px;height:110px;margin:0 auto 28px;position:relative;perspective:800px}
+.loader-logo-inner{width:100%;height:100%;position:relative;transform-style:preserve-3d;animation:logoSpin 4s ease-in-out infinite}
+@keyframes logoSpin{0%,100%{transform:rotateY(0) rotateX(-10deg)}50%{transform:rotateY(180deg) rotateX(10deg)}}
+.loader-logo-face{position:absolute;inset:0;border-radius:26px;background:linear-gradient(135deg,#E1306C 0%,#F56040 45%,#405DE6 100%);display:grid;place-items:center;color:#fff;font-size:44px;font-weight:900;border:2px solid rgba(255,255,255,.6);box-shadow:0 0 50px rgba(225,48,108,.7),inset 0 0 30px rgba(255,255,255,.3);backface-visibility:hidden}
+.loader-logo-face.back{transform:rotateY(180deg)}
+.loader-brand-title{font-size:clamp(36px,8.5vw,54px);font-weight:900;letter-spacing:-2px;line-height:1;display:flex;justify-content:center;margin-bottom:12px;filter:drop-shadow(0 8px 24px rgba(225,48,108,.5))}
+.loader-brand-title .bn-insta{background:linear-gradient(135deg,#FCAF45 0%,#F56040 50%,#E1306C 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.loader-brand-title .bn-kart{background:linear-gradient(135deg,#38BDF8 0%,#405DE6 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.loader-brand-sub{font-size:clamp(10px,2.5vw,12px);font-weight:800;letter-spacing:5px;text-transform:uppercase;color:rgba(186,230,253,.7);margin-bottom:36px}
+.loader-progress-container{width:min(320px,80vw);margin:0 auto}
+.loader-progress-track{height:5px;background:rgba(255,255,255,.12);border-radius:999px;overflow:hidden;box-shadow:inset 0 1px 2px rgba(0,0,0,.5)}
+.loader-progress-bar{height:100%;width:0;background:linear-gradient(90deg,#E1306C,#F56040,#FCAF45,#405DE6,#38BDF8);background-size:300% 100%;border-radius:999px;transition:width .3s ease;animation:barShine 1.8s linear infinite;box-shadow:0 0 20px rgba(225,48,108,.8)}
+@keyframes barShine{0%{background-position:0 0}100%{background-position:-300% 0}}
+.loader-progress-info{display:flex;justify-content:space-between;align-items:center;margin-top:12px;font-size:10.5px;font-weight:900;letter-spacing:1.5px;color:rgba(186,230,253,.85)}
+.loader-progress-pct{font-size:13px;color:#fff}
+.loader-tip{font-size:11.5px;font-weight:700;color:rgba(186,230,253,.65);margin-top:26px;letter-spacing:.4px;min-height:18px;transition:opacity .4s}
+.loader-dots{display:flex;justify-content:center;gap:8px;margin-top:24px}
+.loader-dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.2);transition:all .4s var(--ease)}
+.loader-dot.active{background:linear-gradient(135deg,#E1306C,#405DE6);width:22px;border-radius:3px;box-shadow:0 0 12px rgba(225,48,108,.7)}
+
+/* ============================================================
+   AUTH OVERLAY
+   ============================================================ */
+.auth-overlay{position:fixed;inset:0;z-index:8000;background:linear-gradient(150deg,#E0EBFA 0%,#C9DDF5 55%,#B7D2F0 100%);display:flex;align-items:center;justify-content:center;padding:16px;opacity:0;visibility:hidden;transform:scale(1.02);transition:opacity .5s ease,transform .55s var(--ease),visibility .5s;overflow:hidden}
+.auth-overlay.show{opacity:1;visibility:visible;transform:scale(1)}
+.auth-bg-decor{position:absolute;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+.auth-bg-decor::before,.auth-bg-decor::after{content:'';position:absolute;border-radius:50%;filter:blur(80px)}
+.auth-bg-decor::before{width:320px;height:320px;background:rgba(225,48,108,.35);top:-80px;right:-80px;animation:authFloat 12s ease-in-out infinite}
+.auth-bg-decor::after{width:360px;height:360px;background:rgba(64,93,230,.35);bottom:-100px;left:-100px;animation:authFloat 14s ease-in-out infinite reverse}
+@keyframes authFloat{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(30px,-30px) scale(1.1)}}
+.auth-shell{position:relative;z-index:2;width:100%;max-width:420px;max-height:100vh;display:flex;flex-direction:column;justify-content:center}
+.auth-brand{text-align:center;margin-bottom:18px;flex-shrink:0}
+.auth-brand-mark{width:64px;height:64px;border-radius:20px;margin:0 auto 10px;background:linear-gradient(135deg,#E1306C 0%,#F56040 40%,#405DE6 100%);display:grid;place-items:center;color:#fff;font-size:26px;font-weight:900;box-shadow:0 16px 40px rgba(225,48,108,.4),inset 0 2px 4px rgba(255,255,255,.5);position:relative;overflow:hidden}
+.auth-brand-mark::after{content:'';position:absolute;inset:0;background:linear-gradient(120deg,transparent 35%,rgba(255,255,255,.65) 50%,transparent 65%);animation:brandShine 3.5s linear infinite}
+@keyframes brandShine{0%{transform:translateX(-100%)}100%{transform:translateX(100%)}}
+.auth-brand-title{font-size:32px;font-weight:900;letter-spacing:-1px;line-height:1;display:flex;justify-content:center}
+.auth-brand-title .bn-insta{background:linear-gradient(135deg,#E1306C 0%,#F56040 60%,#FCAF45 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.auth-brand-title .bn-kart{background:linear-gradient(135deg,#405DE6 0%,#833AB4 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.auth-brand-tagline{font-size:11px;font-weight:700;color:#4A6382;margin-top:6px;letter-spacing:.5px}
+.auth-brand-chips{display:flex;justify-content:center;gap:6px;margin-top:10px;flex-wrap:wrap}
+.auth-brand-chip{padding:5px 12px;background:rgba(255,255,255,.55);border:1px solid rgba(255,255,255,.8);border-radius:var(--r-full);font-size:10px;font-weight:900;color:#2D3F5E;backdrop-filter:blur(10px)}
+.auth-card{background:rgba(255,255,255,.75);backdrop-filter:blur(28px) saturate(170%);-webkit-backdrop-filter:blur(28px) saturate(170%);border:1.5px solid rgba(255,255,255,.95);border-radius:28px;padding:22px 20px;box-shadow:0 30px 70px rgba(40,80,150,.25),inset 0 2px 3px rgba(255,255,255,.95);flex-shrink:0;max-height:calc(100vh - 220px);overflow-y:auto;scrollbar-width:none}
+.auth-card::-webkit-scrollbar{display:none}
+.auth-tabs{display:flex;gap:6px;padding:5px;background:rgba(255,255,255,.55);border-radius:var(--r-full);box-shadow:inset 0 3px 8px rgba(70,130,200,.15);margin-bottom:16px}
+.auth-tab{flex:1;padding:11px;border-radius:var(--r-full);border:none;background:transparent;cursor:pointer;font-family:inherit;font-size:13px;font-weight:900;color:#4A6382;transition:all .3s var(--ease)}
+.auth-tab.active{background:linear-gradient(135deg,#E1306C 0%,#405DE6 100%);color:#fff;box-shadow:0 8px 20px rgba(225,48,108,.4)}
+.auth-field-group{margin-bottom:11px}
+.auth-field-label{font-size:10px;font-weight:900;letter-spacing:1.1px;text-transform:uppercase;color:#4A6382;margin:0 0 5px 12px;display:block}
+.auth-field-input{width:100%;background:rgba(255,255,255,.85);border:1.5px solid rgba(255,255,255,.95);border-radius:var(--r-full);box-shadow:inset 0 3px 6px rgba(70,130,200,.12);padding:13px 20px;font-family:inherit;font-size:13px;font-weight:700;color:#0E1F38;outline:none;transition:all .25s}
+.auth-field-input::placeholder{color:#829BB9;font-weight:600}
+.auth-field-input:focus{border-color:#E1306C;background:#FFF;box-shadow:0 0 0 4px rgba(225,48,108,.15)}
+.auth-field-row-2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.auth-submit-btn{width:100%;padding:14px;font-size:13.5px;font-weight:900;font-family:inherit;border-radius:var(--r-full);border:none;background:linear-gradient(135deg,#E1306C 0%,#F56040 45%,#405DE6 100%);background-size:200% 200%;color:#fff;cursor:pointer;box-shadow:0 12px 30px rgba(225,48,108,.4),inset 0 2px 2px rgba(255,255,255,.5);transition:transform .2s,background-position .6s;margin-top:5px}
+.auth-submit-btn:hover{background-position:100% 50%;transform:translateY(-2px)}
+.auth-submit-btn:active{transform:scale(.96)}
+.auth-or-divider{display:flex;align-items:center;gap:12px;margin:13px 0;color:#829BB9;font-size:9.5px;font-weight:900;letter-spacing:1.4px}
+.auth-or-divider::before,.auth-or-divider::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,transparent,rgba(70,130,200,.25),transparent)}
+.auth-demo-btn{width:100%;padding:12px;font-size:12px;font-weight:900;font-family:inherit;border-radius:var(--r-full);border:1.5px solid rgba(255,255,255,.95);background:rgba(255,255,255,.9);color:#2D3F5E;cursor:pointer;box-shadow:0 8px 18px rgba(70,130,200,.15);transition:transform .2s}
+.auth-demo-btn:active{transform:scale(.96)}
+.auth-switch-line{text-align:center;margin-top:14px;font-size:11.5px;font-weight:700;color:#4A6382}
+.auth-switch-line b{color:#E1306C;cursor:pointer;font-weight:900}
+@media(max-height:720px){.auth-brand-mark{width:52px;height:52px;font-size:22px;margin-bottom:6px}.auth-brand-title{font-size:26px}.auth-brand{margin-bottom:12px}.auth-brand-chips{display:none}.auth-card{padding:18px}.auth-field-input{padding:11px 18px;font-size:12.5px}.auth-submit-btn{padding:12px;font-size:13px}}
+
+/* ============================================================
+   APP SHELL
+   ============================================================ */
+.app{position:relative;z-index:2;min-height:100vh;display:flex;flex-direction:column;opacity:0;pointer-events:none;transition:opacity .6s ease}
+.app.visible{opacity:1;pointer-events:auto}
+.topbar{position:fixed;top:12px;left:12px;right:12px;z-index:100;display:flex;align-items:center;gap:12px;padding:10px 16px;background:var(--nav-bg);backdrop-filter:blur(30px) saturate(190%);-webkit-backdrop-filter:blur(30px) saturate(190%);border:1.5px solid rgba(255,255,255,.95);border-radius:22px;box-shadow:0 10px 30px rgba(60,120,190,.16),inset 0 2px 2px #fff;min-height:60px}
+@media(max-width:900px){.topbar{top:8px;left:8px;right:8px;padding:8px 12px;min-height:56px;border-radius:20px;gap:8px}}
+.brand-lockup{display:flex;align-items:center;gap:9px;cursor:pointer;flex-shrink:0}
+.brand-mark{width:38px;height:38px;border-radius:13px;background:linear-gradient(135deg,#E1306C 0%,#F56040 40%,#405DE6 100%);display:grid;place-items:center;color:#fff;font-size:16px;font-weight:900;box-shadow:0 6px 16px rgba(225,48,108,.35),inset 0 2px 2px rgba(255,255,255,.6);position:relative;overflow:hidden;border:1px solid rgba(255,255,255,.4);flex-shrink:0}
+.brand-mark::after{content:'';position:absolute;inset:0;background:linear-gradient(120deg,transparent 35%,rgba(255,255,255,.75) 50%,transparent 65%);animation:brandShine 3s linear infinite}
+.brand-name{font-size:18px;font-weight:900;letter-spacing:-.5px;display:flex;line-height:1}
+.brand-name .bn-insta{background:linear-gradient(135deg,#E1306C 0%,#F56040 60%,#FCAF45 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.brand-name .bn-kart{background:linear-gradient(135deg,#405DE6 0%,#833AB4 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.brand-tag{font-size:8px;font-weight:800;letter-spacing:1.4px;text-transform:uppercase;color:var(--txt-sub);margin-top:1px}
+@media(max-width:900px){.brand-tag{display:none}}
+@media(max-width:500px){.brand-name{font-size:16px}.brand-mark{width:34px;height:34px;font-size:14px;border-radius:12px}}
+.topbar-search{flex:1;max-width:340px;display:flex;align-items:center;gap:8px;padding:9px 16px;background:rgba(255,255,255,.85);border-radius:var(--r-full);box-shadow:var(--inset-shadow);color:var(--txt-sub);border:1.5px solid rgba(255,255,255,.95);min-width:0}
+.topbar-search input{border:none;background:transparent;outline:none;width:100%;font-family:inherit;font-size:12.5px;font-weight:700;color:var(--txt-main);min-width:0}
+.topbar-search input::placeholder{color:var(--txt-muted)}
+@media(max-width:900px){.topbar-search{display:none}}
+.desktop-nav{display:flex;align-items:center;gap:3px;padding:4px;background:rgba(255,255,255,.6);border-radius:var(--r-full);box-shadow:var(--inset-shadow);border:1px solid rgba(255,255,255,.8);flex-shrink:0}
+.desktop-nav-btn{padding:7px 13px;border-radius:var(--r-full);font-size:11.5px;font-weight:800;border:none;background:transparent;color:var(--txt-sub);font-family:inherit;cursor:pointer;display:flex;align-items:center;gap:5px;transition:all .3s var(--ease);white-space:nowrap}
+.desktop-nav-btn.active{background:var(--brand-grad);color:#fff;box-shadow:0 5px 14px rgba(76,132,247,.4),inset 0 1px 1px rgba(255,255,255,.6)}
+.desktop-nav-btn span:first-child{font-size:14px}
+@media(max-width:1200px){.desktop-nav-btn span:last-child{display:none}.desktop-nav-btn{padding:8px 11px}}
+@media(max-width:900px){.desktop-nav{display:none}}
+.topbar-actions{display:flex;align-items:center;gap:8px;flex-shrink:0;margin-left:auto}
+.icon-btn{width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,.85);border:1.5px solid rgba(255,255,255,.95);box-shadow:0 6px 14px rgba(70,130,200,.18),inset 0 2px 2px #fff;display:grid;place-items:center;font-size:16px;cursor:pointer;color:var(--txt-main);transition:transform .25s var(--ease);position:relative}
+.icon-btn:hover{transform:translateY(-2px);background:#FFF}
+.icon-btn:active{transform:scale(.92)}
+.icon-btn.learn-glow::after{content:'';position:absolute;inset:-3px;border-radius:50%;border:2px solid var(--brand-1);opacity:0;animation:learnPulse 2.4s ease-out infinite}
+@keyframes learnPulse{0%{transform:scale(.9);opacity:.8}100%{transform:scale(1.4);opacity:0}}
+@media(max-width:500px){.icon-btn{width:34px;height:34px;font-size:14px}}
+.profile-pill{display:flex;align-items:center;gap:8px;padding:4px 4px 4px 12px;background:rgba(255,255,255,.9);border-radius:var(--r-full);box-shadow:0 6px 18px rgba(60,120,195,.2),inset 0 2px 2px #fff;cursor:pointer;border:1.5px solid rgba(255,255,255,.95);transition:transform .2s var(--ease);flex-shrink:0;position:relative}
+.profile-pill.premium::before{content:'👑';position:absolute;top:-8px;left:-4px;font-size:14px;filter:drop-shadow(0 2px 4px rgba(255,165,0,.6));animation:crownBounce 2s ease-in-out infinite}
+@keyframes crownBounce{0%,100%{transform:translateY(0) rotate(-10deg)}50%{transform:translateY(-3px) rotate(10deg)}}
+.profile-pill:active{transform:scale(.96)}
+.pp-balance{text-align:right;line-height:1.1}
+.pp-label{font-size:7.5px;font-weight:900;letter-spacing:.7px;text-transform:uppercase;color:var(--txt-sub)}
+.pp-amount{font-size:12px;font-weight:900;color:var(--txt-main)}
+.top-avatar{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,#E1306C 0%,#405DE6 100%);display:grid;place-items:center;color:#fff;font-size:13px;font-weight:900;border:2px solid #fff;box-shadow:0 4px 12px rgba(225,48,108,.4);flex-shrink:0}
+.profile-pill.premium .top-avatar{background:linear-gradient(135deg,#FFD700,#FF8C00);box-shadow:0 4px 14px rgba(255,165,0,.6)}
+@media(max-width:500px){.pp-label{display:none}.pp-amount{font-size:11px}.top-avatar{width:30px;height:30px;font-size:12px}.profile-pill{padding:4px 4px 4px 8px;gap:6px}}
+
+.main{flex:1;padding:96px clamp(14px,2.5vw,32px) 100px;max-width:1440px;width:100%;margin:0 auto;position:relative}
+@media(max-width:900px){.main{padding:88px 14px 100px}}
+.page{display:none;animation:pageIn .5s var(--ease)}
+.page.active{display:block}
+@keyframes pageIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+
+.clay-card{background:var(--card-bg);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:var(--card-border);box-shadow:var(--card-shadow);border-radius:var(--r-l);position:relative;transition:var(--trans);overflow:hidden}
+.clay-button{background:var(--brand-grad);color:#FFF;font-weight:800;border-radius:var(--r-full);border:1px solid rgba(255,255,255,.4);cursor:pointer;box-shadow:var(--btn-shadow);transition:transform .2s var(--ease),filter .2s;display:inline-flex;align-items:center;justify-content:center;gap:6px;font-family:inherit}
+.clay-button:hover{transform:translateY(-2px);filter:brightness(1.05)}
+.clay-button:active{transform:scale(.96)}
+.clay-button.ghost{background:#FFF;color:var(--txt-main);border:1.5px solid rgba(255,255,255,.95);box-shadow:0 10px 22px rgba(70,130,200,.22),inset 0 2px 2px #fff}
+.clay-button.gold{background:linear-gradient(135deg,#FFD700 0%,#FF8C00 100%);box-shadow:0 10px 24px rgba(255,165,0,.4)}
+.sec-head{display:flex;align-items:center;justify-content:space-between;margin:22px 0 14px;flex-wrap:wrap;gap:10px}
+.sec-head:first-child{margin-top:0}
+.sec-head h3{font-size:19px;font-weight:900;letter-spacing:-.4px}
+.sec-head h3 small{display:block;font-size:10.5px;font-weight:700;color:var(--txt-sub);letter-spacing:0;margin-top:2px}
+.sec-head a{font-size:11.5px;font-weight:800;color:var(--brand-1);cursor:pointer;padding:7px 14px;border-radius:var(--r-full);background:rgba(255,255,255,.85);border:1px solid rgba(255,255,255,.95);box-shadow:0 4px 14px rgba(70,130,200,.15)}
+
+/* HOME */
+.hero-grid{display:grid;grid-template-columns:1.5fr 1fr;gap:18px;margin-bottom:18px}
+@media(max-width:900px){.hero-grid{grid-template-columns:1fr}}
+.slider-wrap{border-radius:var(--r-xl);overflow:hidden;position:relative;min-height:340px;box-shadow:0 24px 56px rgba(50,110,210,.3),inset 0 2px 2px rgba(255,255,255,.7);border:2px solid rgba(255,255,255,.85);cursor:pointer;height:100%}
+.slider-track{display:flex;height:100%;min-height:340px;transition:transform .7s cubic-bezier(.4,0,.2,1)}
+.slide{min-width:100%;padding:0;display:flex;position:relative;overflow:hidden;color:#fff}
+.slide-bg{position:absolute;inset:0;background-size:cover;background-position:center;transition:transform 6s ease}
+.slide.active .slide-bg{transform:scale(1.08)}
+.slide-overlay{position:absolute;inset:0;background:linear-gradient(135deg,rgba(0,0,0,.6) 0%,rgba(0,0,0,.25) 55%,rgba(0,0,0,.4) 100%)}
+.slide-content{padding:36px 42px;display:flex;flex-direction:column;justify-content:center;position:relative;z-index:2;width:100%}
+.slide.s1 .slide-bg{background-image:url('https://images.unsplash.com/photo-1606144042614-b2417e99c4e3?w=800&auto=format&fit=crop')}
+.slide.s2 .slide-bg{background-image:url('https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=800&auto=format&fit=crop')}
+.slide.s3 .slide-bg{background-image:url('https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?w=800&auto=format&fit=crop')}
+.slide.s4 .slide-bg{background-image:url('https://images.unsplash.com/photo-1566576912321-d58ddd7a6088?w=800&auto=format&fit=crop')}
+.slide.s5 .slide-bg{background-image:url('https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?w=800&auto=format&fit=crop')}
+.slide-icon{font-size:42px;margin-bottom:10px;filter:drop-shadow(0 4px 12px rgba(0,0,0,.4))}
+.slide h3{font-size:clamp(22px,3.2vw,30px);font-weight:900;line-height:1.15;letter-spacing:-.6px;max-width:520px;text-shadow:0 4px 16px rgba(0,0,0,.5)}
+.slide p{font-size:13.5px;font-weight:700;opacity:.95;margin-top:10px;max-width:440px;line-height:1.55;text-shadow:0 2px 8px rgba(0,0,0,.5)}
+.slide-tag{display:inline-flex;align-items:center;gap:6px;margin-top:20px;background:rgba(255,255,255,.25);border:1.5px solid rgba(255,255,255,.75);padding:10px 22px;border-radius:var(--r-full);font-size:12px;font-weight:900;letter-spacing:.6px;backdrop-filter:blur(10px);width:fit-content}
+.slider-dots{position:absolute;bottom:18px;left:50%;transform:translateX(-50%);display:flex;gap:7px;z-index:5;padding:8px 14px;background:rgba(0,0,0,.3);backdrop-filter:blur(10px);border-radius:999px}
+.slider-dots .dot{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.5);transition:all .35s var(--ease);cursor:pointer}
+.slider-dots .dot.active{width:22px;border-radius:4px;background:#fff}
+
+/* PREMIUM HERO CARD */
+.premium-hero{margin-bottom:18px;padding:24px;border-radius:var(--r-xl);background:linear-gradient(135deg,#FFD700 0%,#FFA500 40%,#FF8C00 100%);color:#4A2C00;position:relative;overflow:hidden;box-shadow:0 20px 50px rgba(255,165,0,.4);border:2px solid rgba(255,255,255,.7);cursor:pointer}
+.premium-hero::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 85% 15%,rgba(255,255,255,.5),transparent 45%),radial-gradient(circle at 15% 85%,rgba(255,255,255,.3),transparent 40%)}
+.premium-hero::after{content:'👑';position:absolute;top:-30px;right:-20px;font-size:180px;opacity:.15;transform:rotate(15deg);pointer-events:none}
+.premium-hero-inner{position:relative;z-index:2;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap}
+.premium-hero-left h2{font-size:clamp(22px,3vw,28px);font-weight:900;letter-spacing:-.6px;line-height:1.15}
+.premium-hero-left p{font-size:13px;font-weight:700;opacity:.85;margin-top:6px;max-width:520px;line-height:1.5}
+.premium-hero-cta{padding:14px 26px;border-radius:var(--r-full);background:#4A2C00;color:#FFD700;font-weight:900;font-size:13.5px;border:none;cursor:pointer;box-shadow:0 8px 22px rgba(74,44,0,.35);white-space:nowrap;display:flex;align-items:center;gap:8px;font-family:inherit;transition:transform .2s}
+.premium-hero-cta:active{transform:scale(.95)}
+.premium-hero-badge{position:absolute;top:16px;right:16px;background:rgba(74,44,0,.85);color:#FFD700;padding:6px 14px;border-radius:var(--r-full);font-size:10px;font-weight:900;letter-spacing:.8px;z-index:3}
+.premium-hero-badge.active-badge{background:#10B981;color:#fff}
+
+.side-stats{display:grid;grid-template-rows:1fr 1fr;gap:14px}
+.stat-big-card{padding:18px;display:flex;align-items:center;gap:14px;cursor:pointer;transition:transform .3s var(--ease)}
+.stat-big-card:hover{transform:translateY(-4px)}
+.stat-big-icon{width:52px;height:52px;border-radius:18px;display:grid;place-items:center;font-size:24px;color:#fff;flex-shrink:0;box-shadow:0 8px 20px rgba(50,110,200,.28),inset 0 2px 2px rgba(255,255,255,.6);border:1px solid rgba(255,255,255,.4)}
+.stat-big-text{flex:1;min-width:0}
+.stat-big-value{font-size:22px;font-weight:900;letter-spacing:-.6px}
+.stat-big-label{font-size:11px;font-weight:800;color:var(--txt-sub);margin-top:2px}
+.stat-big-sub{font-size:9.5px;font-weight:900;color:var(--brand-1);margin-top:5px;letter-spacing:.5px;text-transform:uppercase}
+
+.quick-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px}
+.quick-card{padding:18px 12px;display:flex;flex-direction:column;align-items:center;gap:10px;cursor:pointer;text-align:center;transition:transform .3s var(--ease)}
+.quick-card:hover{transform:translateY(-4px)}
+.quick-ico{width:52px;height:52px;border-radius:18px;display:grid;place-items:center;font-size:24px;background:var(--icon-bg);color:var(--icon-color);box-shadow:inset 0 2px 3px rgba(255,255,255,.9),0 8px 18px rgba(70,130,200,.18);border:1px solid rgba(255,255,255,.8)}
+.quick-label{font-size:12px;font-weight:800}
+
+/* PRODUCTS */
+.products-container{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px}
+.prod-item-card{padding:14px;display:flex;flex-direction:column;cursor:pointer;transition:transform .3s var(--ease)}
+.prod-item-card:hover{transform:translateY(-4px)}
+.prod-badge-tag{position:absolute;top:10px;right:10px;font-size:9px;font-weight:900;padding:4px 10px;border-radius:var(--r-full);background:rgba(255,255,255,.95);box-shadow:0 4px 12px rgba(60,120,190,.18);z-index:2;letter-spacing:.6px;border:1px solid #fff}
+.prod-img-box{height:130px;background:var(--icon-bg);border-radius:var(--r-m);box-shadow:var(--inset-shadow);display:grid;place-items:center;font-size:52px;margin-bottom:10px;position:relative;overflow:hidden;transition:transform .4s var(--ease);border:1px solid rgba(255,255,255,.85)}
+.prod-item-card:hover .prod-img-box{transform:scale(1.03)}
+.prod-title{font-size:12.5px;font-weight:800;line-height:1.35;height:34px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.prod-meta-row{display:flex;align-items:center;justify-content:space-between;margin-top:5px;font-size:10px;color:var(--txt-sub);font-weight:700}
+.prod-price{font-size:16px;font-weight:900;color:var(--brand-1);margin:6px 0 8px}
+.prod-btn{width:100%;padding:9px;font-size:11.5px;border-radius:var(--r-full);border:1px solid rgba(255,255,255,.4);cursor:pointer;font-family:inherit;font-weight:900;color:#fff;background:var(--brand-grad);box-shadow:var(--btn-shadow);transition:transform .2s}
+.prod-btn:active{transform:scale(.95)}
+
+.mode-switch{display:flex;align-items:center;gap:5px;padding:4px;background:rgba(255,255,255,.7);border-radius:var(--r-full);box-shadow:var(--inset-shadow);border:1px solid rgba(255,255,255,.9)}
+.mode-switch-btn{padding:6px 13px;border-radius:var(--r-full);font-size:10.5px;font-weight:900;border:none;background:transparent;color:var(--txt-sub);font-family:inherit;cursor:pointer;display:flex;align-items:center;gap:5px;transition:all .3s var(--ease);white-space:nowrap}
+.mode-switch-btn.active{background:var(--brand-grad);color:#fff;box-shadow:0 5px 14px rgba(76,132,247,.4)}
+
+.store-tabs{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding-bottom:4px;margin-bottom:14px;align-items:center}
+.store-tabs::-webkit-scrollbar{display:none}
+.store-tab{padding:10px 20px;border-radius:var(--r-full);font-size:12.5px;font-weight:800;cursor:pointer;background:rgba(255,255,255,.85);box-shadow:0 8px 18px rgba(70,130,200,.16),inset 0 2px 2px #fff;border:1.5px solid rgba(255,255,255,.95);color:var(--txt-sub);font-family:inherit;white-space:nowrap;transition:all .3s var(--ease);display:flex;align-items:center;gap:7px}
+.store-tab.active{background:var(--brand-grad);color:#fff;border-color:rgba(255,255,255,.4);box-shadow:0 10px 24px rgba(76,132,247,.42),inset 0 1px 1px rgba(255,255,255,.7)}
+
+.search-box{background:rgba(255,255,255,.88);border-radius:var(--r-full);box-shadow:var(--inset-shadow);padding:12px 20px;display:flex;align-items:center;gap:10px;color:var(--txt-sub);font-size:13px;font-weight:600;margin-bottom:16px;border:1.5px solid rgba(255,255,255,.95)}
+.search-box input{border:none;background:transparent;outline:none;width:100%;font-family:inherit;font-size:13px;font-weight:700;color:var(--txt-main)}
+.creator-upload{padding:22px;border-radius:var(--r-l);background:var(--card-bg);backdrop-filter:blur(20px);box-shadow:var(--card-shadow);border:var(--card-border);margin-bottom:18px}
+.upload-photo-box{width:100%;height:180px;border:3px dashed rgba(225,48,108,.4);border-radius:var(--r-l);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;cursor:pointer;background:rgba(255,255,255,.5);transition:all .3s var(--ease);font-size:40px;margin-bottom:14px;position:relative;overflow:hidden}
+.upload-photo-box:hover{border-color:#E1306C;background:rgba(255,255,255,.8);transform:scale(1.01)}
+.upload-photo-box.has-image{border-style:solid;border-color:#E1306C}
+.upload-photo-box .upload-hint{font-size:11.5px;font-weight:800;color:var(--txt-sub);letter-spacing:.5px}
+
+/* REELS */
+.reels-page{display:flex;flex-direction:column;gap:22px;max-width:480px;margin:0 auto;padding-bottom:20px}
+.reel-card{position:relative;border-radius:24px;overflow:hidden;background:#000;box-shadow:0 24px 60px rgba(0,0,0,.35),0 0 0 2px rgba(255,255,255,.6);aspect-ratio:9/16;max-height:72vh;cursor:pointer;isolation:isolate}
+.reel-poster{position:absolute;inset:0;background-size:cover;background-position:center;z-index:1;transition:opacity .4s}
+.reel-poster.hidden{opacity:0;pointer-events:none}
+.reel-video{width:100%;height:100%;object-fit:cover;display:block;background:#000;position:relative;z-index:1}
+.reel-overlay{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.45) 0%,transparent 22%,transparent 55%,rgba(0,0,0,.85) 100%);pointer-events:none;z-index:2}
+.reel-top{position:absolute;top:0;left:0;right:0;padding:12px 14px;display:flex;align-items:center;gap:10px;z-index:4}
+.reel-user-av{width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,#E1306C 0%,#405DE6 100%);border:2px solid #fff;display:grid;place-items:center;color:#fff;font-weight:900;font-size:14px;flex-shrink:0;box-shadow:0 4px 12px rgba(0,0,0,.4)}
+.reel-user-info{flex:1;min-width:0}
+.reel-user-name{font-size:12.5px;font-weight:900;color:#fff;text-shadow:0 2px 6px rgba(0,0,0,.7);display:flex;align-items:center;gap:4px}
+.reel-verified{color:#38BDF8;font-size:12px}
+.reel-user-meta{font-size:10px;font-weight:700;color:rgba(255,255,255,.9);margin-top:1px;text-shadow:0 2px 4px rgba(0,0,0,.6)}
+.reel-follow-btn{padding:6px 14px;border-radius:var(--r-full);border:1.5px solid rgba(255,255,255,.9);background:rgba(255,255,255,.18);backdrop-filter:blur(12px);color:#fff;font-family:inherit;font-size:11px;font-weight:900;cursor:pointer;transition:all .25s;flex-shrink:0}
+.reel-follow-btn.following{background:linear-gradient(135deg,#E1306C 0%,#405DE6 100%);border-color:transparent}
+.reel-actions{position:absolute;bottom:80px;right:10px;display:flex;flex-direction:column;gap:14px;z-index:5}
+.reel-act{width:44px;height:44px;border-radius:50%;background:rgba(0,0,0,.4);backdrop-filter:blur(12px);border:1.5px solid rgba(255,255,255,.35);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;color:#fff;font-size:18px;cursor:pointer;transition:transform .25s var(--ease),background .25s}
+.reel-act:active{transform:scale(.85)}
+.reel-act.liked{background:rgba(225,48,108,.5);border-color:rgba(255,255,255,.75)}
+.reel-act.liked .reel-act-icon{animation:heartBeat .6s ease}
+@keyframes heartBeat{0%,100%{transform:scale(1)}25%{transform:scale(1.3)}50%{transform:scale(1.1)}75%{transform:scale(1.2)}}
+.reel-act .reel-count{font-size:8.5px;font-weight:900;text-shadow:0 1px 4px rgba(0,0,0,.7)}
+.reel-bottom{position:absolute;bottom:0;left:0;right:0;padding:14px 70px 16px 14px;z-index:4;color:#fff}
+.reel-cat{display:inline-block;padding:3px 10px;background:rgba(255,255,255,.22);border:1px solid rgba(255,255,255,.45);border-radius:var(--r-full);font-size:9px;font-weight:900;letter-spacing:.8px;text-transform:uppercase;backdrop-filter:blur(8px);margin-bottom:6px}
+.reel-title{font-size:14px;font-weight:900;line-height:1.3;text-shadow:0 2px 8px rgba(0,0,0,.75);margin-bottom:4px}
+.reel-desc{font-size:11.5px;font-weight:700;color:rgba(255,255,255,.94);line-height:1.4;text-shadow:0 2px 6px rgba(0,0,0,.65);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.reel-music{display:flex;align-items:center;gap:6px;font-size:10px;font-weight:800;color:rgba(255,255,255,.9);margin-top:6px;text-shadow:0 1px 4px rgba(0,0,0,.7)}
+.reel-music-icon{animation:musicSpin 3s linear infinite}
+@keyframes musicSpin{to{transform:rotate(360deg)}}
+.reel-play-pause{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) scale(.7);width:76px;height:76px;border-radius:50%;background:rgba(0,0,0,.55);backdrop-filter:blur(10px);display:grid;place-items:center;font-size:30px;color:#fff;pointer-events:none;opacity:0;transition:opacity .35s ease,transform .35s var(--ease);z-index:6;border:2px solid rgba(255,255,255,.4)}
+.reel-card.paused .reel-play-pause{opacity:1;transform:translate(-50%,-50%) scale(1)}
+.reel-tap-target{position:absolute;inset:0;z-index:3;background:transparent;cursor:pointer}
+.reel-progress{position:absolute;bottom:0;left:0;right:0;height:3px;background:rgba(255,255,255,.2);z-index:7}
+.reel-progress-fill{height:100%;width:0;background:linear-gradient(90deg,#E1306C,#405DE6);transition:width .15s linear}
+.reel-loading{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:40px;height:40px;border:3px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:reelSpin .8s linear infinite;z-index:4;display:none}
+@keyframes reelSpin{to{transform:translate(-50%,-50%) rotate(360deg)}}
+.reel-card.loading .reel-loading{display:block}
+.reel-card.loading .reel-play-pause{display:none}
+
+/* ORDERS */
+.orders-tabs{display:flex;gap:6px;padding:5px;background:rgba(255,255,255,.65);border-radius:var(--r-full);box-shadow:var(--inset-shadow);border:1px solid rgba(255,255,255,.9);margin-bottom:16px;overflow-x:auto;scrollbar-width:none}
+.orders-tabs::-webkit-scrollbar{display:none}
+.orders-tab{padding:9px 16px;border-radius:var(--r-full);font-size:11.5px;font-weight:900;border:none;background:transparent;color:var(--txt-sub);font-family:inherit;cursor:pointer;transition:all .3s var(--ease);white-space:nowrap}
+.orders-tab.active{background:var(--brand-grad);color:#fff;box-shadow:0 6px 18px rgba(76,132,247,.4)}
+.order-card{padding:18px;border-radius:var(--r-l);background:var(--card-bg);backdrop-filter:blur(20px);border:var(--card-border);box-shadow:var(--card-shadow);margin-bottom:12px;cursor:pointer;transition:all .3s var(--ease)}
+.order-card:hover{transform:translateY(-3px)}
+.order-card-top{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+.order-card-img{width:56px;height:56px;border-radius:18px;background:var(--icon-bg);color:var(--icon-color);display:grid;place-items:center;font-size:26px;flex-shrink:0;box-shadow:0 8px 20px rgba(76,132,247,.2),inset 0 2px 3px rgba(255,255,255,.7);border:1px solid rgba(255,255,255,.7)}
+.order-card-info{flex:1;min-width:0}
+.order-card-title{font-size:13.5px;font-weight:900;line-height:1.3}
+.order-card-meta{font-size:10px;font-weight:700;color:var(--txt-sub);margin-top:3px}
+.order-status-badge{padding:5px 11px;border-radius:var(--r-full);font-size:9px;font-weight:900;letter-spacing:.7px;text-transform:uppercase;flex-shrink:0}
+.order-status-badge.confirmed{background:rgba(76,132,247,.15);color:var(--brand-1)}
+.order-status-badge.shipped{background:rgba(245,158,11,.18);color:var(--warning)}
+.order-status-badge.active{background:rgba(56,189,248,.2);color:#0284C7}
+.order-status-badge.delivered{background:rgba(16,185,129,.16);color:var(--success)}
+.order-status-badge.gift{background:linear-gradient(135deg,rgba(225,48,108,.18),rgba(64,93,230,.18));color:#E1306C}
+.order-card-foot{display:flex;justify-content:space-between;align-items:center;padding-top:12px;border-top:1px solid rgba(70,130,200,.1)}
+.order-card-amount{font-size:17px;font-weight:900;color:var(--brand-1)}
+.order-card-action{padding:8px 16px;border-radius:var(--r-full);background:var(--brand-grad);color:#fff;border:none;font-family:inherit;font-size:11px;font-weight:900;cursor:pointer;box-shadow:var(--btn-shadow);transition:transform .2s}
+.order-card-action:active{transform:scale(.95)}
+
+/* RADAR */
+.radar-container{position:relative;width:100%;aspect-ratio:1/1;max-width:300px;margin:18px auto;border-radius:50%;background:radial-gradient(circle,rgba(10,40,80,.95) 0%,rgba(5,20,45,1) 100%);border:2px solid rgba(76,132,247,.5);box-shadow:0 0 60px rgba(76,132,247,.4),inset 0 0 60px rgba(0,0,0,.5);overflow:hidden}
+.radar-grid{position:absolute;inset:0;background-image:radial-gradient(circle,transparent 30%,rgba(76,132,247,.15) 30.5%,transparent 31%),radial-gradient(circle,transparent 55%,rgba(76,132,247,.15) 55.5%,transparent 56%),radial-gradient(circle,transparent 80%,rgba(76,132,247,.15) 80.5%,transparent 81%),linear-gradient(90deg,transparent 49.5%,rgba(76,132,247,.15) 49.5%,rgba(76,132,247,.15) 50.5%,transparent 50.5%),linear-gradient(0deg,transparent 49.5%,rgba(76,132,247,.15) 49.5%,rgba(76,132,247,.15) 50.5%,transparent 50.5%)}
+.radar-sweep{position:absolute;top:50%;left:50%;width:50%;height:50%;transform-origin:0% 0%;background:conic-gradient(from 0deg,rgba(76,132,247,.6) 0deg,transparent 45deg);animation:radarSpin 3s linear infinite}
+@keyframes radarSpin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+.radar-blip{position:absolute;width:12px;height:12px;border-radius:50%;background:#38BDF8;box-shadow:0 0 20px #38BDF8,0 0 40px rgba(56,189,248,.6);transform:translate(-50%,-50%);animation:blipPulse 2s ease-in-out infinite}
+.radar-blip.dest{background:#F59E0B;box-shadow:0 0 20px #F59E0B,0 0 40px rgba(245,158,11,.6)}
+.radar-blip.you{background:#10B981;box-shadow:0 0 20px #10B981,0 0 40px rgba(16,185,129,.6)}
+@keyframes blipPulse{0%,100%{transform:translate(-50%,-50%) scale(1);opacity:1}50%{transform:translate(-50%,-50%) scale(1.4);opacity:.7}}
+.radar-label{position:absolute;font-size:9px;font-weight:900;letter-spacing:.5px;padding:3px 7px;background:rgba(0,0,0,.6);color:#fff;border-radius:var(--r-full);transform:translate(-50%,12px);white-space:nowrap;pointer-events:none}
+.radar-center{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:20px}
+.delivery-tracker{display:flex;flex-direction:column;gap:0;margin-top:14px}
+.dt-step{display:flex;gap:12px}
+.dt-left{display:flex;flex-direction:column;align-items:center;flex-shrink:0}
+.dt-dot{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font-size:13px;background:rgba(255,255,255,.85);box-shadow:var(--inset-shadow);color:var(--txt-muted);font-weight:900;transition:all .4s var(--ease)}
+.dt-step.done .dt-dot{background:var(--success);color:#fff;box-shadow:0 4px 14px rgba(16,185,129,.35)}
+.dt-step.current .dt-dot{background:var(--brand-grad);color:#fff;box-shadow:0 6px 18px rgba(76,132,247,.45)}
+.dt-line{width:2px;flex:1;min-height:28px;background:rgba(70,130,200,.2)}
+.dt-step.done .dt-line{background:var(--success)}
+.dt-right{padding-bottom:16px;flex:1}
+.dt-right h5{font-size:13px;font-weight:900;margin-top:4px}
+.dt-right p{font-size:10.5px;font-weight:700;color:var(--txt-sub);margin-top:3px}
+
+/* SERVICES */
+.steps-banner{display:flex;align-items:center;gap:6px;padding:12px;background:var(--card-bg);backdrop-filter:blur(20px);border:var(--card-border);box-shadow:var(--card-shadow);border-radius:var(--r-l);margin-bottom:20px;overflow-x:auto;scrollbar-width:none}
+.steps-banner::-webkit-scrollbar{display:none}
+.step-chip{flex:1;min-width:120px;display:flex;align-items:center;gap:9px;padding:11px 12px;border-radius:var(--r-m);background:rgba(255,255,255,.55);box-shadow:var(--inset-shadow);transition:all .3s var(--ease)}
+.step-chip.active{background:var(--brand-grad);box-shadow:0 10px 24px rgba(76,132,247,.4);transform:translateY(-2px)}
+.step-chip.done{background:rgba(16,185,129,.16);box-shadow:none}
+.step-num{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;font-size:13px;font-weight:900;background:rgba(255,255,255,.9);color:var(--txt-main);flex-shrink:0;border:1.5px solid rgba(255,255,255,.9);box-shadow:0 3px 8px rgba(70,130,200,.2)}
+.step-chip.active .step-num{background:rgba(255,255,255,.28);color:#fff;border-color:rgba(255,255,255,.6)}
+.step-chip.done .step-num{background:var(--success);color:#fff;border-color:var(--success)}
+.step-text{font-size:11px;font-weight:900;line-height:1.15}
+.step-sub{font-size:8.5px;font-weight:700;color:var(--txt-sub);margin-top:2px}
+.step-chip.active .step-text,.step-chip.active .step-sub{color:#fff}
+.step-chip.done .step-text{color:var(--success)}
+.step-chip.done .step-sub{color:var(--success);opacity:.8}
+.service-cat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px;margin-bottom:18px}
+.service-cat-card{padding:20px 14px;border-radius:var(--r-l);background:var(--card-bg);backdrop-filter:blur(20px);box-shadow:var(--card-shadow);border:2px solid rgba(255,255,255,.85);display:flex;flex-direction:column;align-items:center;gap:9px;cursor:pointer;transition:all .3s var(--ease)}
+.service-cat-card:hover{transform:translateY(-4px)}
+.service-cat-card.selected{border-color:var(--brand-1);background:rgba(255,255,255,.9);box-shadow:0 16px 40px rgba(76,132,247,.3)}
+.scc-ico{width:54px;height:54px;border-radius:18px;display:grid;place-items:center;font-size:24px;background:var(--icon-bg);color:var(--icon-color);box-shadow:var(--inset-shadow);border:1px solid rgba(255,255,255,.95)}
+.scc-name{font-size:13px;font-weight:900;text-align:center}
+.scc-sub{font-size:10px;font-weight:700;color:var(--txt-sub);text-align:center}
+.field-group{margin-bottom:12px}
+.field-label{font-size:10px;font-weight:900;letter-spacing:1.1px;text-transform:uppercase;color:var(--txt-sub);margin:0 0 5px 12px;display:block}
+.field-input{width:100%;background:rgba(255,255,255,.88);border:1.5px solid rgba(255,255,255,.95);border-radius:var(--r-full);box-shadow:var(--inset-shadow);padding:13px 20px;font-family:inherit;font-size:13px;font-weight:700;color:var(--txt-main);outline:none;transition:all .25s}
+.field-input::placeholder{color:var(--txt-muted);font-weight:600}
+.field-input:focus{border-color:var(--brand-1);background:#FFF;box-shadow:0 0 0 4px rgba(76,132,247,.2)}
+.field-row-2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+textarea.field-input{border-radius:var(--r-m);resize:vertical;min-height:80px}
+.tech-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+.tech-card{padding:18px;border-radius:var(--r-l);background:var(--card-bg);backdrop-filter:blur(20px);box-shadow:var(--card-shadow);border:2px solid rgba(255,255,255,.85);cursor:pointer;transition:all .3s var(--ease);position:relative}
+.tech-card:hover{transform:translateY(-4px)}
+.tech-card.selected{border-color:var(--brand-1);background:rgba(255,255,255,.9);box-shadow:0 16px 40px rgba(76,132,247,.3)}
+.tech-tier{position:absolute;top:14px;right:14px;font-size:8.5px;font-weight:900;padding:4px 11px;border-radius:var(--r-full);letter-spacing:.7px;border:1px solid rgba(255,255,255,.7)}
+.tier-budget{background:rgba(16,185,129,.18);color:var(--success)}
+.tier-standard{background:rgba(76,132,247,.18);color:var(--brand-1)}
+.tier-premium{background:rgba(56,189,248,.25);color:#0284C7}
+.tech-top{display:flex;align-items:center;gap:12px;margin-bottom:10px}
+.tech-avatar{width:56px;height:56px;border-radius:18px;background:var(--brand-grad);display:grid;place-items:center;color:#fff;font-weight:900;font-size:20px;flex-shrink:0;box-shadow:0 8px 20px rgba(76,132,247,.35);border:1.5px solid rgba(255,255,255,.5)}
+.tech-name{font-size:14.5px;font-weight:900;display:flex;align-items:center;gap:6px}
+.tech-verified{color:var(--success);font-size:12px}
+.tech-meta{font-size:10.5px;font-weight:700;color:var(--txt-sub);margin-top:3px;display:flex;gap:10px;flex-wrap:wrap}
+.tech-rating-row{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:900;margin-top:5px}
+.tech-stars{color:#F59E0B;letter-spacing:1px}
+.tech-price-row{display:flex;align-items:center;justify-content:space-between;margin-top:12px;padding-top:12px;border-top:1px solid rgba(70,130,200,.1)}
+.tech-price{font-size:19px;font-weight:900;color:var(--brand-1)}
+.tech-eta{font-size:10.5px;font-weight:800;color:var(--txt-sub)}
+.report-card{padding:20px;border-radius:var(--r-l);background:var(--card-bg);backdrop-filter:blur(20px);box-shadow:var(--card-shadow);border:var(--card-border);margin-bottom:14px}
+.report-row{display:flex;justify-content:space-between;padding:9px 0;font-size:12.5px;font-weight:700;border-bottom:1px solid rgba(70,130,200,.08)}
+.report-row:last-child{border-bottom:none}
+.report-row span:first-child{color:var(--txt-sub)}
+.report-row span:last-child{font-weight:900}
+.star-row{display:flex;justify-content:center;gap:10px;margin:18px 0}
+.star-btn{font-size:38px;cursor:pointer;filter:grayscale(1) opacity(.35);transition:all .2s var(--ease);background:none;border:none;padding:0}
+.star-btn.on{filter:none;transform:scale(1.15);color:#F59E0B}
+
+/* GIFTS */
+.level-hero{padding:24px;background:var(--brand-grad);border-radius:var(--r-xl);color:#fff;position:relative;overflow:hidden;box-shadow:0 20px 50px rgba(50,110,210,.32);margin-bottom:20px;border:2px solid rgba(255,255,255,.7)}
+.level-hero::after{content:'';position:absolute;inset:0;background:radial-gradient(circle at 85% 10%,rgba(255,255,255,.35),transparent 48%)}
+.level-top{display:flex;align-items:center;gap:18px;position:relative;z-index:2;flex-wrap:wrap}
+.level-badge-ring{width:72px;height:72px;border-radius:50%;background:rgba(255,255,255,.25);border:3px solid rgba(255,255,255,.85);display:grid;place-items:center;font-size:34px;flex-shrink:0;backdrop-filter:blur(8px)}
+.level-info h3{font-size:21px;font-weight:900;letter-spacing:-.5px}
+.level-info p{font-size:11.5px;font-weight:700;opacity:.92;margin-top:3px}
+.level-coins{display:inline-flex;align-items:center;gap:7px;margin-top:8px;font-size:13px;font-weight:900;background:rgba(255,255,255,.24);padding:6px 15px;border-radius:var(--r-full);border:1px solid rgba(255,255,255,.5)}
+.level-progress-wrap{margin-top:18px;position:relative;z-index:2}
+.level-progress-labels{display:flex;justify-content:space-between;font-size:11px;font-weight:900;margin-bottom:7px;opacity:.95}
+.level-progress-track{height:10px;border-radius:var(--r-full);background:rgba(10,30,60,.25);overflow:hidden;box-shadow:inset 0 2px 4px rgba(0,0,0,.25)}
+.level-progress-fill{height:100%;border-radius:var(--r-full);background:linear-gradient(90deg,#BAE6FD,#FFF);box-shadow:0 0 16px rgba(255,255,255,.9);transition:width .8s var(--ease)}
+.task-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px}
+.task-row{display:flex;align-items:center;gap:12px;padding:14px 16px;border-radius:var(--r-l);background:var(--card-bg);backdrop-filter:blur(20px);box-shadow:var(--card-shadow);border:var(--card-border)}
+.task-ico{width:42px;height:42px;border-radius:14px;display:grid;place-items:center;font-size:20px;background:var(--icon-bg);color:var(--icon-color);box-shadow:var(--inset-shadow);border:1px solid rgba(255,255,255,.9);flex-shrink:0}
+.task-txt{flex:1;min-width:0}
+.task-txt h4{font-size:12.5px;font-weight:900}
+.task-txt p{font-size:10px;font-weight:700;color:var(--txt-sub);margin-top:2px}
+.task-claim{font-size:10.5px;font-weight:900;padding:8px 18px;border-radius:var(--r-full);border:1px solid rgba(255,255,255,.4);cursor:pointer;font-family:inherit;color:#fff;background:var(--brand-grad);box-shadow:var(--btn-shadow);transition:transform .2s;white-space:nowrap}
+.task-claim:disabled{background:rgba(255,255,255,.5);color:var(--txt-muted);box-shadow:var(--inset-shadow);border-color:rgba(255,255,255,.7);cursor:not-allowed}
+.task-claim.claimed{background:rgba(16,185,129,.18);color:var(--success);box-shadow:none;border-color:rgba(16,185,129,.3)}
+.gift-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px}
+.gift-card{padding:14px;display:flex;flex-direction:column;position:relative;transition:transform .3s var(--ease);cursor:pointer}
+.gift-card:hover{transform:translateY(-4px)}
+.gift-card.locked{opacity:.72}
+.gift-visual{height:120px;border-radius:var(--r-m);background:var(--icon-bg);box-shadow:var(--inset-shadow);display:grid;place-items:center;font-size:54px;margin-bottom:10px;position:relative;overflow:hidden;border:1px solid rgba(255,255,255,.9)}
+.gift-lock{position:absolute;inset:0;z-index:3;background:rgba(10,30,60,.45);backdrop-filter:blur(4px);display:grid;place-items:center;font-size:28px;color:#fff;border-radius:var(--r-m)}
+.gift-name{font-size:12.5px;font-weight:900;line-height:1.32}
+.gift-desc{font-size:10px;font-weight:700;color:var(--txt-sub);margin-top:3px}
+.gift-cost-row{display:flex;align-items:center;justify-content:space-between;margin-top:10px;margin-bottom:10px}
+.gift-cost{font-size:14px;font-weight:900;color:var(--brand-1)}
+.gift-lvl{font-size:9px;font-weight:900;padding:4px 10px;border-radius:var(--r-full);background:rgba(255,255,255,.85);box-shadow:0 2px 6px rgba(70,130,200,.12);color:var(--txt-sub)}
+.gift-btn{width:100%;padding:10px;font-size:10.5px;border-radius:var(--r-full);border:1px solid rgba(255,255,255,.4);cursor:pointer;font-family:inherit;font-weight:900;color:#fff;background:var(--brand-grad);transition:transform .2s;box-shadow:var(--btn-shadow)}
+.gift-btn:disabled{background:rgba(255,255,255,.5);color:var(--txt-muted);box-shadow:var(--inset-shadow);border-color:rgba(255,255,255,.7);cursor:not-allowed}
+.gift-delivery-badge{display:inline-flex;align-items:center;gap:5px;font-size:9px;font-weight:800;color:var(--txt-sub);margin-top:8px;padding:4px 10px;background:rgba(255,255,255,.85);border-radius:var(--r-full);box-shadow:0 2px 6px rgba(70,130,200,.12);width:fit-content}
+
+/* PREMIUM SECTION */
+.premium-hero-big{padding:34px 28px;border-radius:var(--r-xl);background:linear-gradient(135deg,#FFD700 0%,#FFA500 45%,#FF8C00 100%);color:#4A2C00;position:relative;overflow:hidden;box-shadow:0 24px 60px rgba(255,165,0,.45),inset 0 2px 3px rgba(255,255,255,.5);margin-bottom:24px;border:2px solid rgba(255,255,255,.8)}
+.premium-hero-big::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 88% 12%,rgba(255,255,255,.6),transparent 42%),radial-gradient(circle at 12% 88%,rgba(255,255,255,.4),transparent 45%)}
+.premium-hero-big::after{content:'👑';position:absolute;top:-40px;right:-30px;font-size:240px;opacity:.15;transform:rotate(15deg);pointer-events:none}
+.premium-hero-big-inner{position:relative;z-index:2}
+.premium-crown-big{width:80px;height:80px;border-radius:26px;background:rgba(255,255,255,.35);backdrop-filter:blur(10px);display:grid;place-items:center;font-size:44px;margin-bottom:16px;border:2px solid rgba(255,255,255,.6);box-shadow:0 12px 28px rgba(74,44,0,.25);animation:crownGlow 3s ease-in-out infinite}
+@keyframes crownGlow{0%,100%{box-shadow:0 12px 28px rgba(74,44,0,.25)}50%{box-shadow:0 12px 40px rgba(74,44,0,.45)}}
+.premium-hero-big h2{font-size:clamp(26px,3.6vw,34px);font-weight:900;letter-spacing:-1px;line-height:1.1;margin-bottom:8px}
+.premium-hero-big p{font-size:14px;font-weight:700;opacity:.85;max-width:620px;line-height:1.55}
+.premium-status-strip{display:inline-flex;align-items:center;gap:8px;margin-top:16px;padding:10px 18px;background:rgba(74,44,0,.85);color:#FFD700;border-radius:var(--r-full);font-size:12px;font-weight:900;letter-spacing:.6px}
+.premium-status-strip.active-strip{background:#10B981;color:#fff}
+
+.plans-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;margin-bottom:22px}
+.plan-card{padding:24px;border-radius:var(--r-xl);background:var(--card-bg);backdrop-filter:blur(20px);border:var(--card-border);box-shadow:var(--card-shadow);cursor:pointer;transition:all .35s var(--ease);position:relative;overflow:hidden}
+.plan-card:hover{transform:translateY(-5px);box-shadow:0 24px 50px rgba(60,120,190,.24)}
+.plan-card.featured{border:2.5px solid #FFD700;background:linear-gradient(160deg,rgba(255,215,0,.15),rgba(255,255,255,.85));box-shadow:0 16px 40px rgba(255,165,0,.3)}
+.plan-card.featured::before{content:'⭐ MOST POPULAR';position:absolute;top:14px;right:14px;background:linear-gradient(135deg,#FFD700,#FF8C00);color:#fff;padding:5px 12px;border-radius:var(--r-full);font-size:9px;font-weight:900;letter-spacing:.7px;box-shadow:0 4px 12px rgba(255,165,0,.4)}
+.plan-card.free-trial{border-color:#10B981;background:linear-gradient(160deg,rgba(16,185,129,.12),rgba(255,255,255,.85))}
+.plan-card.free-trial::before{content:'🎁 1ST SUBSCRIPTION FREE';position:absolute;top:14px;right:14px;background:linear-gradient(135deg,#10B981,#059669);color:#fff;padding:5px 12px;border-radius:var(--r-full);font-size:9px;font-weight:900;letter-spacing:.7px;box-shadow:0 4px 12px rgba(16,185,129,.4)}
+.plan-name{font-size:17px;font-weight:900;letter-spacing:-.3px}
+.plan-duration{font-size:11.5px;font-weight:700;color:var(--txt-sub);margin-top:3px}
+.plan-price-row{display:flex;align-items:baseline;gap:8px;margin:14px 0 6px}
+.plan-price{font-size:38px;font-weight:900;letter-spacing:-1.5px;line-height:1}
+.plan-original-price{font-size:15px;font-weight:800;color:var(--txt-muted);text-decoration:line-through}
+.plan-price-period{font-size:12px;font-weight:800;color:var(--txt-sub)}
+.plan-savings{display:inline-block;padding:4px 10px;background:rgba(16,185,129,.15);color:var(--success);border-radius:var(--r-full);font-size:10px;font-weight:900;letter-spacing:.5px;margin-bottom:16px}
+.plan-benefits{list-style:none;display:flex;flex-direction:column;gap:9px;margin-bottom:20px}
+.plan-benefits li{font-size:12px;font-weight:700;display:flex;align-items:flex-start;gap:8px;line-height:1.45}
+.plan-benefits li::before{content:'✓';color:var(--success);font-weight:900;font-size:13px;flex-shrink:0;width:16px;height:16px;display:grid;place-items:center;background:rgba(16,185,129,.15);border-radius:50%;margin-top:1px}
+.plan-btn{width:100%;padding:14px;border-radius:var(--r-full);border:none;font-family:inherit;font-size:13px;font-weight:900;cursor:pointer;transition:transform .2s,filter .2s;color:#fff;background:var(--brand-grad);box-shadow:var(--btn-shadow)}
+.plan-btn:hover{transform:translateY(-2px);filter:brightness(1.05)}
+.plan-btn:active{transform:scale(.96)}
+.plan-btn.gold{background:linear-gradient(135deg,#FFD700,#FF8C00);box-shadow:0 10px 24px rgba(255,165,0,.4)}
+.plan-btn.free{background:linear-gradient(135deg,#10B981,#059669);box-shadow:0 10px 24px rgba(16,185,129,.4)}
+
+.benefits-showcase{padding:24px;border-radius:var(--r-xl);background:var(--card-bg);backdrop-filter:blur(20px);border:var(--card-border);box-shadow:var(--card-shadow);margin-bottom:20px}
+.benefits-showcase h3{font-size:18px;font-weight:900;margin-bottom:16px;letter-spacing:-.3px}
+.benefit-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px}
+.benefit-item{padding:16px 14px;border-radius:var(--r-l);background:rgba(255,255,255,.55);box-shadow:var(--inset-shadow);display:flex;flex-direction:column;gap:8px;text-align:center;align-items:center}
+.benefit-icon{font-size:30px;filter:drop-shadow(0 4px 10px rgba(0,0,0,.1))}
+.benefit-title{font-size:12px;font-weight:900;line-height:1.3}
+.benefit-desc{font-size:10px;font-weight:700;color:var(--txt-sub);line-height:1.4}
+
+/* PROFILE */
+.profile-hero{padding:28px 24px;border-radius:var(--r-xl);background:var(--brand-grad);color:#fff;position:relative;overflow:hidden;box-shadow:0 20px 48px rgba(37,99,235,.28);margin-bottom:20px;border:2px solid rgba(255,255,255,.7)}
+.profile-hero.premium-user{background:linear-gradient(135deg,#FFD700 0%,#FFA500 45%,#FF8C00 100%);color:#4A2C00;box-shadow:0 20px 48px rgba(255,165,0,.35)}
+.profile-hero.premium-user::after{content:'👑';position:absolute;top:-30px;right:-30px;font-size:180px;opacity:.18;transform:rotate(15deg);pointer-events:none}
+.profile-hero-inner{position:relative;z-index:2;display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.profile-avatar-big{width:80px;height:80px;border-radius:50%;background:rgba(255,255,255,.25);border:3px solid rgba(255,255,255,.85);display:grid;place-items:center;font-size:36px;flex-shrink:0;backdrop-filter:blur(8px);position:relative}
+.profile-avatar-big.premium-avatar{border-color:#FFF;box-shadow:0 0 0 4px rgba(255,255,255,.3),0 0 30px rgba(255,165,0,.5)}
+.profile-avatar-big.premium-avatar::after{content:'👑';position:absolute;top:-12px;right:-6px;font-size:24px;filter:drop-shadow(0 4px 8px rgba(0,0,0,.3));animation:crownBounce 2.5s ease-in-out infinite}
+.profile-hero-text h3{font-size:22px;font-weight:900;letter-spacing:-.4px;display:flex;align-items:center;gap:8px}
+.profile-hero-text p{font-size:12px;font-weight:700;opacity:.92;margin-top:4px}
+.profile-badge{display:inline-flex;align-items:center;gap:6px;margin-top:8px;padding:5px 14px;background:rgba(255,255,255,.25);border:1px solid rgba(255,255,255,.5);border-radius:var(--r-full);font-size:10px;font-weight:900;letter-spacing:.6px;backdrop-filter:blur(8px)}
+.profile-badge.premium-badge{background:rgba(74,44,0,.85);color:#FFD700;border-color:rgba(255,215,0,.6)}
+.wallet-big-card{padding:22px;border-radius:var(--r-xl);background:var(--card-bg);backdrop-filter:blur(20px);box-shadow:var(--card-shadow);border:var(--card-border);position:relative;overflow:hidden;margin-bottom:20px}
+.wallet-label{font-size:10.5px;font-weight:900;letter-spacing:1.4px;text-transform:uppercase;color:var(--txt-sub)}
+.wallet-amount-big{font-size:38px;font-weight:900;letter-spacing:-1.4px;margin:6px 0 16px;color:var(--txt-main)}
+.wallet-actions{display:flex;gap:10px;flex-wrap:wrap}
+.wallet-actions .clay-button{flex:1;min-width:130px;padding:13px;font-size:12.5px}
+.profile-menu-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px}
+.profile-menu-item{padding:15px 18px;border-radius:var(--r-l);background:var(--card-bg);backdrop-filter:blur(20px);border:var(--card-border);box-shadow:var(--card-shadow);display:flex;align-items:center;gap:12px;cursor:pointer;transition:all .3s var(--ease);font-size:13px;font-weight:800}
+.profile-menu-item:hover{transform:translateY(-3px)}
+.profile-menu-item.premium-item{background:linear-gradient(135deg,rgba(255,215,0,.12),rgba(255,255,255,.85));border-color:rgba(255,215,0,.4)}
+.pm-ico{width:38px;height:38px;border-radius:13px;display:grid;place-items:center;font-size:18px;background:var(--icon-bg);color:var(--icon-color);box-shadow:var(--inset-shadow);border:1px solid rgba(255,255,255,.9);flex-shrink:0}
+.profile-menu-item.premium-item .pm-ico{background:linear-gradient(135deg,#FFD700,#FF8C00);color:#fff}
+.profile-menu-item .pm-label{flex:1}
+.profile-menu-item .pm-arrow{color:var(--txt-muted);font-size:16px}
+
+/* MOBILE NAV */
+.mobile-nav{position:fixed;left:12px;right:12px;bottom:12px;height:66px;border-radius:26px;background:var(--nav-bg);backdrop-filter:blur(28px) saturate(190%);-webkit-backdrop-filter:blur(28px) saturate(190%);border:1.5px solid rgba(255,255,255,.95);box-shadow:0 14px 36px rgba(50,110,190,.25),inset 0 2px 2px #fff;display:none;align-items:center;justify-content:space-around;padding:0 6px;z-index:95}
+.mobile-nav-item{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer;padding:9px 0;transition:transform .2s;position:relative}
+.mobile-nav-item:active{transform:scale(.9)}
+.mobile-nav-item .ni{font-size:20px;opacity:.55;transition:all .3s}
+.mobile-nav-item .nl{font-size:9px;font-weight:800;color:var(--txt-sub)}
+.mobile-nav-item.active .ni{transform:translateY(-2px) scale(1.15);opacity:1}
+.mobile-nav-item.active .nl{color:var(--brand-1);font-weight:900}
+.mobile-nav-item.active::before{content:'';position:absolute;top:2px;width:22px;height:3px;border-radius:2px;background:var(--brand-grad)}
+@media(max-width:900px){.mobile-nav{display:flex}}
+
+/* MODALS */
+.modal-backdrop{position:fixed;inset:0;background:rgba(10,25,50,.55);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);z-index:200;opacity:0;pointer-events:none;transition:opacity .35s ease;display:flex;align-items:center;justify-content:center;padding:18px}
+.modal-backdrop.open{opacity:1;pointer-events:auto}
+.modal-panel{width:100%;max-width:500px;max-height:90vh;border-radius:28px;padding:24px;background:rgba(255,255,255,.9);backdrop-filter:blur(28px);border:2px solid rgba(255,255,255,.95);box-shadow:0 32px 80px rgba(20,60,120,.35),inset 0 2px 3px #fff;overflow-y:auto;scrollbar-width:thin;transform:scale(.94) translateY(20px);transition:transform .4s var(--ease)}
+.modal-backdrop.open .modal-panel{transform:scale(1) translateY(0)}
+.modal-panel.wide{max-width:700px}
+.modal-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.modal-head h3{font-size:19px;font-weight:900}
+.modal-close{width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.9);border:1px solid rgba(255,255,255,.95);box-shadow:0 4px 10px rgba(50,110,190,.15);display:grid;place-items:center;font-size:13px;cursor:pointer;color:var(--txt-main);transition:transform .2s}
+.modal-close:active{transform:scale(.85)}
+
+/* LEARN MODAL */
+.learn-video-grid{display:grid;grid-template-columns:1fr;gap:12px}
+.learn-video-card{border-radius:var(--r-l);overflow:hidden;background:rgba(255,255,255,.7);border:var(--card-border);box-shadow:var(--card-shadow);cursor:pointer;transition:all .3s var(--ease)}
+.learn-video-card:hover{transform:translateY(-3px)}
+.learn-video-thumb{position:relative;height:180px;background:#1E3A5F;overflow:hidden}
+.learn-video-thumb video{width:100%;height:100%;object-fit:cover}
+.learn-video-thumb::after{content:'▶';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:60px;height:60px;border-radius:50%;background:rgba(255,255,255,.95);color:var(--brand-1);display:grid;place-items:center;font-size:24px;box-shadow:0 8px 24px rgba(0,0,0,.4);transition:transform .3s;pointer-events:none}
+.learn-video-card:hover .learn-video-thumb::after{transform:translate(-50%,-50%) scale(1.15)}
+.learn-video-thumb .learn-video-badge{position:absolute;top:10px;left:10px;background:linear-gradient(135deg,#E1306C,#405DE6);color:#fff;padding:4px 10px;border-radius:var(--r-full);font-size:9px;font-weight:900;letter-spacing:.5px;z-index:3}
+.learn-video-thumb .learn-video-dur{position:absolute;bottom:10px;right:10px;background:rgba(0,0,0,.7);color:#fff;padding:3px 8px;border-radius:6px;font-size:10px;font-weight:800;z-index:3}
+.learn-video-info{padding:14px 16px}
+.learn-video-info h4{font-size:13.5px;font-weight:900;line-height:1.3}
+.learn-video-info p{font-size:10.5px;font-weight:700;color:var(--txt-sub);margin-top:5px;line-height:1.45}
+.learn-player{border-radius:var(--r-l);overflow:hidden;background:#000;position:relative}
+.learn-player video{width:100%;display:block;max-height:60vh;background:#000}
+.learn-player-info{padding:16px 18px;background:rgba(255,255,255,.85);border-top:1px solid rgba(70,130,200,.1)}
+.learn-player-info h4{font-size:15px;font-weight:900;margin-bottom:6px}
+.learn-player-info p{font-size:12px;font-weight:700;color:var(--txt-sub);line-height:1.5}
+.learn-player-error{position:absolute;inset:0;display:none;flex-direction:column;align-items:center;justify-content:center;gap:12px;background:rgba(0,0,0,.85);color:#fff;padding:20px;text-align:center}
+.learn-player-error.show{display:flex}
+.learn-player-error .err-icon{font-size:44px}
+.learn-player-error p{font-size:12px;font-weight:700;line-height:1.5;max-width:320px}
+
+/* THEME STUDIO */
+.theme-glass-box{width:100%;max-width:520px;border-radius:26px;padding:20px;background:rgba(255,255,255,.32);backdrop-filter:blur(32px) saturate(180%);-webkit-backdrop-filter:blur(32px) saturate(180%);border:2px solid rgba(255,255,255,.85);box-shadow:0 32px 80px rgba(20,40,80,.4),inset 0 2px 3px rgba(255,255,255,.95);position:relative;overflow:hidden;transform:scale(.88);transition:transform .5s var(--ease)}
+.modal-backdrop.open .theme-glass-box{transform:scale(1)}
+.theme-glass-box::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:conic-gradient(from 0deg,transparent 0%,rgba(255,255,255,.2) 20%,transparent 40%,rgba(255,255,255,.15) 60%,transparent 80%);animation:glassRotate 14s linear infinite;pointer-events:none}
+@keyframes glassRotate{to{transform:rotate(360deg)}}
+.theme-grid-compact{display:grid;grid-template-columns:repeat(5,1fr);gap:9px;position:relative;z-index:2}
+@media(max-width:520px){.theme-grid-compact{grid-template-columns:repeat(5,1fr);gap:6px}}
+.theme-block{padding:6px 4px;border-radius:12px;border:1.5px solid transparent;background:rgba(255,255,255,.22);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;transition:all .3s var(--ease);position:relative;overflow:hidden}
+.theme-block::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.35),transparent 60%);pointer-events:none;border-radius:inherit}
+.theme-block:hover{transform:translateY(-2px);background:rgba(255,255,255,.42);border-color:rgba(255,255,255,.6)}
+.theme-block.active{border-color:#fff;background:rgba(255,255,255,.78);box-shadow:0 8px 22px rgba(0,0,0,.15),inset 0 0 0 1.5px rgba(255,255,255,1)}
+.theme-block-icon{width:100%;aspect-ratio:1;border-radius:9px;position:relative;overflow:hidden;border:1.5px solid rgba(255,255,255,.9);box-shadow:0 3px 10px rgba(0,0,0,.1),inset 0 1px 2px rgba(255,255,255,.6);background-size:200% 200% !important;display:grid;place-items:center;font-size:16px;animation:flowBg 4s ease infinite}
+@keyframes flowBg{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+.theme-block-icon::after{content:'';position:absolute;inset:0;background:radial-gradient(circle at 25% 25%,rgba(255,255,255,.45),transparent 55%);animation:shimmer 4s ease-in-out infinite}
+@keyframes shimmer{0%,100%{opacity:.35}50%{opacity:.8}}
+.theme-block-label{font-size:6.5px;font-weight:900;text-transform:uppercase;letter-spacing:.15px;color:#1a1a1a;text-align:center;line-height:1.05;text-shadow:0 1px 1px rgba(255,255,255,.9);position:relative;z-index:1}
+
+/* TOAST */
+.toast{position:fixed;left:50%;bottom:30px;transform:translate(-50%,30px);padding:13px 24px;border-radius:var(--r-full);background:rgba(255,255,255,.95);box-shadow:0 16px 40px rgba(30,80,160,.28);border:1.5px solid #fff;font-size:12.5px;font-weight:800;color:var(--txt-main);opacity:0;pointer-events:none;transition:all .35s var(--ease);z-index:9500;max-width:88vw;text-align:center}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+.music-float{position:fixed;bottom:96px;left:20px;z-index:70;width:50px;height:50px;border-radius:50%;background:var(--brand-grad);display:grid;place-items:center;color:#fff;font-size:20px;cursor:pointer;box-shadow:0 14px 32px rgba(76,132,247,.45);transition:transform .25s var(--ease);border:2px solid rgba(255,255,255,.9)}
+.music-float:hover{transform:scale(1.08) rotate(6deg)}
+.music-float:active{transform:scale(.92)}
+.music-float.muted{opacity:.55}
+@media(min-width:901px){.music-float{bottom:26px;left:26px;width:56px;height:56px;font-size:22px}}
+.empty-state{grid-column:1/-1;text-align:center;padding:50px 20px;color:var(--txt-sub)}
+.empty-state .es-ico{font-size:46px}
+.empty-state p{font-size:13px;font-weight:800;margin-top:10px}
+.claim-burst{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%) scale(0);z-index:999;pointer-events:none;font-size:120px;filter:drop-shadow(0 0 40px rgba(255,200,80,.8));animation:claimBurst 1.6s ease-out forwards}
+@keyframes claimBurst{0%{transform:translate(-50%,-50%) scale(0) rotate(-30deg);opacity:0}40%{transform:translate(-50%,-50%) scale(1.3) rotate(10deg);opacity:1}60%{transform:translate(-50%,-50%) scale(1) rotate(0);opacity:1}100%{transform:translate(-50%,-50%) scale(1.8) rotate(15deg);opacity:0}}
+.confetti{position:fixed;pointer-events:none;z-index:998;width:10px;height:10px;border-radius:2px;animation:confettiFall 2.6s linear forwards}
+@keyframes confettiFall{0%{transform:translateY(-20px) rotate(0);opacity:1}100%{transform:translateY(105vh) rotate(720deg);opacity:0}}
+.premium-burst{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%) scale(0);z-index:999;pointer-events:none;font-size:140px;filter:drop-shadow(0 0 50px rgba(255,215,0,1));animation:premiumBurst 2s ease-out forwards}
+@keyframes premiumBurst{0%{transform:translate(-50%,-50%) scale(0) rotate(-60deg);opacity:0}30%{transform:translate(-50%,-50%) scale(1.4) rotate(20deg);opacity:1}60%{transform:translate(-50%,-50%) scale(1) rotate(0);opacity:1}100%{transform:translate(-50%,-50%) scale(2) rotate(45deg);opacity:0}}
+::-webkit-scrollbar{width:10px;height:10px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:rgba(76,132,247,.25);border-radius:5px}
+::-webkit-scrollbar-thumb:hover{background:rgba(76,132,247,.45)}
+</style>
+</head>
+<body>
+
+<audio id="bgMusic" loop preload="auto">
+  <source src="https://github.com/asif7782u-alt/Ueyxb/raw/refs/heads/main/September%2029_%202026(MP3_160K).mp3" type="audio/mpeg">
+</audio>
+
+<!-- AUTH -->
+<div class="auth-overlay show" id="authOverlay">
+  <div class="auth-bg-decor"></div>
+  <div class="auth-shell">
+    <div class="auth-brand">
+      <div class="auth-brand-mark">IK</div>
+      <div class="auth-brand-title"><span class="bn-insta">Insta</span><span class="bn-kart">Kart</span></div>
+      <div class="auth-brand-tagline">Rent • Buy • Repair • Premium</div>
+      <div class="auth-brand-chips">
+        <span class="auth-brand-chip">👑 Premium</span>
+        <span class="auth-brand-chip">🎁 Free Gifts</span>
+        <span class="auth-brand-chip">🎥 Reels</span>
+      </div>
+    </div>
+    <div class="auth-card">
+      <div class="auth-tabs">
+        <button class="auth-tab active" id="authTabLogin" onclick="switchAuthTab('login')">Login</button>
+        <button class="auth-tab" id="authTabRegister" onclick="switchAuthTab('register')">Register</button>
+      </div>
+      <div id="authFormLogin">
+        <div class="auth-field-group"><label class="auth-field-label">Mobile Number</label><input type="tel" class="auth-field-input" id="loginPhone" placeholder="10-digit mobile number" maxlength="10" inputmode="numeric" /></div>
+        <div class="auth-field-group"><label class="auth-field-label">Password</label><input type="password" class="auth-field-input" id="loginPass" placeholder="Enter password" /></div>
+        <button class="auth-submit-btn" onclick="doLogin()">Sign In →</button>
+        <div class="auth-or-divider">OR</div>
+        <button class="auth-demo-btn" onclick="demoLogin()">⚡ Try Demo User</button>
+      </div>
+      <div id="authFormRegister" style="display:none;">
+        <div class="auth-field-group"><label class="auth-field-label">Full Name</label><input type="text" class="auth-field-input" id="regName" placeholder="Your full name" /></div>
+        <div class="auth-field-group"><label class="auth-field-label">Mobile Number</label><input type="tel" class="auth-field-input" id="regPhone" placeholder="10-digit mobile" maxlength="10" inputmode="numeric" /></div>
+        <div class="auth-field-row-2">
+          <div class="auth-field-group"><label class="auth-field-label">City</label><input type="text" class="auth-field-input" id="regCity" placeholder="Mumbai" /></div>
+          <div class="auth-field-group"><label class="auth-field-label">Password</label><input type="password" class="auth-field-input" id="regPass" placeholder="4+ chars" /></div>
+        </div>
+        <button class="auth-submit-btn" onclick="doRegister()">Create Account →</button>
+      </div>
+      <div class="auth-switch-line"><span id="authSwitchHint">New to InstaKart?</span> <b id="authSwitchBtn" onclick="toggleAuthMode()">Create an account</b></div>
+    </div>
+  </div>
+</div>
+
+<!-- LOADER -->
+<div class="loader-screen" id="loaderScreen">
+  <div class="loader-gradient-bg"></div>
+  <div class="loader-particles" id="loaderParticles"></div>
+  <div class="loader-rings">
+    <div class="loader-orbit-ring ring-1"></div>
+    <div class="loader-orbit-ring ring-2"></div>
+    <div class="loader-orbit-ring ring-3"></div>
+  </div>
+  <div class="loader-brand-wrap">
+    <div class="loader-logo-cube">
+      <div class="loader-logo-inner">
+        <div class="loader-logo-face">IK</div>
+        <div class="loader-logo-face back">⚡</div>
+      </div>
+    </div>
+    <div class="loader-brand-title"><span class="bn-insta">Insta</span><span class="bn-kart">Kart</span></div>
+    <div class="loader-brand-sub">Rent · Buy · Repair · Premium</div>
+    <div class="loader-progress-container">
+      <div class="loader-progress-track"><div class="loader-progress-bar" id="loaderBar"></div></div>
+      <div class="loader-progress-info"><span>LOADING</span><span class="loader-progress-pct" id="loaderPct">0%</span></div>
+    </div>
+    <div class="loader-tip" id="loaderTip">Initializing InstaKart experience...</div>
+    <div class="loader-dots" id="loaderDots">
+      <div class="loader-dot active"></div>
+      <div class="loader-dot"></div>
+      <div class="loader-dot"></div>
+    </div>
+  </div>
+</div>
+
+<!-- APP -->
+<div class="app" id="appRoot">
+  <header class="topbar">
+    <div class="brand-lockup" onclick="go('home')">
+      <div class="brand-mark">IK</div>
+      <div>
+        <div class="brand-name"><span class="bn-insta">Insta</span><span class="bn-kart">Kart</span></div>
+        <div class="brand-tag">Rent • Buy • Repair</div>
+      </div>
+    </div>
+    <div class="topbar-search"><span>🔍</span><input type="text" id="globalSearch" placeholder="Search products..." oninput="globalSearch(this.value)" /></div>
+    <nav class="desktop-nav" id="desktopNav"></nav>
+    <div class="topbar-actions">
+      <button class="icon-btn learn-glow" onclick="openLearnModal()" title="Learn">🎓</button>
+      <button class="icon-btn" onclick="openModal('themeModal')" title="Themes">🎨</button>
+      <div class="profile-pill" id="profilePill" onclick="go('profile')">
+        <div class="pp-balance"><div class="pp-label">Wallet</div><div class="pp-amount" id="topBalance">₹2,480</div></div>
+        <div class="top-avatar" id="topAvatar">A</div>
+      </div>
+    </div>
+  </header>
+
+  <main class="main" id="main">
+    <!-- HOME -->
+    <section class="page active" id="page-home">
+      <div class="hero-grid">
+        <div class="slider-wrap" id="homeSlider">
+          <div class="slider-track" id="sliderTrack">
+            <div class="slide s1 active" onclick="go('store'); setStoreTab('buy')">
+              <div class="slide-bg"></div><div class="slide-overlay"></div>
+              <div class="slide-content"><div class="slide-icon">🛍️</div><h3>Buy Certified Pre-Owned Gadgets</h3><p>50-point inspected devices with warranty & escrow protection.</p><div class="slide-tag">SHOP NOW →</div></div>
+            </div>
+            <div class="slide s2" onclick="go('store'); setStoreTab('rent')">
+              <div class="slide-bg"></div><div class="slide-overlay"></div>
+              <div class="slide-content"><div class="slide-icon">🔄</div><h3>Rent Premium Gadgets by the Day</h3><p>PS5, cameras, drones, VR headsets & more — from ₹299/day.</p><div class="slide-tag">EXPLORE RENTALS →</div></div>
+            </div>
+            <div class="slide s3" onclick="go('services')">
+              <div class="slide-bg"></div><div class="slide-overlay"></div>
+              <div class="slide-content"><div class="slide-icon">🔧</div><h3>Expert Technicians at Your Door</h3><p>Verified pros with rating-based pricing.</p><div class="slide-tag">BOOK SERVICE →</div></div>
+            </div>
+            <div class="slide s4" onclick="openPremium()">
+              <div class="slide-bg"></div><div class="slide-overlay"></div>
+              <div class="slide-content"><div class="slide-icon">👑</div><h3>InstaKart Premium — 1st Free!</h3><p>Zero delivery fees, priority tech, extra coins & exclusive gifts.</p><div class="slide-tag">TRY PREMIUM →</div></div>
+            </div>
+            <div class="slide s5" onclick="go('videos')">
+              <div class="slide-bg"></div><div class="slide-overlay"></div>
+              <div class="slide-content"><div class="slide-icon">🎥</div><h3>Watch • Learn • Fix It Yourself</h3><p>Reels-style community feed with verified repair guides.</p><div class="slide-tag">WATCH NOW →</div></div>
+            </div>
+          </div>
+          <div class="slider-dots" id="sliderDots"></div>
+        </div>
+        <div class="side-stats">
+          <div class="clay-card stat-big-card" onclick="go('store'); setStoreTab('buy')">
+            <div class="stat-big-icon" style="background:var(--brand-grad)">📦</div>
+            <div class="stat-big-text"><div class="stat-big-value">80+</div><div class="stat-big-label">Verified Items</div><div class="stat-big-sub">Explore Catalogue</div></div>
+          </div>
+          <div class="clay-card stat-big-card" onclick="go('gifts')">
+            <div class="stat-big-icon" style="background:linear-gradient(135deg,#38BDF8,#0284C7)">🎁</div>
+            <div class="stat-big-text"><div class="stat-big-value" id="homeLevelVal">Lv 3 Silver</div><div class="stat-big-label">Your Level & Rewards</div><div class="stat-big-sub" id="homeCoinsVal">1250 IntaCoins</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PREMIUM HERO STRIP -->
+      <div class="premium-hero" id="premiumHeroStrip" onclick="openPremium()">
+        <div class="premium-hero-badge" id="premiumHeroBadge">👑 TRY 1ST FREE</div>
+        <div class="premium-hero-inner">
+          <div class="premium-hero-left">
+            <h2>InstaKart Premium Membership</h2>
+            <p>Unlock zero delivery fees, priority technician, double IntaCoins, exclusive gifts, and ad-free browsing. <b>Your 1st subscription is completely FREE!</b></p>
+          </div>
+          <button class="premium-hero-cta" onclick="event.stopPropagation(); openPremium()">Claim Free Trial →</button>
+        </div>
+      </div>
+
+      <div class="sec-head"><h3>Quick Access<small>Jump to what matters most</small></h3></div>
+      <div class="quick-grid">
+        <div class="clay-card quick-card" onclick="go('store'); setStoreTab('buy')"><div class="quick-ico">🛒</div><div class="quick-label">Buy Certified</div></div>
+        <div class="clay-card quick-card" onclick="go('store'); setStoreTab('rent')"><div class="quick-ico">🔄</div><div class="quick-label">Rent a Gadget</div></div>
+        <div class="clay-card quick-card" onclick="go('services')"><div class="quick-ico">🔧</div><div class="quick-label">Book Repair</div></div>
+        <div class="clay-card quick-card" onclick="go('orders')"><div class="quick-ico">📦</div><div class="quick-label">Track Orders</div></div>
+        <div class="clay-card quick-card" onclick="go('videos')"><div class="quick-ico">🎥</div><div class="quick-label">Watch Reels</div></div>
+        <div class="clay-card quick-card" onclick="go('gifts')"><div class="quick-ico">🎁</div><div class="quick-label">Rewards</div></div>
+      </div>
+      <div class="sec-head"><h3>Featured Today<small>Handpicked gadgets & deals</small></h3><a onclick="go('store'); setStoreTab('buy')">View All →</a></div>
+      <div class="products-container" id="featuredGrid"></div>
+    </section>
+
+    <!-- STORE -->
+    <section class="page" id="page-store">
+      <div class="sec-head">
+        <h3>Store<small id="storeSubtitle">Buy or Rent — all in one place</small></h3>
+        <div class="mode-switch">
+          <button class="mode-switch-btn active" id="modeUser" onclick="setUserMode('user')">👤 User</button>
+          <button class="mode-switch-btn" id="modeCreator" onclick="setUserMode('creator')">🎨 Creator</button>
+        </div>
+      </div>
+      <div class="store-tabs" id="storeTabsRow"></div>
+      <div class="search-box"><span>🔍</span><input type="text" id="storeSearch" placeholder="Search items..." oninput="renderCatalog(this.value)" /></div>
+      <div id="creatorUploadSection" style="display:none;"></div>
+      <div class="products-container" id="catalogGrid"></div>
+    </section>
+
+    <!-- PREMIUM PAGE -->
+    <section class="page" id="page-premium">
+      <div class="premium-hero-big">
+        <div class="premium-hero-big-inner">
+          <div class="premium-crown-big">👑</div>
+          <h2>InstaKart Premium</h2>
+          <p>The ultimate membership for power users. Unlimited benefits, exclusive rewards, and priority everything — with your first subscription on us.</p>
+          <div class="premium-status-strip" id="premiumStatusStrip">
+            <span>🎁</span> 1st Subscription FREE — No card required
+          </div>
+        </div>
+      </div>
+
+      <div class="sec-head"><h3>Choose Your Plan<small>Cancel anytime • No hidden fees</small></h3></div>
+      <div class="plans-grid" id="plansGrid"></div>
+
+      <div class="benefits-showcase">
+        <h3>✨ Everything you unlock with Premium</h3>
+        <div class="benefit-grid">
+          <div class="benefit-item"><div class="benefit-icon">🚚</div><div class="benefit-title">Zero Delivery Fees</div><div class="benefit-desc">Free shipping on all orders</div></div>
+          <div class="benefit-item"><div class="benefit-icon">⚡</div><div class="benefit-title">Priority Technician</div><div class="benefit-desc">Top-rated pro within 30 min</div></div>
+          <div class="benefit-item"><div class="benefit-icon">🪙</div><div class="benefit-title">2× IntaCoins</div><div class="benefit-desc">Double rewards on every action</div></div>
+          <div class="benefit-item"><div class="benefit-icon">🎁</div><div class="benefit-title">Exclusive Gifts</div><div class="benefit-desc">Premium-only merchandise</div></div>
+          <div class="benefit-item"><div class="benefit-icon">🚫</div><div class="benefit-title">Ad-Free Browsing</div><div class="benefit-desc">No promotional interruptions</div></div>
+          <div class="benefit-item"><div class="benefit-icon">🛡️</div><div class="benefit-title">Extended Warranty</div><div class="benefit-desc">+30 days on every purchase</div></div>
+          <div class="benefit-item"><div class="benefit-icon">💎</div><div class="benefit-title">VIP Support</div><div class="benefit-desc">24/7 dedicated helpline</div></div>
+          <div class="benefit-item"><div class="benefit-icon">🎫</div><div class="benefit-title">Early Access</div><div class="benefit-desc">Shop new drops 24h early</div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- VIDEOS -->
+    <section class="page" id="page-videos">
+      <div class="sec-head"><h3>Community Reels<small>Tap to play • Tap again to pause</small></h3></div>
+      <div class="reels-page" id="reelsFeed"></div>
+    </section>
+
+    <!-- ORDERS -->
+    <section class="page" id="page-orders">
+      <div class="sec-head"><h3>My Orders<small>Live location • Real-time radar • Full history</small></h3></div>
+      <div class="orders-tabs" id="ordersTabs">
+        <button class="orders-tab active" onclick="setOrdersFilter('all',this)">All Orders</button>
+        <button class="orders-tab" onclick="setOrdersFilter('active',this)">🚚 Active</button>
+        <button class="orders-tab" onclick="setOrdersFilter('gift',this)">🎁 Gift Rewards</button>
+        <button class="orders-tab" onclick="setOrdersFilter('shipped',this)">📦 Shipped</button>
+        <button class="orders-tab" onclick="setOrdersFilter('delivered',this)">✅ Delivered</button>
+        <button class="orders-tab" onclick="setOrdersFilter('service',this)">🔧 Services</button>
+      </div>
+      <div id="ordersListFull"></div>
+    </section>
+
+    <!-- SERVICES -->
+    <section class="page" id="page-services">
+      <div class="sec-head"><h3>Home Services<small>Book a verified technician in 4 steps</small></h3></div>
+      <div class="steps-banner" id="stepsBanner">
+        <div class="step-chip active" data-step="1"><div class="step-num">1</div><div><div class="step-text">Pick Category</div><div class="step-sub">What needs repair?</div></div></div>
+        <div class="step-chip" data-step="2"><div class="step-num">2</div><div><div class="step-text">Enter Details</div><div class="step-sub">Issue, address, time</div></div></div>
+        <div class="step-chip" data-step="3"><div class="step-num">3</div><div><div class="step-text">Choose Technician</div><div class="step-sub">By rating & price</div></div></div>
+        <div class="step-chip" data-step="4"><div class="step-num">4</div><div><div class="step-text">Confirm & Pay</div><div class="step-sub">Escrow protected</div></div></div>
+      </div>
+      <div id="svcStep1"><div class="service-cat-grid" id="serviceCatGrid"></div></div>
+      <div id="svcStep2" style="display:none;">
+        <div class="clay-card" style="padding:22px;">
+          <div class="field-row-2">
+            <div class="field-group"><label class="field-label">Issue Description</label><input type="text" class="field-input" id="svcIssue" placeholder="e.g. Screen flickering" /></div>
+            <div class="field-group"><label class="field-label">Preferred Time</label><input type="text" class="field-input" id="svcTime" placeholder="e.g. Today 5–7 PM" /></div>
+          </div>
+          <div class="field-row-2">
+            <div class="field-group"><label class="field-label">Full Name</label><input type="text" class="field-input" id="svcName" placeholder="Your name" /></div>
+            <div class="field-group"><label class="field-label">Mobile</label><input type="tel" class="field-input" id="svcPhone" placeholder="10-digit mobile" maxlength="10" inputmode="numeric" /></div>
+          </div>
+          <div class="field-group"><label class="field-label">Home Address</label><input type="text" class="field-input" id="svcAddress" placeholder="Flat / Building / Area / Landmark" /></div>
+          <div class="field-row-2">
+            <div class="field-group"><label class="field-label">City</label><input type="text" class="field-input" id="svcCity" placeholder="Mumbai" /></div>
+            <div class="field-group"><label class="field-label">Pincode</label><input type="text" class="field-input" id="svcPincode" placeholder="400001" maxlength="6" inputmode="numeric" /></div>
+          </div>
+        </div>
+      </div>
+      <div id="svcStep3" style="display:none;">
+        <div class="sec-head" style="margin-top:0;"><h3>Choose Your Technician<small>Higher rating = premium pricing</small></h3></div>
+        <div class="tech-grid" id="technicianList"></div>
+      </div>
+      <div id="svcStep4" style="display:none;">
+        <div class="clay-card" style="padding:22px; margin-bottom:14px;">
+          <div style="font-size:11px; font-weight:900; letter-spacing:1.2px; text-transform:uppercase; color:var(--txt-sub); margin-bottom:12px;">Booking Summary</div>
+          <div class="report-row"><span>Service</span><span id="sumCategory">—</span></div>
+          <div class="report-row"><span>Issue</span><span id="sumIssue">—</span></div>
+          <div class="report-row"><span>Technician</span><span id="sumTech">—</span></div>
+          <div class="report-row"><span>Tier</span><span id="sumTier">—</span></div>
+          <div class="report-row"><span>Visit Fee</span><span id="sumVisit">—</span></div>
+          <div class="report-row"><span>Service Cost</span><span id="sumService">—</span></div>
+          <div class="report-row" style="font-size:14px;"><span>Total</span><span id="sumTotal" style="color:var(--brand-1)">—</span></div>
+        </div>
+        <button class="clay-button" style="width:100%; padding:16px; font-size:13.5px;" onclick="confirmServiceBooking()">✓ Confirm Booking</button>
+      </div>
+      <div id="svcReport" style="display:none;">
+        <div class="clay-card" style="padding:22px; margin-bottom:14px; text-align:center;">
+          <div style="font-size:48px; margin-bottom:6px;">✅</div>
+          <h3 style="font-size:18px; font-weight:900;">Service Completed!</h3>
+          <p style="font-size:12.5px; color:var(--txt-sub); margin-top:5px; font-weight:700;">Please rate your technician.</p>
+        </div>
+        <div class="report-card">
+          <div style="font-size:11px; font-weight:900; letter-spacing:1.2px; text-transform:uppercase; color:var(--txt-sub); margin-bottom:12px;">Service Report</div>
+          <div class="report-row"><span>Booking ID</span><span id="rptBookingId">—</span></div>
+          <div class="report-row"><span>Technician</span><span id="rptTech">—</span></div>
+          <div class="report-row"><span>Category</span><span id="rptCategory">—</span></div>
+          <div class="report-row"><span>Amount Paid</span><span id="rptAmount" style="color:var(--success)">—</span></div>
+        </div>
+        <div class="report-card">
+          <div style="font-size:11px; font-weight:900; letter-spacing:1.2px; text-transform:uppercase; color:var(--txt-sub);">Rate Your Technician</div>
+          <div class="star-row" id="starRow">
+            <button class="star-btn" data-star="1" onclick="setStar(1)">★</button>
+            <button class="star-btn" data-star="2" onclick="setStar(2)">★</button>
+            <button class="star-btn" data-star="3" onclick="setStar(3)">★</button>
+            <button class="star-btn" data-star="4" onclick="setStar(4)">★</button>
+            <button class="star-btn" data-star="5" onclick="setStar(5)">★</button>
+          </div>
+          <input type="text" class="field-input" id="reviewInput" placeholder="Write a short review" style="margin-bottom:10px;" />
+          <button class="clay-button" style="width:100%; padding:13px; font-size:12.5px;" onclick="submitRating()">Submit Rating & Close</button>
+        </div>
+      </div>
+      <div style="margin-top:14px; display:flex; gap:10px;" id="svcNavBtns">
+        <button class="clay-button ghost" style="flex:1; padding:14px; font-size:12.5px; display:none;" id="svcBackBtn" onclick="svcBack()">← Back</button>
+        <button class="clay-button" style="flex:2; padding:14px; font-size:12.5px;" id="svcNextBtn" onclick="svcNext()">Continue →</button>
+      </div>
+    </section>
+
+    <!-- GIFTS -->
+    <section class="page" id="page-gifts">
+      <div class="level-hero">
+        <div class="level-top">
+          <div class="level-badge-ring" id="lvlRing">🥈</div>
+          <div class="level-info">
+            <h3 id="lvlName">Silver Member</h3>
+            <p id="lvlNextTxt">Next: Gold at 3000 coins</p>
+            <div class="level-coins">🪙 <span id="coinBal">1250</span> IntaCoins</div>
+          </div>
+        </div>
+        <div class="level-progress-wrap">
+          <div class="level-progress-labels"><span id="progFrom">1850</span><span id="progTo">3000</span></div>
+          <div class="level-progress-track"><div class="level-progress-fill" id="progFill" style="width:0%"></div></div>
+        </div>
+      </div>
+      <div class="sec-head"><h3>Earn IntaCoins<small>Complete tasks, level up, unlock rewards</small></h3><a onclick="claimAllTasks()">Claim All →</a></div>
+      <div class="task-grid" id="taskList"></div>
+      <div class="sec-head"><h3>Redeem Gifts<small>Free merchandise for your loyalty</small></h3></div>
+      <div class="gift-grid" id="giftGrid"></div>
+      <div class="sec-head" id="activeOrdersHead" style="display:none;"><h3>Active Gift Deliveries<small>Live radar tracking</small></h3></div>
+      <div class="gift-grid" id="activeOrdersList"></div>
+    </section>
+
+    <!-- PROFILE -->
+    <section class="page" id="page-profile">
+      <div class="profile-hero" id="profileHeroCard">
+        <div class="profile-hero-inner">
+          <div class="profile-avatar-big" id="profileAvatarBig">A</div>
+          <div class="profile-hero-text">
+            <h3 id="profileName">Aarav Sharma</h3>
+            <p id="profileMeta">+91 98765 43210 • Mumbai</p>
+            <div class="profile-badge" id="profileBadge">👤 USER ACCOUNT</div>
+          </div>
+        </div>
+      </div>
+      <div class="wallet-big-card">
+        <div class="wallet-label">Wallet Balance</div>
+        <div class="wallet-amount-big" id="walletDisplay">₹2,480.00</div>
+        <div class="wallet-actions">
+          <button class="clay-button" onclick="openModal('addMoneyModal')">＋ Add Money</button>
+          <button class="clay-button ghost" onclick="openModal('withdrawModal')">↑ Withdraw</button>
+        </div>
+      </div>
+      <div class="sec-head"><h3>Settings & More<small>Manage your account</small></h3></div>
+      <div class="profile-menu-grid">
+        <div class="profile-menu-item premium-item" onclick="openPremium()">
+          <div class="pm-ico">👑</div><div class="pm-label" id="premiumMenuLabel">Upgrade to Premium (1st FREE)</div><div class="pm-arrow">›</div>
+        </div>
+        <div class="profile-menu-item" onclick="openModal('techRegisterModal')"><div class="pm-ico">🧰</div><div class="pm-label">Become a Technician</div><div class="pm-arrow">›</div></div>
+        <div class="profile-menu-item" onclick="openLearnModal()"><div class="pm-ico">🎓</div><div class="pm-label">Learn How to Use App</div><div class="pm-arrow">›</div></div>
+        <div class="profile-menu-item" onclick="go('gifts')"><div class="pm-ico">🎁</div><div class="pm-label">My Rewards & Level</div><div class="pm-arrow">›</div></div>
+        <div class="profile-menu-item" onclick="go('orders')"><div class="pm-ico">📦</div><div class="pm-label">My Orders</div><div class="pm-arrow">›</div></div>
+        <div class="profile-menu-item" onclick="openModal('themeModal')"><div class="pm-ico">🎨</div><div class="pm-label">Theme Studio (10 Themes)</div><div class="pm-arrow">›</div></div>
+        <div class="profile-menu-item" onclick="logout()" style="color:var(--danger)"><div class="pm-ico">🚪</div><div class="pm-label">Logout</div><div class="pm-arrow">›</div></div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<nav class="mobile-nav" id="mobileNav"></nav>
+<div class="music-float" id="musicFloat" onclick="toggleMusic()">🎵</div>
+
+<!-- THEME STUDIO -->
+<div class="modal-backdrop" id="themeModal">
+  <div class="theme-glass-box">
+    <div class="modal-head" style="position:relative;z-index:3;">
+      <div>
+        <div style="font-size:9.5px;font-weight:900;letter-spacing:1.8px;text-transform:uppercase;color:#333;opacity:.75;">10 Dual-Color Themes</div>
+        <h3 style="color:#111;">Theme Studio</h3>
+      </div>
+      <button class="modal-close" onclick="closeModal('themeModal')" style="background:rgba(255,255,255,.6);">✕</button>
+    </div>
+    <div class="theme-grid-compact" id="themeGrid"></div>
+  </div>
+</div>
+
+<!-- LEARN MODAL -->
+<div class="modal-backdrop" id="learnModal">
+  <div class="modal-panel wide">
+    <div class="modal-head">
+      <div>
+        <div style="font-size:10px; font-weight:900; letter-spacing:1.8px; text-transform:uppercase; color:var(--brand-1);">Tutorial Videos</div>
+        <h3>Learn How to Use InstaKart</h3>
+      </div>
+      <button class="modal-close" onclick="closeLearnModal()">✕</button>
+    </div>
+    <div id="learnContent"></div>
+  </div>
+</div>
+
+<!-- ADD MONEY -->
+<div class="modal-backdrop" id="addMoneyModal">
+  <div class="modal-panel">
+    <div class="modal-head"><h3>Add Money</h3><button class="modal-close" onclick="closeModal('addMoneyModal')">✕</button></div>
+    <div class="search-box" style="margin:0 0 12px;"><span style="font-size:18px;font-weight:900;">₹</span><input type="number" id="addAmountInput" placeholder="Enter amount" /></div>
+    <div style="display:flex; gap:8px; margin-bottom:16px; flex-wrap:wrap;">
+      <button class="clay-button ghost" style="padding:9px 16px; font-size:11.5px;" onclick="document.getElementById('addAmountInput').value=200">+₹200</button>
+      <button class="clay-button ghost" style="padding:9px 16px; font-size:11.5px;" onclick="document.getElementById('addAmountInput').value=500">+₹500</button>
+      <button class="clay-button ghost" style="padding:9px 16px; font-size:11.5px;" onclick="document.getElementById('addAmountInput').value=1000">+₹1000</button>
+      <button class="clay-button ghost" style="padding:9px 16px; font-size:11.5px;" onclick="document.getElementById('addAmountInput').value=2000">+₹2000</button>
+    </div>
+    <button class="clay-button" style="width:100%; padding:14px; font-size:13px;" onclick="executeAddMoney()">Confirm Deposit</button>
+  </div>
+</div>
+
+<!-- WITHDRAW -->
+<div class="modal-backdrop" id="withdrawModal">
+  <div class="modal-panel">
+    <div class="modal-head"><h3>Withdraw</h3><button class="modal-close" onclick="closeModal('withdrawModal')">✕</button></div>
+    <div class="search-box" style="margin:0 0 10px;"><span style="font-size:11px;font-weight:900;">UPI</span><input type="text" id="withdrawUpiInput" placeholder="user@okhdfcbank" /></div>
+    <div class="search-box" style="margin:0 0 14px;"><span style="font-size:18px;font-weight:900;">₹</span><input type="number" id="withdrawAmountInput" placeholder="Amount" /></div>
+    <button class="clay-button ghost" style="width:100%; padding:14px; font-size:13px;" onclick="executeWithdrawal()">Process Withdrawal</button>
+  </div>
+</div>
+
+<!-- ORDER DETAIL -->
+<div class="modal-backdrop" id="orderDetailModal">
+  <div class="modal-panel">
+    <div class="modal-head"><h3>Order Details</h3><button class="modal-close" onclick="closeModal('orderDetailModal')">✕</button></div>
+    <div id="orderDetailContent"></div>
+  </div>
+</div>
+
+<!-- TECH REGISTRATION -->
+<div class="modal-backdrop" id="techRegisterModal">
+  <div class="modal-panel">
+    <div class="modal-head">
+      <div><div style="font-size:10px; font-weight:900; letter-spacing:1.8px; text-transform:uppercase; color:var(--brand-1);">4-Step KYC</div><h3>Become a Technician</h3></div>
+      <button class="modal-close" onclick="closeModal('techRegisterModal')">✕</button>
+    </div>
+    <div class="steps-banner" id="techStepsBanner" style="margin-bottom:18px;">
+      <div class="step-chip active" data-step="1"><div class="step-num">1</div><div><div class="step-text">Personal</div><div class="step-sub">Basic info</div></div></div>
+      <div class="step-chip" data-step="2"><div class="step-num">2</div><div><div class="step-text">KYC Docs</div><div class="step-sub">Aadhaar & PAN</div></div></div>
+      <div class="step-chip" data-step="3"><div class="step-num">3</div><div><div class="step-text">Skills</div><div class="step-sub">Experience</div></div></div>
+      <div class="step-chip" data-step="4"><div class="step-num">4</div><div><div class="step-text">Bank</div><div class="step-sub">Payout</div></div></div>
+    </div>
+    <div id="techForm1">
+      <div class="field-group"><label class="field-label">Full Legal Name</label><input type="text" class="field-input" id="techName" placeholder="As per Aadhaar" /></div>
+      <div class="field-group"><label class="field-label">Mobile</label><input type="tel" class="field-input" id="techPhone" placeholder="10-digit mobile" maxlength="10" inputmode="numeric" /></div>
+      <div class="field-group"><label class="field-label">Date of Birth</label><input type="date" class="field-input" id="techDob" /></div>
+    </div>
+    <div id="techForm2" style="display:none;">
+      <div class="field-group"><label class="field-label">Aadhaar Number</label><input type="text" class="field-input" id="techAadhaar" placeholder="XXXX XXXX XXXX" maxlength="14" inputmode="numeric" oninput="formatAadhaar(this)" /></div>
+      <div class="field-group"><label class="field-label">PAN Number</label><input type="text" class="field-input" id="techPan" placeholder="ABCDE1234F" maxlength="10" style="text-transform:uppercase;" /></div>
+    </div>
+    <div id="techForm3" style="display:none;">
+      <div id="techSkillChips" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:14px;"></div>
+      <div class="field-group"><label class="field-label">Years of Experience</label><input type="number" class="field-input" id="techExp" placeholder="e.g. 4" /></div>
+    </div>
+    <div id="techForm4" style="display:none;">
+      <div class="field-group"><label class="field-label">Bank Account Number</label><input type="text" class="field-input" id="techAcc" placeholder="Account number" inputmode="numeric" /></div>
+      <div class="field-group"><label class="field-label">IFSC Code</label><input type="text" class="field-input" id="techIfsc" placeholder="HDFC0001234" maxlength="11" style="text-transform:uppercase;" /></div>
+    </div>
+    <div style="display:flex; gap:10px; margin-top:14px;">
+      <button class="clay-button ghost" style="flex:1; padding:12px; font-size:12px; display:none;" id="techBackBtn" onclick="techFormBack()">← Back</button>
+      <button class="clay-button" style="flex:2; padding:12px; font-size:12px;" id="techNextBtn" onclick="techFormNext()">Continue →</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ============================================================
+   DATA
+   ============================================================ */
+const PRODUCTS_DATA = [
+  { id:1, type:'rent', title:'PlayStation 5 Disc Edition + 2 Remotes', price:499, unit:'/day', icon:'🎮', cat:'Gaming', rating:4.9, loc:'Andheri' },
+  { id:2, type:'rent', title:'Canon EOS 200D Mark II 4K Camera', price:699, unit:'/day', icon:'📷', cat:'Camera', rating:4.8, loc:'Bandra' },
+  { id:3, type:'rent', title:'JBL PartyBox 310 Bluetooth Speaker', price:399, unit:'/day', icon:'🔊', cat:'Audio', rating:4.7, loc:'Powai' },
+  { id:4, type:'rent', title:'Apple MacBook Air M1 8GB/256GB', price:899, unit:'/day', icon:'💻', cat:'Laptop', rating:4.9, loc:'Dadar' },
+  { id:5, type:'rent', title:'Sony PlayStation VR2 Headset', price:549, unit:'/day', icon:'🥽', cat:'Gaming', rating:4.8, loc:'Juhu' },
+  { id:6, type:'rent', title:'DJI Mini 3 Pro 4K Drone', price:1199, unit:'/day', icon:'🚁', cat:'Camera', rating:4.9, loc:'Thane' },
+  { id:7, type:'rent', title:'GoPro HERO12 Black Action Cam', price:449, unit:'/day', icon:'📹', cat:'Camera', rating:4.7, loc:'Borivali' },
+  { id:8, type:'rent', title:'Xbox Series X 1TB Console', price:480, unit:'/day', icon:'🎮', cat:'Gaming', rating:4.8, loc:'Goregaon' },
+  { id:9, type:'rent', title:'Epson Full HD Home Projector', price:650, unit:'/day', icon:'📽️', cat:'Video', rating:4.6, loc:'Kurla' },
+  { id:10, type:'rent', title:'iPad Pro 11-inch M2 + Pencil', price:750, unit:'/day', icon:'📱', cat:'Tablet', rating:4.9, loc:'Malad' },
+  { id:11, type:'rent', title:'Bose QuietComfort 45 ANC Headphones', price:299, unit:'/day', icon:'🎧', cat:'Audio', rating:4.8, loc:'Andheri' },
+  { id:12, type:'rent', title:'Nintendo Switch OLED Console', price:349, unit:'/day', icon:'🕹️', cat:'Gaming', rating:4.7, loc:'Vashi' },
+  { id:13, type:'buy', title:'Apple iPhone 13 128GB Midnight', price:38999, unit:'', icon:'📱', cat:'Mobile', rating:4.9, loc:'Andheri' },
+  { id:14, type:'buy', title:'Dell Inspiron 15 Core i5 11th Gen', price:28500, unit:'', icon:'💻', cat:'Laptop', rating:4.8, loc:'Bandra' },
+  { id:15, type:'buy', title:'Sony WF-1000XM4 Noise Canceling', price:11499, unit:'', icon:'🎧', cat:'Audio', rating:4.9, loc:'Powai' },
+  { id:16, type:'buy', title:'Samsung 43-inch 4K UHD TV', price:24999, unit:'', icon:'📺', cat:'TV', rating:4.7, loc:'Dadar' },
+  { id:17, type:'buy', title:'PlayStation 4 Slim 1TB + 3 Games', price:17500, unit:'', icon:'🎮', cat:'Gaming', rating:4.8, loc:'Thane' },
+  { id:18, type:'buy', title:'Apple Watch SE 44mm GPS', price:16999, unit:'', icon:'⌚', cat:'Wearable', rating:4.9, loc:'Juhu' },
+  { id:19, type:'buy', title:'OnePlus 11R 5G 16GB/256GB', price:27999, unit:'', icon:'📱', cat:'Mobile', rating:4.8, loc:'Borivali' },
+  { id:20, type:'buy', title:'Lenovo IdeaPad Gaming 3 Ryzen 5', price:41999, unit:'', icon:'💻', cat:'Laptop', rating:4.7, loc:'Kurla' },
+  { id:21, type:'buy', title:'Nothing Ear (2) Transparent', price:6499, unit:'', icon:'🎧', cat:'Audio', rating:4.8, loc:'Malad' },
+  { id:22, type:'buy', title:'Canon IXUS 185 Compact Camera', price:8500, unit:'', icon:'📷', cat:'Camera', rating:4.6, loc:'Vashi' },
+  { id:23, type:'buy', title:'Mi Smart Air Purifier 4', price:9200, unit:'', icon:'🌀', cat:'Home', rating:4.7, loc:'Goregaon' },
+  { id:24, type:'buy', title:'Realme Pad X 11-inch 5G', price:14999, unit:'', icon:'📱', cat:'Tablet', rating:4.6, loc:'Chembur' },
+  { id:25, type:'buy', title:'boAt Aavante Bar 1800 Soundbar', price:5499, unit:'', icon:'🔊', cat:'Audio', rating:4.5, loc:'Colaba' },
+  { id:26, type:'buy', title:'Samsung Galaxy S22 5G Phantom Black', price:33999, unit:'', icon:'📱', cat:'Mobile', rating:4.8, loc:'Santacruz' },
+  { id:27, type:'buy', title:'HP Pavilion x360 2-in-1 Laptop', price:39500, unit:'', icon:'💻', cat:'Laptop', rating:4.7, loc:'Kandivali' },
+  { id:28, type:'buy', title:'Kindle Paperwhite 16GB 6.8-inch', price:9999, unit:'', icon:'📖', cat:'Tablet', rating:4.9, loc:'Sion' },
+  { id:29, type:'buy', title:'Logitech MX Master 3S Mouse', price:6899, unit:'', icon:'🖱️', cat:'Accessory', rating:5.0, loc:'Dadar' },
+  { id:30, type:'buy', title:'Keychron K2 V2 Mechanical Keyboard', price:6200, unit:'', icon:'⌨️', cat:'Accessory', rating:4.9, loc:'Thane' },
+  { id:31, type:'buy', title:'Steam Deck OLED 1TB Handheld', price:54999, unit:'', icon:'🎮', cat:'Gaming', rating:4.9, loc:'Andheri' },
+  { id:32, type:'buy', title:'Meta Quest Pro VR Headset', price:74999, unit:'', icon:'🥽', cat:'Gaming', rating:4.7, loc:'Bandra' },
+  { id:33, type:'buy', title:'Rode Wireless GO II Dual Mic', price:28999, unit:'', icon:'🎙️', cat:'Audio', rating:4.9, loc:'Powai' },
+  { id:34, type:'buy', title:'Elgato Stream Deck MK.2', price:13499, unit:'', icon:'🎛️', cat:'Accessory', rating:4.8, loc:'Dadar' },
+  { id:35, type:'buy', title:'Razer BlackWidow V4 Pro Keyboard', price:18999, unit:'', icon:'⌨️', cat:'Accessory', rating:4.7, loc:'Kurla' },
+  { id:36, type:'buy', title:'Samsung Odyssey G9 49-inch Curved', price:129999, unit:'', icon:'🖥️', cat:'Monitor', rating:4.9, loc:'Juhu' },
+  { id:37, type:'buy', title:'Anker 737 Power Bank 24000mAh', price:8999, unit:'', icon:'🔋', cat:'Accessory', rating:4.8, loc:'Borivali' },
+  { id:38, type:'buy', title:'DJI Osmo Pocket 3 Creator Combo', price:62999, unit:'', icon:'📹', cat:'Camera', rating:5.0, loc:'Thane' },
+  { id:39, type:'buy', title:'Insta360 X4 8K 360° Action Camera', price:45999, unit:'', icon:'📷', cat:'Camera', rating:4.9, loc:'Goregaon' },
+  { id:40, type:'buy', title:'Hollyland Lark M2 Wireless Mic', price:14999, unit:'', icon:'🎤', cat:'Audio', rating:4.8, loc:'Malad' },
+  { id:41, type:'buy', title:'Soundcore Space One ANC Headphones', price:9999, unit:'', icon:'🎧', cat:'Audio', rating:4.7, loc:'Vashi' },
+  { id:42, type:'buy', title:'Garmin Venu 3 GPS Smartwatch', price:44999, unit:'', icon:'⌚', cat:'Wearable', rating:4.9, loc:'Chembur' },
+  { id:43, type:'buy', title:'Xiaomi Robot Vacuum X10+', price:39999, unit:'', icon:'🤖', cat:'Home', rating:4.8, loc:'Santacruz' },
+  { id:44, type:'buy', title:'Philips Hue Smart Light Kit E27', price:16999, unit:'', icon:'💡', cat:'Home', rating:4.7, loc:'Kandivali' },
+  { id:45, type:'buy', title:'Ring Video Doorbell Pro 2', price:22999, unit:'', icon:'🔔', cat:'Home', rating:4.8, loc:'Sion' },
+  { id:46, type:'buy', title:'TP-Link Deco X90 WiFi 6 Mesh', price:29999, unit:'', icon:'📡', cat:'Networking', rating:4.9, loc:'Colaba' },
+  { id:47, type:'buy', title:'HyperX Cloud III Wireless Headset', price:14999, unit:'', icon:'🎧', cat:'Gaming', rating:4.8, loc:'Andheri' },
+  { id:48, type:'buy', title:'Corsair K100 RGB Mechanical Keyboard', price:22999, unit:'', icon:'⌨️', cat:'Accessory', rating:4.9, loc:'Bandra' },
+  { id:49, type:'buy', title:'SteelSeries Arctis Nova Pro Wireless', price:34999, unit:'', icon:'🎧', cat:'Gaming', rating:5.0, loc:'Powai' },
+  { id:50, type:'buy', title:'Beats Studio Pro Wireless Headphones', price:24999, unit:'', icon:'🎧', cat:'Audio', rating:4.8, loc:'Dadar' },
+  { id:51, type:'rent', title:'Steam Deck OLED 1TB Rental', price:799, unit:'/day', icon:'🎮', cat:'Gaming', rating:4.9, loc:'Thane' },
+  { id:52, type:'rent', title:'DJI Osmo Pocket 3 Rental', price:899, unit:'/day', icon:'📹', cat:'Camera', rating:5.0, loc:'Juhu' },
+  { id:53, type:'rent', title:'Rode Wireless GO II Rental', price:499, unit:'/day', icon:'🎙️', cat:'Audio', rating:4.9, loc:'Powai' },
+  { id:54, type:'rent', title:'Meta Quest Pro VR Rental', price:1499, unit:'/day', icon:'🥽', cat:'Gaming', rating:4.7, loc:'Bandra' },
+  { id:55, type:'rent', title:'Insta360 X4 Action Camera Rental', price:749, unit:'/day', icon:'📷', cat:'Camera', rating:4.9, loc:'Andheri' },
+  { id:56, type:'rent', title:'Xiaomi Robot Vacuum Rental', price:599, unit:'/day', icon:'🤖', cat:'Home', rating:4.8, loc:'Kurla' },
+  { id:57, type:'rent', title:'Elgato Stream Deck Rental', price:349, unit:'/day', icon:'🎛️', cat:'Accessory', rating:4.8, loc:'Dadar' },
+  { id:58, type:'rent', title:'Soundcore Space One Rental', price:299, unit:'/day', icon:'🎧', cat:'Audio', rating:4.7, loc:'Borivali' },
+  { id:59, type:'rent', title:'Garmin Venu 3 Rental', price:449, unit:'/day', icon:'⌚', cat:'Wearable', rating:4.9, loc:'Vashi' },
+  { id:60, type:'rent', title:'Ring Doorbell Pro 2 Rental', price:399, unit:'/day', icon:'🔔', cat:'Home', rating:4.8, loc:'Malad' },
+  { id:61, type:'sell', title:'iPhone 12 64GB (87% battery)', price:29500, unit:'', icon:'📱', cat:'Mobile', rating:4.7, loc:'Andheri' },
+  { id:62, type:'sell', title:'OnePlus 9 Pro 8/128GB', price:18999, unit:'', icon:'📱', cat:'Mobile', rating:4.5, loc:'Bandra' },
+  { id:63, type:'sell', title:'MacBook Pro 2019 i5/8GB', price:52000, unit:'', icon:'💻', cat:'Laptop', rating:4.6, loc:'Powai' },
+  { id:64, type:'sell', title:'Sony WH-1000XM3 Headphones', price:11499, unit:'', icon:'🎧', cat:'Audio', rating:4.8, loc:'Dadar' },
+  { id:65, type:'sell', title:'iPad Air 4th Gen 64GB', price:26999, unit:'', icon:'📱', cat:'Tablet', rating:4.7, loc:'Thane' },
+  { id:66, type:'sell', title:'Xbox One S 500GB + Controller', price:12500, unit:'', icon:'🎮', cat:'Gaming', rating:4.4, loc:'Kurla' },
+  { id:67, type:'sell', title:'Samsung Galaxy Watch 4 44mm', price:8999, unit:'', icon:'⌚', cat:'Wearable', rating:4.5, loc:'Vashi' },
+  { id:68, type:'sell', title:'Canon 200D DSLR + Kit', price:22500, unit:'', icon:'📷', cat:'Camera', rating:4.6, loc:'Bandra' },
+  { id:69, type:'sell', title:'LG 43-inch LED Smart TV', price:15500, unit:'', icon:'📺', cat:'TV', rating:4.3, loc:'Goregaon' },
+  { id:70, type:'sell', title:'boAt Rockerz 550 Headphones', price:1999, unit:'', icon:'🎧', cat:'Audio', rating:4.2, loc:'Malad' },
+  { id:71, type:'sell', title:'Steam Deck 512GB LCD', price:34999, unit:'', icon:'🎮', cat:'Gaming', rating:4.7, loc:'Andheri' },
+  { id:72, type:'sell', title:'Rode VideoMic Pro+', price:19999, unit:'', icon:'🎙️', cat:'Audio', rating:4.8, loc:'Powai' },
+  { id:73, type:'sell', title:'Corsair K70 RGB MK.2', price:7999, unit:'', icon:'⌨️', cat:'Accessory', rating:4.6, loc:'Dadar' },
+  { id:74, type:'sell', title:'Logitech G Pro X Superlight', price:8999, unit:'', icon:'🖱️', cat:'Accessory', rating:4.9, loc:'Juhu' },
+  { id:75, type:'sell', title:'DJI RS 3 Mini Gimbal', price:24999, unit:'', icon:'🎬', cat:'Camera', rating:4.7, loc:'Bandra' },
+  { id:76, type:'sell', title:'Anker Liberty 4 NC Earbuds', price:6999, unit:'', icon:'🎧', cat:'Audio', rating:4.5, loc:'Thane' },
+  { id:77, type:'sell', title:'Galaxy Buds 2 Pro', price:9999, unit:'', icon:'🎧', cat:'Audio', rating:4.7, loc:'Kurla' },
+  { id:78, type:'sell', title:'Xiaomi Mi Band 8 Pro', price:3499, unit:'', icon:'⌚', cat:'Wearable', rating:4.4, loc:'Vashi' },
+  { id:79, type:'sell', title:'Amazon Echo Dot 5th Gen', price:2999, unit:'', icon:'🔊', cat:'Home', rating:4.5, loc:'Goregaon' },
+  { id:80, type:'sell', title:'Google Nest Mini 2nd Gen', price:2499, unit:'', icon:'🔊', cat:'Home', rating:4.4, loc:'Malad' }
+];
+
+/* REELS — multiple fallback sources per video */
+const REELS_DATA = [
+  { id:1, title:'iPhone Charging Port Clean & Replace', chan:'Rahul Verma', dur:'0:24', cat:'Mobile', views:'14.2k', likes:842, desc:'Charging flex cable replacement + lint cleaning.', music:'Original · Rahul Verma',
+    srcs:['https://www.w3schools.com/html/mov_bbb.mp4','https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4'],
+    poster:'https://images.unsplash.com/photo-1592286927505-1def25115558?w=600&auto=format&fit=crop' },
+  { id:2, title:'LED TV Backlight Strip Replacement', chan:'Sneha Patil', dur:'0:30', cat:'Smart TV', views:'22.1k', likes:1240, desc:'Sound works but no picture? Complete backlight fix.', music:'Trending · Repair Beats',
+    srcs:['https://www.w3schools.com/html/movie.mp4','https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4'],
+    poster:'https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?w=600&auto=format&fit=crop' },
+  { id:3, title:'Fridge Cooling Problem — Gas Leak Fix', chan:'Amit Kumar', dur:'0:18', cat:'Fridge', views:'9.4k', likes:620, desc:'Defrost timer + relay switch testing masterclass.', music:'Chill Tech · Lofi',
+    srcs:['https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4','https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4'],
+    poster:'https://images.unsplash.com/photo-1571175443880-49e1d25b2bc5?w=600&auto=format&fit=crop' },
+  { id:4, title:'PS5 Overheating Fix — Liquid Metal', chan:'Vikram J.', dur:'0:15', cat:'Gaming', views:'31.0k', likes:2100, desc:'Fix loud fan noise safely with thermal paste.', music:'Gamer Vibes',
+    srcs:['https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4','https://www.w3schools.com/html/mov_bbb.mp4'],
+    poster:'https://images.unsplash.com/photo-1606144042614-b2417e99c4e3?w=600&auto=format&fit=crop' },
+  { id:5, title:'MacBook Air Trackpad & Battery', chan:'Aman Tech', dur:'0:22', cat:'Laptop', views:'8.9k', likes:430, desc:'Safe swollen battery removal + calibration.', music:'Ambient · Studio',
+    srcs:['https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4','https://www.w3schools.com/html/movie.mp4'],
+    poster:'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=600&auto=format&fit=crop' },
+  { id:6, title:'Split AC Water Leakage Fix', chan:'Amit Kumar', dur:'0:20', cat:'AC Repair', views:'28.4k', likes:1800, desc:'Drain tray cleaning + pipe flush tutorial.', music:'DIY Beats',
+    srcs:['https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4','https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4'],
+    poster:'https://images.unsplash.com/photo-1631545806609-35f6e77a4fd3?w=600&auto=format&fit=crop' },
+  { id:7, title:'OnePlus Green Line Screen Fix', chan:'Rahul Verma', dur:'0:26', cat:'Mobile', views:'58.1k', likes:4120, desc:'Service claim + permanent fix guide.', music:'Viral Sound',
+    srcs:['https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerMeltdowns.mp4','https://www.w3schools.com/html/mov_bbb.mp4'],
+    poster:'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=600&auto=format&fit=crop' },
+  { id:8, title:'Xbox Controller Stick Drift Fix', chan:'Vikram J.', dur:'0:28', cat:'Gaming', views:'41.0k', likes:2980, desc:'Hall effect magnetic joystick upgrade.', music:'Hype Music',
+    srcs:['https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4','https://www.w3schools.com/html/movie.mp4'],
+    poster:'https://images.unsplash.com/photo-1621259182978-fbf93132d53d?w=600&auto=format&fit=crop' },
+  { id:9, title:'Washing Machine Drum Not Spinning', chan:'Suresh Tech', dur:'0:19', cat:'Home', views:'16.7k', likes:950, desc:'Spin motor wiring check + replacement.', music:'Chill Beats',
+    srcs:['https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/SubaruOutbackOnStreetAndDirt.mp4','https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4'],
+    poster:'https://images.unsplash.com/photo-1626806787461-102c1bfaaea1?w=600&auto=format&fit=crop' },
+  { id:10, title:'How to Book a Verified Technician', chan:'InstaKart Official', dur:'0:16', cat:'App Guide', views:'65.4k', likes:5400, desc:'Escrow, live camera & rating pricing.', music:'InstaKart Theme',
+    srcs:['https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4','https://www.w3schools.com/html/mov_bbb.mp4'],
+    poster:'https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=600&auto=format&fit=crop' }
+];
+
+/* LEARN VIDEOS — multiple working sources as fallback */
+const LEARN_VIDEOS = [
+  { id:'L1', title:'Welcome to InstaKart — App Overview', desc:'Learn the basics of navigation and home screen.',
+    srcs:['https://github.com/asif7782u-alt/Ttttt/raw/refs/heads/main/Anime_teacher_explaining_app_guide_20260929224251.mp4','https://www.w3schools.com/html/mov_bbb.mp4'],
+    duration:'1:24' },
+  { id:'L2', title:'How to Buy a Certified Gadget', desc:'Browse store & complete purchase with escrow.',
+    srcs:['https://github.com/asif7782u-alt/Ttttt/raw/refs/heads/main/Anime_teacher_explaining_communi%E2%80%A6_20260929224709.mp4','https://www.w3schools.com/html/movie.mp4'],
+    duration:'1:35' },
+  { id:'L3', title:'Renting Premium Devices by the Day', desc:'Understand rental pricing & returns.',
+    srcs:['https://github.com/asif7782u-alt/Ttttt/raw/refs/heads/main/Anime_teacher_explaining_app_guide_20260929224239.mp4','https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4'],
+    duration:'1:42' },
+  { id:'L4', title:'Booking a Home Service Technician', desc:'Pick category, choose technician, confirm.',
+    srcs:['https://github.com/asif7782u-alt/Ttttt/raw/refs/heads/main/Anime_teacher_explaining_communi%E2%80%A6_20260929224730.mp4','https://www.w3schools.com/html/mov_bbb.mp4'],
+    duration:'1:18' },
+  { id:'L5', title:'Creator Mode — Sell or Rent Your Device', desc:'List your gadgets with a photo & description.',
+    srcs:['https://github.com/asif7782u-alt/Ttttt/raw/refs/heads/main/Anime_teacher_explaining_app_guide_20260929224226.mp4','https://www.w3schools.com/html/movie.mp4'],
+    duration:'1:28' },
+  { id:'L6', title:'Track Your Orders with Live Radar', desc:'See your order in real-time with 3D radar.',
+    srcs:['https://github.com/asif7782u-alt/Ttttt/raw/refs/heads/main/Anime_teacher_explaining_communi%E2%80%A6_20260929224746.mp4','https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4'],
+    duration:'1:12' },
+  { id:'L7', title:'Earning IntaCoins & Claiming Gifts', desc:'Complete tasks, level up, redeem merchandise.',
+    srcs:['https://github.com/asif7782u-alt/Ttttt/raw/refs/heads/main/Anime_teacher_explaining_app_guide_20260929224208.mp4','https://www.w3schools.com/html/mov_bbb.mp4'],
+    duration:'1:30' },
+  { id:'L8', title:'Switching Themes & Premium Benefits', desc:'Explore 10 dual-color themes + Premium perks.',
+    srcs:['https://github.com/asif7782u-alt/Ttttt/raw/refs/heads/main/Anime_teacher_explaining_communi%E2%80%A6_20260929224759.mp4','https://www.w3schools.com/html/movie.mp4'],
+    duration:'1:20' }
+];
+
+const LEVELS = [
+  { lvl:1, name:'Starter', xp:0, icon:'🌱' },
+  { lvl:2, name:'Bronze', xp:500, icon:'🥉' },
+  { lvl:3, name:'Silver', xp:1500, icon:'🥈' },
+  { lvl:4, name:'Gold', xp:3000, icon:'🥇' },
+  { lvl:5, name:'Platinum', xp:5000, icon:'💎' },
+  { lvl:6, name:'Diamond', xp:8000, icon:'👑' }
+];
+
+const GIFTS_DATA = [
+  { id:1, name:'InstaKart Sticker Pack', icon:'🏷️', coins:800, level:2, desc:'12 waterproof stickers', days:'3-5 days' },
+  { id:2, name:'InstaKart Ceramic Mug', icon:'☕', coins:1800, level:3, desc:'350ml premium mug', days:'5-7 days' },
+  { id:3, name:'InstaKart Snapback Cap', icon:'🧢', coins:3000, level:3, desc:'Adjustable cotton cap', days:'5-7 days' },
+  { id:4, name:'InstaKart Steel Bottle', icon:'🍶', coins:5000, level:4, desc:'750ml insulated bottle', days:'5-7 days' },
+  { id:5, name:'InstaKart Premium T-Shirt', icon:'👕', coins:8000, level:4, desc:'100% cotton printed tee', days:'7-10 days' },
+  { id:6, name:'Custom Photo Frame', icon:'🖼️', coins:12000, level:5, desc:'Personalized 8x10 frame', days:'7-10 days' },
+  { id:7, name:'InstaKart Laptop Backpack', icon:'🎒', coins:18000, level:6, desc:'Water resistant 30L', days:'7-10 days' },
+  { id:8, name:'Smart Fitness Band', icon:'⌚', coins:28000, level:6, desc:'AMOLED + SpO2', days:'10-12 days' },
+  { id:9, name:'Premium Leather Wallet', icon:'👛', coins:22000, level:5, desc:'Genuine leather · Premium only', days:'7-10 days', premium:true },
+  { id:10, name:'Premium Wireless Earbuds', icon:'🎧', coins:35000, level:6, desc:'ANC + 30h battery · Premium only', days:'10-12 days', premium:true }
+];
+
+const TASKS_DATA = [
+  { id:'login', icon:'🔑', title:'Daily Login', coins:50, desc:'Open app daily', done:true, claimed:false },
+  { id:'video', icon:'🎥', title:'Watch 1 Video', coins:30, desc:'Watch any repair video', done:false, claimed:false },
+  { id:'review', icon:'⭐', title:'Write a Review', coins:100, desc:'Review a product', done:false, claimed:false },
+  { id:'share', icon:'📤', title:'Share App', coins:75, desc:'Share referral', done:false, claimed:false },
+  { id:'book', icon:'📦', title:'Complete 1 Booking', coins:200, desc:'Rent or buy item', done:false, claimed:false },
+  { id:'service', icon:'🔧', title:'Book a Service', coins:300, desc:'Technician booking', done:false, claimed:false }
+];
+
+const SERVICE_CATEGORIES = [
+  { id:'mobile', icon:'📱', name:'Mobile Repair', sub:'Screen, battery' },
+  { id:'laptop', icon:'💻', name:'Laptop Repair', sub:'Keyboard, screen' },
+  { id:'tv', icon:'📺', name:'TV Repair', sub:'Backlight, panel' },
+  { id:'ac', icon:'❄️', name:'AC & Fridge', sub:'Gas, cooling' },
+  { id:'washing', icon:'🧺', name:'Washing Machine', sub:'Drum, motor' },
+  { id:'audio', icon:'🎧', name:'Audio Systems', sub:'Speaker, headphones' },
+  { id:'gaming', icon:'🎮', name:'Console Repair', sub:'PS, Xbox, Nintendo' },
+  { id:'camera', icon:'📷', name:'Camera Repair', sub:'Lens, sensor' }
+];
+
+const TECHNICIANS = [
+  { id:'t1', name:'Rajesh Kumar', rating:4.9, reviews:342, exp:12, tier:'premium', visit:199, service:899, eta:'60 min' },
+  { id:'t2', name:'Suresh Yadav', rating:4.7, reviews:215, exp:8, tier:'standard', visit:149, service:649, eta:'75 min' },
+  { id:'t3', name:'Amit Sharma', rating:4.3, reviews:88, exp:4, tier:'budget', visit:99, service:449, eta:'90 min' },
+  { id:'t4', name:'Vikram Singh', rating:5.0, reviews:520, exp:15, tier:'premium', visit:249, service:1099, eta:'50 min' },
+  { id:'t5', name:'Manoj Patel', rating:4.6, reviews:178, exp:7, tier:'standard', visit:159, service:699, eta:'80 min' },
+  { id:'t6', name:'Deepak Verma', rating:4.1, reviews:52, exp:3, tier:'budget', visit:99, service:399, eta:'100 min' },
+  { id:'t7', name:'Kiran Joshi', rating:4.8, reviews:290, exp:10, tier:'premium', visit:199, service:949, eta:'65 min' },
+  { id:'t8', name:'Ravi Menon', rating:4.5, reviews:145, exp:6, tier:'standard', visit:139, service:599, eta:'85 min' }
+];
+
+const THEMES = [
+  { key:'system', label:'System', icon:'✨', swatch:'linear-gradient(135deg,#4C84F7 0%,#38BDF8 100%)' },
+  { key:'neumorphism', label:'Neumor', icon:'🪨', swatch:'linear-gradient(135deg,#D97757 0%,#F4A261 100%)' },
+  { key:'drop-shadow', label:'Drop', icon:'🎈', swatch:'linear-gradient(135deg,#8B7FE8 0%,#C4B5FD 100%)' },
+  { key:'glow', label:'Glow', icon:'🌟', swatch:'linear-gradient(135deg,#FF8A5B 0%,#FFB088 100%)' },
+  { key:'gradient', label:'Grad', icon:'🌈', swatch:'linear-gradient(135deg,#A855F7 0%,#EC4899 100%)' },
+  { key:'outer-glow', label:'Outer', icon:'💡', swatch:'linear-gradient(135deg,#3BA1E0 0%,#FFCB61 100%)' },
+  { key:'inner-shadow', label:'Inner', icon:'🕳️', swatch:'linear-gradient(135deg,#B8895A 0%,#D9A577 100%)' },
+  { key:'bevel', label:'Bevel', icon:'🔷', swatch:'linear-gradient(135deg,#7C8DB5 0%,#A5B4D6 100%)' },
+  { key:'satin', label:'Satin', icon:'🎀', swatch:'linear-gradient(135deg,#F472B6 0%,#FB923C 100%)' },
+  { key:'texture', label:'Tex', icon:'🧵', swatch:'linear-gradient(135deg,#A8A065 0%,#C9BE7E 100%)' }
+];
+
+/* PREMIUM PLANS */
+const PREMIUM_PLANS = [
+  { id:'weekly', name:'Weekly Premium', duration:'7 days', price:49, original:99, period:'/week', savings:'50% OFF',
+    benefits:['Zero delivery fees','Priority technician','2× IntaCoins','Exclusive weekly gifts','Ad-free browsing'],
+    featured:false },
+  { id:'monthly', name:'Monthly Premium', duration:'30 days', price:149, original:299, period:'/month', savings:'50% OFF',
+    benefits:['All Weekly benefits','Extended warranty +30d','VIP 24/7 support','Early access to new drops','Premium-only gifts','Free priority booking'],
+    featured:true },
+  { id:'yearly', name:'Yearly Premium', duration:'365 days', price:999, original:2499, period:'/year', savings:'BEST VALUE',
+    benefits:['All Monthly benefits','Save ₹1500/year','Exclusive Premium badge','Birthday surprise gift','Annual photo frame','Double reward multiplier'],
+    featured:false }
+];
+
+/* STATE */
+let walletBalance = 2480.00;
+let transactions = [
+  { id:'TX9081', desc:'Welcome Bonus', type:'credit', amt:250, date:'Today' },
+  { id:'TX9080', desc:'Google Pay Deposit', type:'credit', amt:2000, date:'Yesterday' },
+  { id:'TX9079', desc:'PS5 Rental Escrow', type:'debit', amt:499, date:'2 days ago' }
+];
+let orders = [
+  { id:'ORD-1001', title:'PlayStation 5 Disc Edition Rental', icon:'🎮', amount:499, status:'active', date:'2 days ago', type:'Rent', eta:'Tomorrow 5 PM', location:'Andheri Hub → Your Address', progress:65 },
+  { id:'ORD-1002', title:'Apple iPhone 13 128GB Purchase', icon:'📱', amount:38999, status:'shipped', date:'5 days ago', type:'Buy', eta:'In 2 days', location:'Bandra Warehouse → Your Address', progress:45 },
+  { id:'ORD-1003', title:'Sony WH-1000XM4 Headphones', icon:'🎧', amount:11499, status:'delivered', date:'12 days ago', type:'Buy', eta:'Delivered 10 days ago', location:'Delivered', progress:100 },
+  { id:'ORD-1004', title:'Split AC Gas Refill Service', icon:'🔧', amount:2400, status:'delivered', date:'20 days ago', type:'Service', eta:'Completed 20 days ago', location:'Technician visited', progress:100 }
+];
+let lifetimeCoins = 1850, spendableCoins = 1250;
+let ownedGifts = [], activeDeliveries = [], creatorListings = [];
+let userMode = 'user';
+let currentUser = { name:'Aarav Sharma', phone:'98765 43210', city:'Mumbai' };
+let activeStoreTab = 'buy', currentPage = 'home', currentSlide = 0, sliderInterval = null;
+let svcStep = 1, svcBooking = { category:null, issue:'', name:'', phone:'', address:'', city:'', pincode:'', time:'', technician:null };
+let svcRating = 0, techFormStep = 1, techSkills = [];
+let bgAudio = null, musicPlaying = false, musicWasPlayingBeforeVideo = false, appInitialized = false;
+
+let premiumState = {
+  isPremium: false,
+  plan: null,
+  trialUsed: false,
+  trialAvailable: true,
+  activatedAt: null,
+  expiresAt: null
+};
+
+const LOADER_TIPS = [
+  'Initializing InstaKart experience...',
+  'Loading 80+ verified gadgets...',
+  'Setting up live radar tracking...',
+  'Charging up your wallet...',
+  'Unlocking Premium benefits...',
+  'Preparing reels feed...',
+  'Ready to explore!'
+];
+
+/* ============================================================
+   AUTH FLOW
+   ============================================================ */
+function switchAuthTab(tab){
+  document.getElementById('authTabLogin').classList.toggle('active',tab==='login');
+  document.getElementById('authTabRegister').classList.toggle('active',tab==='register');
+  document.getElementById('authFormLogin').style.display=tab==='login'?'block':'none';
+  document.getElementById('authFormRegister').style.display=tab==='register'?'block':'none';
+  document.getElementById('authSwitchHint').textContent=tab==='login'?'New to InstaKart?':'Already have an account?';
+  document.getElementById('authSwitchBtn').textContent=tab==='login'?'Create an account':'Login instead';
+}
+function toggleAuthMode(){const isLogin=document.getElementById('authFormLogin').style.display!=='none';switchAuthTab(isLogin?'register':'login')}
+function doLogin(){
+  const phone=document.getElementById('loginPhone').value.trim();
+  const pass=document.getElementById('loginPass').value.trim();
+  if(!/^\d{10}$/.test(phone)){showAuthError('Enter valid 10-digit mobile number');return}
+  if(pass.length<4){showAuthError('Password must be at least 4 characters');return}
+  currentUser.phone=phone;beginAppLoad();
+}
+function doRegister(){
+  const name=document.getElementById('regName').value.trim();
+  const phone=document.getElementById('regPhone').value.trim();
+  const city=document.getElementById('regCity').value.trim()||'Mumbai';
+  const pass=document.getElementById('regPass').value.trim();
+  if(name.length<3){showAuthError('Enter your full name');return}
+  if(!/^\d{10}$/.test(phone)){showAuthError('Enter valid 10-digit mobile');return}
+  if(pass.length<4){showAuthError('Password must be at least 4 characters');return}
+  currentUser={name,phone,city};beginAppLoad();
+}
+function demoLogin(){currentUser={name:'Aarav Sharma',phone:'98765 43210',city:'Mumbai'};beginAppLoad()}
+function showAuthError(msg){
+  const o=document.createElement('div');
+  o.style.cssText='position:fixed;top:20px;left:50%;transform:translateX(-50%);padding:12px 22px;background:rgba(225,48,108,.95);color:#fff;font-weight:900;font-size:13px;border-radius:999px;z-index:10000;box-shadow:0 12px 30px rgba(225,48,108,.4);';
+  o.textContent='⚠️ '+msg;document.body.appendChild(o);
+  setTimeout(()=>o.remove(),2400);
+}
+
+/* LOADER */
+function beginAppLoad(){
+  document.getElementById('authOverlay').classList.remove('show');
+  createLoaderParticles();
+  const loader=document.getElementById('loaderScreen');
+  loader.classList.add('visible');
+  loader.classList.remove('done');
+  runLoaderProgress();
+}
+function createLoaderParticles(){
+  const container=document.getElementById('loaderParticles');
+  container.innerHTML='';
+  const colors=['rgba(225,48,108,.7)','rgba(64,93,230,.7)','rgba(252,175,69,.7)','rgba(56,189,248,.6)','rgba(16,185,129,.6)'];
+  for(let i=0;i<35;i++){
+    const p=document.createElement('div');
+    p.className='loader-particle glow';
+    const size=Math.random()*8+3;
+    p.style.width=size+'px';
+    p.style.height=size+'px';
+    p.style.left=Math.random()*100+'%';
+    p.style.background=colors[Math.floor(Math.random()*colors.length)];
+    p.style.animationDelay=Math.random()*6+'s';
+    p.style.animationDuration=(5+Math.random()*4)+'s';
+    container.appendChild(p);
+  }
+}
+function runLoaderProgress(){
+  const bar=document.getElementById('loaderBar');
+  const pct=document.getElementById('loaderPct');
+  const tip=document.getElementById('loaderTip');
+  const dots=document.querySelectorAll('#loaderDots .loader-dot');
+  const screen=document.getElementById('loaderScreen');
+  let progress=0, tipIdx=0, dotIdx=0;
+  const tipTimer=setInterval(()=>{
+    tipIdx=(tipIdx+1)%LOADER_TIPS.length;
+    tip.style.opacity='0';
+    setTimeout(()=>{tip.textContent=LOADER_TIPS[tipIdx];tip.style.opacity='1'},200);
+  },800);
+  const dotTimer=setInterval(()=>{
+    dotIdx=(dotIdx+1)%dots.length;
+    dots.forEach((d,i)=>d.classList.toggle('active',i===dotIdx));
+  },1200);
+  const iv=setInterval(()=>{
+    progress+=Math.random()*12+5;
+    if(progress>=100)progress=100;
+    bar.style.width=progress+'%';
+    pct.textContent=Math.floor(progress)+'%';
+    if(progress>=100){
+      clearInterval(iv);clearInterval(tipTimer);clearInterval(dotTimer);
+      setTimeout(()=>{screen.classList.add('done');revealApp()},600);
+    }
+  },150);
+}
+function revealApp(){
+  document.getElementById('appRoot').classList.add('visible');
+  if(!appInitialized){appInitialized=true;initializeApp()}
+  startMusic(true);updateProfileUI();
+  toast('👋 Welcome to InstaKart, '+currentUser.name.split(' ')[0]+'!');
+}
+function initializeApp(){
+  bgAudio=document.getElementById('bgMusic');
+  if(bgAudio)bgAudio.volume=0.4;
+  renderThemeGrid();renderFeatured();setUserMode('user',true);
+  renderReels();renderServiceCategories();renderGiftsSection();
+  renderWalletUI();renderOrdersList();buildNav();startSlider();
+  renderPremiumHero();
+  document.getElementById('svcName').value=currentUser.name;
+  document.getElementById('svcPhone').value=currentUser.phone.replace(/\s/g,'');
+  document.getElementById('svcCity').value=currentUser.city;
+}
+function updateProfileUI(){
+  const initials=currentUser.name.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
+  document.querySelectorAll('.top-avatar').forEach(a=>a.textContent=initials);
+  document.getElementById('profileName').textContent=currentUser.name;
+  document.getElementById('profileMeta').textContent='+91 '+currentUser.phone+' • '+currentUser.city;
+  document.getElementById('profileAvatarBig').textContent=initials;
+}
+
+/* MUSIC */
+function startMusic(isAuto=false){
+  if(!bgAudio)bgAudio=document.getElementById('bgMusic');
+  if(!bgAudio)return;
+  const pp=bgAudio.play();
+  if(pp!==undefined){
+    pp.then(()=>{musicPlaying=true;updateMusicUI(true)}).catch(()=>{
+      musicPlaying=false;updateMusicUI(false);
+      const resume=()=>{bgAudio.play().then(()=>{musicPlaying=true;updateMusicUI(true)}).catch(()=>{});document.removeEventListener('click',resume)};
+      document.addEventListener('click',resume,{once:true});
+    });
+  }
+}
+function stopMusic(showToast=true){if(!bgAudio)return;bgAudio.pause();musicPlaying=false;updateMusicUI(false);if(showToast)toast('🔇 Music paused')}
+function updateMusicUI(playing){
+  const btn=document.getElementById('musicBtn'),flt=document.getElementById('musicFloat');
+  if(btn)btn.classList.toggle('music-on',playing);
+  if(flt){flt.style.background=playing?'linear-gradient(135deg,#10B981,#059669)':'var(--brand-grad)';flt.textContent=playing?'🔊':'🎵';flt.classList.toggle('muted',!playing)}
+}
+function toggleMusic(){if(musicPlaying)stopMusic();else startMusic(false)}
+function onVideoPlay(){if(musicPlaying){musicWasPlayingBeforeVideo=true;if(bgAudio)bgAudio.pause();musicPlaying=false;updateMusicUI(false)}else{musicWasPlayingBeforeVideo=false}}
+function onVideoPauseOrEnd(){
+  const anyPlaying=Array.from(document.querySelectorAll('video')).some(v=>!v.paused&&!v.ended&&v.readyState>2);
+  if(!anyPlaying&&musicWasPlayingBeforeVideo){if(bgAudio){bgAudio.play().then(()=>{musicPlaying=true;updateMusicUI(true)}).catch(()=>{})}musicWasPlayingBeforeVideo=false}
+}
+
+/* THEME */
+function renderThemeGrid(){
+  const grid=document.getElementById('themeGrid');
+  const current=document.documentElement.getAttribute('data-theme')||'system';
+  grid.innerHTML=THEMES.map(t=>`
+    <div class="theme-block ${t.key===current?'active':''}" data-theme-key="${t.key}" onclick="setTheme('${t.key}','${t.label}',this)">
+      <div class="theme-block-icon" style="background:${t.swatch}">${t.icon}</div>
+      <div class="theme-block-label">${t.label}</div>
+    </div>
+  `).join('');
+}
+function setTheme(key,label,el){
+  document.documentElement.setAttribute('data-theme',key);
+  document.querySelectorAll('.theme-block').forEach(b=>b.classList.remove('active'));
+  if(el)el.classList.add('active');
+  toast('✨ '+label+' theme applied');
+  setTimeout(()=>closeModal('themeModal'),400);
+}
+
+/* NAV */
+const NAV_ITEMS=[
+  {id:'home',icon:'🏠',label:'Home'},
+  {id:'store',icon:'🛍️',label:'Store'},
+  {id:'premium',icon:'👑',label:'Premium'},
+  {id:'services',icon:'🔧',label:'Services'},
+  {id:'videos',icon:'🎥',label:'Reels'},
+  {id:'orders',icon:'📦',label:'Orders'},
+  {id:'gifts',icon:'🎁',label:'Gifts'}
+];
+function buildNav(){
+  const dnav=document.getElementById('desktopNav'),mnav=document.getElementById('mobileNav');
+  dnav.innerHTML=NAV_ITEMS.map(i=>`<button class="desktop-nav-btn ${i.id===currentPage?'active':''}" data-nav="${i.id}" onclick="go('${i.id}')"><span>${i.icon}</span><span>${i.label}</span></button>`).join('');
+  const mobileIds=['home','store','premium','videos','gifts'];
+  mnav.innerHTML=mobileIds.map(id=>{
+    const i=NAV_ITEMS.find(x=>x.id===id);
+    return `<div class="mobile-nav-item ${i.id===currentPage?'active':''}" data-nav="${i.id}" onclick="go('${i.id}')"><div class="ni">${i.icon}</div><div class="nl">${i.label}</div></div>`;
+  }).join('');
+}
+function go(page){
+  currentPage=page;
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  const el=document.getElementById('page-'+page);if(el)el.classList.add('active');
+  document.querySelectorAll('.desktop-nav-btn').forEach(b=>b.classList.toggle('active',b.dataset.nav===page));
+  document.querySelectorAll('.mobile-nav-item').forEach(b=>b.classList.toggle('active',b.dataset.nav===page));
+  window.scrollTo({top:0,behavior:'smooth'});
+  if(page!=='videos'){document.querySelectorAll('.reel-video').forEach(v=>v.pause());document.querySelectorAll('.reel-card').forEach(c=>c.classList.add('paused'))}
+  if(page==='orders')renderOrdersList();
+  if(page==='premium')renderPremiumPage();
+}
+
+/* SLIDER */
+function startSlider(){
+  const track=document.getElementById('sliderTrack');if(!track)return;
+  const dotsEl=document.getElementById('sliderDots');
+  const slides=track.querySelectorAll('.slide');const total=slides.length;
+  dotsEl.innerHTML=Array.from({length:total}).map((_,i)=>`<div class="dot ${i===0?'active':''}" onclick="event.stopPropagation(); goToSlide(${i})"></div>`).join('');
+  const dots=dotsEl.querySelectorAll('.dot');
+  window.goToSlide=function(idx){
+    currentSlide=(idx+total)%total;
+    track.style.transform=`translateX(-${currentSlide*100}%)`;
+    dots.forEach((d,i)=>d.classList.toggle('active',i===currentSlide));
+    slides.forEach((s,i)=>s.classList.toggle('active',i===currentSlide));
+  };
+  sliderInterval=setInterval(()=>goToSlide(currentSlide+1),5000);
+  let startX=0;
+  const wrap=document.getElementById('homeSlider');
+  wrap.addEventListener('touchstart',e=>{startX=e.touches[0].clientX},{passive:true});
+  wrap.addEventListener('touchend',e=>{
+    const diff=e.changedTouches[0].clientX-startX;
+    if(Math.abs(diff)>40){clearInterval(sliderInterval);goToSlide(currentSlide+(diff<0?1:-1));sliderInterval=setInterval(()=>goToSlide(currentSlide+1),5000)}
+  },{passive:true});
+}
+
+/* PREMIUM SECTION */
+function openPremium(){go('premium')}
+
+function renderPremiumHero(){
+  const badge=document.getElementById('premiumHeroBadge');
+  const pill=document.getElementById('profilePill');
+  const strip=document.getElementById('premiumStatusStrip');
+  const menuLabel=document.getElementById('premiumMenuLabel');
+  const profileHero=document.getElementById('profileHeroCard');
+  const avatarBig=document.getElementById('profileAvatarBig');
+  const profileBadge=document.getElementById('profileBadge');
+
+  if(premiumState.isPremium){
+    badge.textContent='✅ PREMIUM ACTIVE';
+    badge.classList.add('active-badge');
+    pill.classList.add('premium');
+    if(strip){strip.classList.add('active-strip');strip.innerHTML='<span>✅</span> Premium Active · '+premiumState.plan+' plan'}
+    if(menuLabel)menuLabel.textContent='Premium Active · Manage Plan';
+    if(profileHero)profileHero.classList.add('premium-user');
+    if(avatarBig)avatarBig.classList.add('premium-avatar');
+    if(profileBadge){profileBadge.textContent='👑 PREMIUM MEMBER';profileBadge.classList.add('premium-badge')}
+  } else {
+    badge.textContent=premiumState.trialAvailable?'🎁 TRY 1ST FREE':'👑 UPGRADE';
+    badge.classList.remove('active-badge');
+    pill.classList.remove('premium');
+    if(strip){strip.classList.remove('active-strip');strip.innerHTML=premiumState.trialAvailable?'<span>🎁</span> 1st Subscription FREE — No card required':'<span>👑</span> Upgrade to unlock all benefits'}
+    if(menuLabel)menuLabel.textContent=premiumState.trialAvailable?'Upgrade to Premium (1st FREE)':'Manage Premium';
+    if(profileHero)profileHero.classList.remove('premium-user');
+    if(avatarBig)avatarBig.classList.remove('premium-avatar');
+    if(profileBadge){profileBadge.textContent='👤 USER ACCOUNT';profileBadge.classList.remove('premium-badge')}
+  }
+}
+
+function renderPremiumPage(){
+  const grid=document.getElementById('plansGrid');
+  if(!grid)return;
+  grid.innerHTML=PREMIUM_PLANS.map(p=>{
+    const isTrialAvailable=premiumState.trialAvailable&&p.id==='weekly'&&!premiumState.isPremium;
+    const priceDisplay=isTrialAvailable?'FREE':'₹'+p.price;
+    const originalDisplay=isTrialAvailable?'₹'+p.price:'₹'+p.original;
+    const cardClass=p.featured?'plan-card featured':'plan-card'+(isTrialAvailable?' free-trial':'');
+    const btnClass=isTrialAvailable?'plan-btn free':(p.featured?'plan-btn gold':'plan-btn');
+    const btnTxt=isTrialAvailable?'🎁 Claim Free Trial →':'Subscribe for ₹'+p.price+' →';
+    return `<div class="${cardClass}">
+      <div class="plan-name">${p.name}</div>
+      <div class="plan-duration">${p.duration} access</div>
+      <div class="plan-price-row">
+        <span class="plan-price">${priceDisplay}</span>
+        <span class="plan-original-price">${originalDisplay}</span>
+        <span class="plan-price-period">${p.period}</span>
+      </div>
+      <div class="plan-savings">${isTrialAvailable?'🎉 100% FREE':p.savings}</div>
+      <ul class="plan-benefits">${p.benefits.map(b=>`<li>${b}</li>`).join('')}</ul>
+      <button class="${btnClass}" onclick="subscribePlan('${p.id}')">${btnTxt}</button>
+    </div>`;
+  }).join('');
+}
+
+function subscribePlan(planId){
+  const plan=PREMIUM_PLANS.find(p=>p.id===planId);
+  if(!plan)return;
+  const isTrialAvailable=premiumState.trialAvailable&&planId==='weekly'&&!premiumState.isPremium;
+  const priceToCharge=isTrialAvailable?0:plan.price;
+
+  if(premiumState.isPremium){
+    if(!confirm('You already have an active Premium subscription. Switch to '+plan.name+'?'))return;
+  } else if(isTrialAvailable){
+    if(!confirm('🎁 Confirm FREE trial?\n\n'+plan.name+' for '+plan.duration+' — completely free!\n\nNo card required. Enjoy all Premium benefits!'))return;
+  } else {
+    if(walletBalance<priceToCharge){toast('⚠️ Insufficient wallet balance');openModal('addMoneyModal');return}
+    if(!confirm('Subscribe to '+plan.name+' for ₹'+priceToCharge+'?\n\n'+plan.duration+' of Premium benefits.'))return;
+  }
+
+  if(priceToCharge>0){
+    walletBalance-=priceToCharge;
+    transactions.unshift({id:'TX'+Math.floor(1000+Math.random()*9000),desc:'Premium: '+plan.name,type:'debit',amt:priceToCharge,date:'Just now'});
+  }
+
+  premiumState.isPremium=true;
+  premiumState.plan=plan.name;
+  premiumState.activatedAt=new Date();
+  const durationDays=parseInt(plan.duration)||30;
+  premiumState.expiresAt=new Date(Date.now()+durationDays*24*60*60*1000);
+  if(isTrialAvailable)premiumState.trialUsed=true;
+  premiumState.trialAvailable=false;
+
+  playClaimChime();
+  showPremiumBurst();
+  showConfetti();
+
+  spendableCoins+=500;lifetimeCoins+=500;
+
+  renderPremiumHero();renderPremiumPage();renderWalletUI();renderGiftsSection();
+  toast('👑 Premium activated! Welcome aboard!');
+}
+
+function showPremiumBurst(){
+  const burst=document.createElement('div');
+  burst.className='premium-burst';
+  burst.textContent='👑';
+  document.body.appendChild(burst);
+  setTimeout(()=>burst.remove(),2200);
+}
+function showConfetti(){
+  const colors=['#FFD700','#FFA500','#F56040','#E1306C','#A855F7','#38BDF8'];
+  for(let i=0;i<60;i++){
+    const c=document.createElement('div');
+    c.className='confetti';
+    c.style.left=Math.random()*100+'vw';
+    c.style.background=colors[Math.floor(Math.random()*colors.length)];
+    c.style.animationDelay=Math.random()*.6+'s';
+    c.style.animationDuration=(2+Math.random()*2)+'s';
+    document.body.appendChild(c);
+    setTimeout(()=>c.remove(),4000);
+  }
+}
+
+/* USER/CREATOR */
+function setUserMode(mode,silent=false){
+  userMode=mode;
+  document.getElementById('modeUser').classList.toggle('active',mode==='user');
+  document.getElementById('modeCreator').classList.toggle('active',mode==='creator');
+  document.getElementById('storeSubtitle').textContent=mode==='user'?'Buy or Rent — all in one place':'Sell or Rent your own devices';
+  renderStoreTabs();
+  if(mode==='creator'){document.getElementById('creatorUploadSection').style.display='block';renderCreatorUpload()}
+  else{document.getElementById('creatorUploadSection').style.display='none';document.getElementById('creatorUploadSection').innerHTML=''}
+  renderCatalog(document.getElementById('storeSearch').value);
+  if(!silent)toast(mode==='user'?'👤 User Mode':'🎨 Creator Mode');
+}
+function renderStoreTabs(){
+  const row=document.getElementById('storeTabsRow');
+  if(userMode==='user'){row.innerHTML=`<button class="store-tab active" id="tabBuy" onclick="setStoreTab('buy')">🛒 Buy</button><button class="store-tab" id="tabRent" onclick="setStoreTab('rent')">🔄 Rent</button>`;activeStoreTab='buy'}
+  else{row.innerHTML=`<button class="store-tab active" id="tabSell" onclick="setStoreTab('sell')">💰 Sell</button><button class="store-tab" id="tabRent" onclick="setStoreTab('rent')">🔄 Rent</button>`;activeStoreTab='sell'}
+}
+function setStoreTab(tab){
+  activeStoreTab=tab;
+  ['tabBuy','tabSell','tabRent'].forEach(id=>{const el=document.getElementById(id);if(el)el.classList.toggle('active',id==='tab'+tab.charAt(0).toUpperCase()+tab.slice(1))});
+  renderCatalog(document.getElementById('storeSearch').value);
+}
+
+/* CREATOR */
+let creatorPhoto=null,creatorMode='sell';
+function renderCreatorUpload(){
+  const sec=document.getElementById('creatorUploadSection');
+  sec.innerHTML=`
+    <div class="creator-upload">
+      <div style="font-size:17px;font-weight:900;margin-bottom:4px;">📸 List a New Product</div>
+      <div style="font-size:11.5px;font-weight:700;color:var(--txt-sub);margin-bottom:14px;">Click a photo, add details, publish</div>
+      <div class="upload-photo-box" id="creatorPhotoBox" onclick="mockPhotoUpload()"><div>📷</div><div class="upload-hint">TAP TO CLICK PRODUCT PHOTO</div></div>
+      <div class="field-group"><label class="field-label">Product Title</label><input class="field-input" id="cTitle" placeholder="e.g. iPhone 12 64GB" /></div>
+      <div class="field-group"><label class="field-label">Description</label><textarea class="field-input" id="cDesc" placeholder="Condition, accessories, warranty"></textarea></div>
+      <div class="field-row-2">
+        <div class="field-group"><label class="field-label">Price (₹)</label><input type="number" class="field-input" id="cPrice" placeholder="25000" /></div>
+        <div class="field-group"><label class="field-label">Location</label><input class="field-input" id="cLoc" placeholder="Andheri" value="${currentUser.city}" /></div>
+      </div>
+      <div class="field-group">
+        <label class="field-label">Listing Type</label>
+        <div style="display:flex;gap:8px;">
+          <button class="store-tab ${creatorMode==='sell'?'active':''}" style="flex:1;justify-content:center;" id="cModeSell" onclick="setCreatorMode('sell')">💰 Sell</button>
+          <button class="store-tab ${creatorMode==='rent'?'active':''}" style="flex:1;justify-content:center;" id="cModeRent" onclick="setCreatorMode('rent')">🔄 Rent</button>
+        </div>
+      </div>
+      <button class="clay-button" style="width:100%;padding:14px;font-size:13px;margin-top:8px;" onclick="publishCreatorListing()">✓ Confirm & Publish</button>
+    </div>`;
+}
+function setCreatorMode(mode){creatorMode=mode;document.getElementById('cModeSell').classList.toggle('active',mode==='sell');document.getElementById('cModeRent').classList.toggle('active',mode==='rent')}
+function mockPhotoUpload(){
+  const box=document.getElementById('creatorPhotoBox');
+  const icons=['📱','💻','🎮','📷','🎧','⌚','📺','🖥️'];
+  const picked=icons[Math.floor(Math.random()*icons.length)];creatorPhoto=picked;
+  box.classList.add('has-image');
+  box.innerHTML=`<div style="font-size:70px;">${picked}</div><div class="upload-hint">✓ Photo clicked</div>`;
+  toast('📸 Photo captured!');
+}
+function publishCreatorListing(){
+  const title=document.getElementById('cTitle').value.trim();
+  const desc=document.getElementById('cDesc').value.trim();
+  const price=parseFloat(document.getElementById('cPrice').value);
+  const loc=document.getElementById('cLoc').value.trim()||currentUser.city;
+  if(!creatorPhoto){toast('⚠️ Click a photo first');return}
+  if(title.length<4){toast('⚠️ Enter valid title');return}
+  if(!desc){toast('⚠️ Add description');return}
+  if(!price||price<=0){toast('⚠️ Enter valid price');return}
+  const newProduct={id:Date.now(),type:creatorMode,title,price,unit:creatorMode==='rent'?'/day':'',icon:creatorPhoto,cat:'User Listing',rating:5.0,loc,description:desc,creatorListing:true};
+  creatorListings.unshift(newProduct);PRODUCTS_DATA.unshift(newProduct);
+  toast(`✅ ${creatorMode==='sell'?'Sell':'Rent'} listing published!`);
+  document.getElementById('cTitle').value='';document.getElementById('cDesc').value='';document.getElementById('cPrice').value='';
+  creatorPhoto=null;document.getElementById('creatorPhotoBox').classList.remove('has-image');
+  document.getElementById('creatorPhotoBox').innerHTML=`<div>📷</div><div class="upload-hint">TAP TO CLICK PRODUCT PHOTO</div>`;
+  renderCatalog(document.getElementById('storeSearch').value);renderFeatured();
+}
+
+/* FEATURED + CATALOG */
+function renderFeatured(){
+  const featured=PRODUCTS_DATA.filter(p=>p.type==='buy').slice(0,4);
+  document.getElementById('featuredGrid').innerHTML=featured.map(p=>productCardHtml(p)).join('');
+}
+function renderCatalog(query=''){
+  const q=query.toLowerCase().trim();
+  const filtered=PRODUCTS_DATA.filter(p=>{const mt=p.type===activeStoreTab;const mq=!q||p.title.toLowerCase().includes(q)||p.cat.toLowerCase().includes(q)||p.loc.toLowerCase().includes(q);return mt&&mq});
+  const container=document.getElementById('catalogGrid');
+  if(filtered.length===0){container.innerHTML=`<div class="empty-state"><div class="es-ico">🔍</div><p>No items found</p></div>`;return}
+  container.innerHTML=filtered.map(p=>productCardHtml(p)).join('');
+}
+function productCardHtml(p){
+  const labels={rent:'RENT',buy:'BUY',sell:'SELL'};
+  const colors={rent:'var(--success)',buy:'var(--brand-1)',sell:'var(--warning)'};
+  const btnTxt=p.type==='rent'?'Rent Now':(p.type==='sell'?'Contact Seller':'Buy Now');
+  const cb=p.creatorListing?'<span style="position:absolute;top:10px;left:10px;font-size:8.5px;font-weight:900;padding:4px 10px;border-radius:999px;background:var(--brand-grad);color:#fff;z-index:3;">⭐ YOURS</span>':'';
+  return `<div class="clay-card prod-item-card" onclick="bookProduct('${p.title.replace(/'/g,"\\'")}',${p.price},'${p.type}')">
+    <span class="prod-badge-tag" style="color:${colors[p.type]}">${labels[p.type]}</span>${cb}
+    <div class="prod-img-box">${p.icon}</div>
+    <div class="prod-title">${p.title}</div>
+    <div class="prod-meta-row"><span>⭐ ${p.rating}</span><span>📍 ${p.loc}</span></div>
+    <div class="prod-price">₹${p.price.toLocaleString('en-IN')}${p.unit}</div>
+    <button class="prod-btn">${btnTxt}</button>
+  </div>`;
+}
+function bookProduct(name,price,type){
+  if(type==='sell'){if(confirm(`Contact seller for "${name}" at ₹${price.toLocaleString('en-IN')}?`))toast('📞 Seller will contact you');return}
+  if(walletBalance<price){toast('⚠️ Insufficient balance');openModal('addMoneyModal');return}
+  const msg=type==='rent'?`Rent "${name}" for ₹${price}/day?`:`Purchase "${name}" for ₹${price.toLocaleString('en-IN')}?`;
+  if(confirm(msg)){
+    walletBalance-=price;
+    const orderId='ORD-'+Math.floor(1000+Math.random()*9000);
+    transactions.unshift({id:'TX'+Math.floor(1000+Math.random()*9000),desc:(type==='rent'?'Escrow Rent: ':'Order: ')+name,type:'debit',amt:price,date:'Just now'});
+    orders.unshift({id:orderId,title:name,icon:'📦',amount:price,status:'confirmed',date:'Just now',type:type==='rent'?'Rent':'Buy',eta:type==='rent'?'Pickup tomorrow':'In 3-4 days',location:'Processing at warehouse',progress:20});
+    const coinBonus=premiumState.isPremium?400:200;
+    lifetimeCoins+=coinBonus;spendableCoins+=coinBonus;
+    const t=TASKS_DATA.find(x=>x.id==='book');if(t)t.done=true;
+    renderWalletUI();renderGiftsSection();renderOrdersList();
+    toast(`✅ Confirmed! +${coinBonus} coins${premiumState.isPremium?' (2× Premium)':''}`);
+    setTimeout(()=>go('orders'),700);
+  }
+}
+
+/* REELS */
+function renderReels(){
+  document.getElementById('reelsFeed').innerHTML=REELS_DATA.map(v=>`
+    <div class="reel-card paused" data-vid="${v.id}">
+      <div class="reel-poster" style="background-image:url('${v.poster}')"></div>
+      <video class="reel-video" src="${v.srcs[0]}" loop playsinline preload="metadata" muted webkit-playsinline data-idx="0"></video>
+      <div class="reel-tap-target"></div>
+      <div class="reel-overlay"></div>
+      <div class="reel-loading"></div>
+      <div class="reel-top">
+        <div class="reel-user-av">${v.chan.charAt(0)}</div>
+        <div class="reel-user-info">
+          <div class="reel-user-name">${v.chan} <span class="reel-verified">✓</span></div>
+          <div class="reel-user-meta">@${v.chan.toLowerCase().replace(/[^a-z]/g,'')} · ${v.views} views</div>
+        </div>
+        <button class="reel-follow-btn" onclick="event.stopPropagation(); toggleReelFollow(this)">Follow</button>
+      </div>
+      <div class="reel-play-pause">▶</div>
+      <div class="reel-actions">
+        <button class="reel-act" onclick="event.stopPropagation(); reelLike(this,${v.likes})"><span class="reel-act-icon">❤️</span><span class="reel-count">${formatCount(v.likes)}</span></button>
+        <button class="reel-act" onclick="event.stopPropagation(); toast('💬 Comments coming soon')"><span class="reel-act-icon">💬</span><span class="reel-count">${formatCount(Math.floor(v.likes/6))}</span></button>
+        <button class="reel-act" onclick="event.stopPropagation(); toast('🔗 Link copied!')"><span class="reel-act-icon">🔗</span><span class="reel-count">Share</span></button>
+        <button class="reel-act" onclick="event.stopPropagation(); toast('🔖 Saved!')"><span class="reel-act-icon">🔖</span><span class="reel-count">Save</span></button>
+      </div>
+      <div class="reel-bottom">
+        <span class="reel-cat">${v.cat}</span>
+        <div class="reel-title">${v.title}</div>
+        <div class="reel-desc">${v.desc}</div>
+        <div class="reel-music"><span class="reel-music-icon">🎵</span> ${v.music}</div>
+      </div>
+      <div class="reel-progress"><div class="reel-progress-fill"></div></div>
+    </div>`).join('');
+
+  document.querySelectorAll('.reel-card').forEach(card=>{
+    const video=card.querySelector('.reel-video');
+    const poster=card.querySelector('.reel-poster');
+    const progressFill=card.querySelector('.reel-progress-fill');
+    const tapTarget=card.querySelector('.reel-tap-target');
+    const reel=REELS_DATA.find(r=>r.id==card.dataset.vid);
+
+    video.addEventListener('loadeddata',()=>{card.classList.remove('loading');poster.classList.add('hidden')});
+    video.addEventListener('playing',()=>{card.classList.remove('loading');poster.classList.add('hidden')});
+    video.addEventListener('waiting',()=>card.classList.add('loading'));
+    video.addEventListener('error',()=>{
+      const idx=parseInt(video.dataset.idx||'0');
+      if(reel&&idx<reel.srcs.length-1){
+        video.dataset.idx=(idx+1).toString();
+        video.src=reel.srcs[idx+1];
+        video.load();
+      } else {
+        card.classList.remove('loading');card.classList.add('paused');
+      }
+    });
+
+    tapTarget.addEventListener('click',e=>{
+      e.stopPropagation();
+      if(video.paused){
+        document.querySelectorAll('.reel-video').forEach(v=>{if(v!==video&&!v.paused){v.pause();v.closest('.reel-card')?.classList.add('paused')}});
+        video.muted=false;
+        const pp=video.play();
+        if(pp!==undefined){
+          pp.then(()=>card.classList.remove('paused')).catch(()=>{video.muted=true;video.play().then(()=>card.classList.remove('paused')).catch(()=>{})});
+        }
+        const t=TASKS_DATA.find(x=>x.id==='video');if(t&&!t.claimed)t.done=true;renderGiftsSection();
+      } else {
+        video.pause();card.classList.add('paused');
+      }
+    });
+    video.addEventListener('play',()=>{card.classList.remove('paused');onVideoPlay()});
+    video.addEventListener('pause',()=>{card.classList.add('paused');setTimeout(onVideoPauseOrEnd,100)});
+    video.addEventListener('ended',()=>{card.classList.add('paused');onVideoPauseOrEnd()});
+    video.addEventListener('timeupdate',()=>{if(video.duration)progressFill.style.width=((video.currentTime/video.duration)*100)+'%'});
+
+    const io=new IntersectionObserver(entries=>{
+      entries.forEach(entry=>{
+        if(entry.isIntersecting&&currentPage==='videos'){
+          video.muted=true;
+          const pp=video.play();
+          if(pp!==undefined)pp.then(()=>{card.classList.remove('paused');poster.classList.add('hidden')}).catch(()=>{});
+        } else {
+          video.pause();card.classList.add('paused');
+        }
+      });
+    },{threshold:.5});
+    io.observe(card);
+  });
+}
+function formatCount(n){if(n>=1000)return(n/1000).toFixed(1).replace('.0','')+'k';return n}
+function reelLike(el,base){el.classList.toggle('liked');const c=el.querySelector('.reel-count');const liked=el.classList.contains('liked');c.textContent=formatCount(liked?base+1:base);el.querySelector('.reel-act-icon').textContent=liked?'💖':'❤️'}
+function toggleReelFollow(btn){btn.classList.toggle('following');btn.textContent=btn.classList.contains('following')?'Following ✓':'Follow'}
+
+/* ORDERS */
+let ordersFilter='all';
+function setOrdersFilter(f,btn){ordersFilter=f;document.querySelectorAll('.orders-tab').forEach(b=>b.classList.remove('active'));if(btn)btn.classList.add('active');renderOrdersList()}
+function renderOrdersList(){
+  const container=document.getElementById('ordersListFull');if(!container)return;
+  let filtered=orders;
+  if(ordersFilter==='active')filtered=orders.filter(o=>o.status==='active'||o.status==='confirmed');
+  else if(ordersFilter==='shipped')filtered=orders.filter(o=>o.status==='shipped');
+  else if(ordersFilter==='delivered')filtered=orders.filter(o=>o.status==='delivered');
+  else if(ordersFilter==='service')filtered=orders.filter(o=>o.type==='Service');
+  else if(ordersFilter==='gift')filtered=orders.filter(o=>o.type==='Gift');
+  if(filtered.length===0){container.innerHTML=`<div class="empty-state"><div class="es-ico">📦</div><p>No orders in this category</p></div>`;return}
+  container.innerHTML=filtered.map(o=>orderCardHtml(o)).join('');
+}
+function orderCardHtml(o){
+  let sl={confirmed:'CONFIRMED',shipped:'SHIPPED',delivered:'DELIVERED',active:'IN TRANSIT'}[o.status]||o.status.toUpperCase();
+  let sc=o.status;if(o.type==='Gift'){sl='🎁 GIFT';sc='gift'}
+  return `<div class="order-card" onclick="openOrderDetail('${o.id}')">
+    <div class="order-card-top">
+      <div class="order-card-img">${o.icon}</div>
+      <div class="order-card-info">
+        <div class="order-card-title">${o.title}</div>
+        <div class="order-card-meta">${o.id} · ${o.date} · ${o.type}</div>
+        <div class="order-card-meta" style="color:var(--success);font-weight:900;margin-top:4px;">🚚 ${o.eta}</div>
+      </div>
+      <span class="order-status-badge ${sc}">${sl}</span>
+    </div>
+    <div class="order-card-foot">
+      <div class="order-card-amount">${o.amount===0?'🎁 FREE':'₹'+o.amount.toLocaleString('en-IN')}</div>
+      <button class="order-card-action" onclick="event.stopPropagation(); openOrderDetail('${o.id}')">${o.status==='delivered'?'View Details':'📍 Track Live'}</button>
+    </div>
+  </div>`;
+}
+function openOrderDetail(orderId){
+  const o=orders.find(x=>x.id===orderId);if(!o)return;
+  const isActive=o.status!=='delivered';
+  const steps=[
+    {name:'Order Placed',desc:'Order confirmed & payment held in escrow'},
+    {name:'Processing',desc:'Packing at warehouse'},
+    {name:'Shipped',desc:'Out for delivery'},
+    {name:'Delivered',desc:'Handed over successfully'}
+  ];
+  const curStep=o.status==='confirmed'?1:o.status==='active'?2:o.status==='shipped'?2:4;
+  const stepsHtml=steps.map((s,i)=>{
+    const isDone=i<curStep,isCurrent=i===curStep;
+    return `<div class="dt-step ${isDone?'done':''} ${isCurrent?'current':''}">
+      <div class="dt-left"><div class="dt-dot">${isDone?'✓':(i+1)}</div>${i<steps.length-1?'<div class="dt-line"></div>':''}</div>
+      <div class="dt-right"><h5>${s.name}</h5><p>${s.desc}</p></div>
+    </div>`;
+  }).join('');
+  const radarHtml=isActive?`
+    <div class="radar-container">
+      <div class="radar-grid"></div><div class="radar-sweep"></div><div class="radar-center">🛰️</div>
+      <div class="radar-blip you" style="top:72%;left:32%;"></div><div class="radar-label" style="top:72%;left:32%;">YOU</div>
+      <div class="radar-blip dest" style="top:28%;left:68%;"></div><div class="radar-label" style="top:28%;left:68%;">DESTINATION</div>
+      <div class="radar-blip" style="top:52%;left:48%;"></div><div class="radar-label" style="top:52%;left:48%;">📦 IN TRANSIT</div>
+    </div>
+    <div style="text-align:center;padding:10px 0;">
+      <div style="font-size:10.5px;font-weight:900;letter-spacing:1px;text-transform:uppercase;color:var(--txt-sub);margin-bottom:4px;">Live GPS Position</div>
+      <div style="font-size:12.5px;font-weight:900;color:var(--success);">📡 Signal locked · ${o.eta}</div>
+    </div>`:'';
+  document.getElementById('orderDetailContent').innerHTML=`
+    <div style="text-align:center;margin-bottom:14px;">
+      <div style="font-size:52px;">${o.icon}</div>
+      <h3 style="font-size:16px;font-weight:900;margin-top:8px;">${o.title}</h3>
+      <p style="font-size:11px;color:var(--txt-sub);font-weight:700;margin-top:4px;">Order ID: ${o.id}</p>
+      <span class="order-status-badge ${o.type==='Gift'?'gift':o.status}" style="display:inline-block;margin-top:10px;">${o.type==='Gift'?'🎁 GIFT REWARD':o.status.toUpperCase()}</span>
+    </div>
+    <div class="clay-card" style="padding:14px 16px;margin-bottom:12px;">
+      <div class="report-row"><span>Order Type</span><span>${o.type}</span></div>
+      <div class="report-row"><span>Order Date</span><span>${o.date}</span></div>
+      <div class="report-row"><span>Amount</span><span style="color:var(--brand-1);">${o.amount===0?'🎁 Free Reward':'₹'+o.amount.toLocaleString('en-IN')}</span></div>
+      <div class="report-row"><span>ETA</span><span style="color:var(--success);">${o.eta}</span></div>
+    </div>
+    ${radarHtml}
+    <div class="sec-head" style="margin:14px 0 10px;"><h3 style="font-size:13.5px;">Delivery Progress</h3></div>
+    <div class="delivery-tracker">${stepsHtml}</div>`;
+  openModal('orderDetailModal');
+}
+
+/* SERVICES */
+function renderServiceCategories(){
+  document.getElementById('serviceCatGrid').innerHTML=SERVICE_CATEGORIES.map(c=>`
+    <div class="service-cat-card" data-cat="${c.id}" onclick="selectServiceCategory('${c.id}')">
+      <div class="scc-ico">${c.icon}</div><div class="scc-name">${c.name}</div><div class="scc-sub">${c.sub}</div>
+    </div>`).join('');
+}
+function selectServiceCategory(id){svcBooking.category=SERVICE_CATEGORIES.find(c=>c.id===id);document.querySelectorAll('.service-cat-card').forEach(c=>c.classList.toggle('selected',c.dataset.cat===id));setTimeout(()=>svcNext(),250)}
+function updateServiceStepUI(){
+  document.querySelectorAll('#stepsBanner .step-chip').forEach(p=>{const n=parseInt(p.dataset.step);p.classList.toggle('active',n===svcStep);p.classList.toggle('done',n<svcStep)});
+  ['svcStep1','svcStep2','svcStep3','svcStep4','svcReport'].forEach(id=>{const el=document.getElementById(id);if(el)el.style.display='none'});
+  if(svcStep===1)document.getElementById('svcStep1').style.display='block';
+  else if(svcStep===2)document.getElementById('svcStep2').style.display='block';
+  else if(svcStep===3)document.getElementById('svcStep3').style.display='block';
+  else if(svcStep===4)document.getElementById('svcStep4').style.display='block';
+  else if(svcStep==='report')document.getElementById('svcReport').style.display='block';
+  const backBtn=document.getElementById('svcBackBtn'),nextBtn=document.getElementById('svcNextBtn'),navBtns=document.getElementById('svcNavBtns');
+  if(svcStep===1||svcStep==='report'){navBtns.style.display='none'}
+  else{navBtns.style.display='flex';backBtn.style.display=svcStep>1?'block':'none';nextBtn.style.display='block';nextBtn.textContent=svcStep===3?'Review Booking →':'Continue →'}
+}
+function svcNext(){
+  if(svcStep===1){if(!svcBooking.category){toast('⚠️ Select category');return}svcStep=2;updateServiceStepUI();return}
+  if(svcStep===2){
+    const issue=document.getElementById('svcIssue').value.trim(),name=document.getElementById('svcName').value.trim(),phone=document.getElementById('svcPhone').value.trim(),address=document.getElementById('svcAddress').value.trim(),city=document.getElementById('svcCity').value.trim(),pincode=document.getElementById('svcPincode').value.trim(),time=document.getElementById('svcTime').value.trim();
+    if(!issue){toast('⚠️ Describe issue');return}if(name.length<3){toast('⚠️ Enter name');return}if(!/^\d{10}$/.test(phone)){toast('⚠️ Enter valid mobile');return}if(address.length<8){toast('⚠️ Enter address');return}if(!city){toast('⚠️ Enter city');return}if(!/^\d{6}$/.test(pincode)){toast('⚠️ Enter pincode');return}if(!time){toast('⚠️ Select time');return}
+    Object.assign(svcBooking,{issue,name,phone,address,city,pincode,time});renderTechnicians();svcStep=3;updateServiceStepUI();return;
+  }
+  if(svcStep===3){if(!svcBooking.technician){toast('⚠️ Select technician');return}fillSummary();svcStep=4;updateServiceStepUI();return}
+}
+function svcBack(){if(svcStep>1){svcStep--;updateServiceStepUI()}}
+function renderTechnicians(){
+  document.getElementById('technicianList').innerHTML=TECHNICIANS.map(t=>{
+    const tl={premium:'PREMIUM',standard:'STANDARD',budget:'BUDGET'}[t.tier];
+    return `<div class="tech-card" data-tid="${t.id}" onclick="selectTechnician('${t.id}')">
+      <span class="tech-tier tier-${t.tier}">${tl}</span>
+      <div class="tech-top">
+        <div class="tech-avatar">${t.name.split(' ').map(w=>w[0]).join('')}</div>
+        <div style="flex:1;">
+          <div class="tech-name">${t.name} <span class="tech-verified">✓</span></div>
+          <div class="tech-meta"><span>${t.exp} yrs</span><span>${t.reviews} reviews</span></div>
+          <div class="tech-rating-row"><span class="tech-stars">${'★'.repeat(Math.round(t.rating))}${'☆'.repeat(5-Math.round(t.rating))}</span><span>${t.rating}</span></div>
+        </div>
+      </div>
+      <div class="tech-price-row">
+        <div><div style="font-size:9.5px;font-weight:900;color:var(--txt-muted);text-transform:uppercase;letter-spacing:.6px;">Visit + Service</div><div class="tech-price">₹${t.visit+t.service}</div></div>
+        <div class="tech-eta">⏱ ${t.eta}</div>
+      </div>
+    </div>`;
+  }).join('');
+}
+function selectTechnician(tid){svcBooking.technician=TECHNICIANS.find(t=>t.id===tid);document.querySelectorAll('.tech-card').forEach(c=>c.classList.toggle('selected',c.dataset.tid===tid))}
+function fillSummary(){
+  const t=svcBooking.technician;
+  document.getElementById('sumCategory').textContent=svcBooking.category.name;
+  document.getElementById('sumIssue').textContent=svcBooking.issue;
+  document.getElementById('sumTech').textContent=t.name+' ('+t.rating+'★)';
+  document.getElementById('sumTier').textContent={premium:'Premium',standard:'Standard',budget:'Budget'}[t.tier];
+  document.getElementById('sumVisit').textContent='₹'+t.visit;
+  document.getElementById('sumService').textContent='₹'+t.service;
+  document.getElementById('sumTotal').textContent='₹'+(t.visit+t.service);
+}
+function confirmServiceBooking(){
+  const t=svcBooking.technician,total=t.visit+t.service;
+  if(walletBalance<total){toast('⚠️ Insufficient balance');openModal('addMoneyModal');return}
+  if(!confirm(`Confirm booking with ${t.name} for ₹${total}?`))return;
+  walletBalance-=total;
+  const bookingId='BK'+Math.floor(10000+Math.random()*90000);
+  transactions.unshift({id:'TX'+Math.floor(1000+Math.random()*9000),desc:'Service: '+t.name,type:'debit',amt:total,date:'Just now'});
+  orders.unshift({id:bookingId,title:svcBooking.category.name+' — '+t.name,icon:'🔧',amount:total,status:'active',date:'Just now',type:'Service',eta:t.eta+' arrival',location:'Technician assigned',progress:40});
+  const coinBonus=premiumState.isPremium?600:300;
+  lifetimeCoins+=coinBonus;spendableCoins+=coinBonus;
+  const task=TASKS_DATA.find(x=>x.id==='service');if(task)task.done=true;
+  renderWalletUI();renderGiftsSection();renderOrdersList();
+  document.getElementById('rptBookingId').textContent=bookingId;
+  document.getElementById('rptTech').textContent=t.name;
+  document.getElementById('rptCategory').textContent=svcBooking.category.name;
+  document.getElementById('rptAmount').textContent='₹'+total;
+  svcRating=0;document.querySelectorAll('.star-btn').forEach(s=>s.classList.remove('on'));
+  document.getElementById('reviewInput').value='';
+  svcStep='report';updateServiceStepUI();toast('✅ Booking confirmed!');
+}
+function setStar(n){svcRating=n;document.querySelectorAll('.star-btn').forEach(s=>s.classList.toggle('on',parseInt(s.dataset.star)<=n))}
+function submitRating(){
+  if(svcRating===0){toast('⚠️ Select rating');return}
+  const review=document.getElementById('reviewInput').value.trim();
+  if(review){const t=TASKS_DATA.find(x=>x.id==='review');if(t)t.done=true;lifetimeCoins+=50;spendableCoins+=50}
+  renderGiftsSection();toast('⭐ Thank you!');
+  setTimeout(()=>{
+    svcStep=1;svcBooking={category:null,issue:'',name:currentUser.name,phone:currentUser.phone,address:'',city:currentUser.city,pincode:'',time:'',technician:null};
+    document.querySelectorAll('.service-cat-card').forEach(c=>c.classList.remove('selected'));
+    ['svcIssue','svcAddress','svcPincode','svcTime'].forEach(id=>document.getElementById(id).value='');
+    document.querySelectorAll('.tech-card').forEach(c=>c.classList.remove('selected'));
+    updateServiceStepUI();go('orders');
+  },1200);
+}
+
+/* GIFTS */
+function getCurrentLevel(){let lvl=LEVELS[0];for(const L of LEVELS)if(lifetimeCoins>=L.xp)lvl=L;return lvl}
+function getNextLevel(){const cur=getCurrentLevel();return LEVELS.find(L=>L.lvl===cur.lvl+1)||null}
+function renderGiftsSection(){
+  const cur=getCurrentLevel(),next=getNextLevel();
+  document.getElementById('lvlRing').textContent=cur.icon;
+  document.getElementById('lvlName').textContent=cur.name+' Member';
+  document.getElementById('coinBal').textContent=spendableCoins.toLocaleString('en-IN');
+  document.getElementById('homeLevelVal').textContent='Lv '+cur.lvl+' '+cur.name;
+  document.getElementById('homeCoinsVal').textContent=spendableCoins.toLocaleString('en-IN')+' IntaCoins';
+  if(next){
+    document.getElementById('lvlNextTxt').textContent='Next: '+next.name+' at '+next.xp+' coins';
+    document.getElementById('progFrom').textContent=lifetimeCoins+' coins';
+    document.getElementById('progTo').textContent=next.xp+' coins';
+    const pct=Math.min(100,Math.max(0,((lifetimeCoins-cur.xp)/(next.xp-cur.xp))*100));
+    document.getElementById('progFill').style.width=pct+'%';
+  } else {
+    document.getElementById('lvlNextTxt').textContent='🎉 Max level!';
+    document.getElementById('progFrom').textContent=lifetimeCoins+' coins';
+    document.getElementById('progTo').textContent='MAX';
+    document.getElementById('progFill').style.width='100%';
+  }
+  document.getElementById('taskList').innerHTML=TASKS_DATA.map(t=>`
+    <div class="task-row">
+      <div class="task-ico">${t.icon}</div>
+      <div class="task-txt"><h4>${t.title}</h4><p>${t.desc} · +${t.coins} 🪙</p></div>
+      <button class="task-claim ${t.claimed?'claimed':''}" onclick="claimTask('${t.id}')" ${(!t.done||t.claimed)?'disabled':''}>${t.claimed?'✓ Claimed':(t.done?'Claim':'Locked')}</button>
+    </div>`).join('');
+  document.getElementById('giftGrid').innerHTML=GIFTS_DATA.map(g=>{
+    const owned=ownedGifts.includes(g.id),levelOk=cur.lvl>=g.level,canAfford=spendableCoins>=g.coins,locked=!levelOk;
+    const premiumLocked=g.premium&&!premiumState.isPremium;
+    let btnTxt='Redeem Now',disabled=false;
+    if(owned){btnTxt='✓ Owned';disabled=true}
+    else if(premiumLocked){btnTxt='👑 Premium Only';disabled=true}
+    else if(!levelOk){btnTxt='🔒 Level '+g.level+' needed';disabled=true}
+    else if(!canAfford){btnTxt='Need '+(g.coins-spendableCoins)+' more';disabled=true}
+    const premiumTag=g.premium?'<span style="position:absolute;top:10px;left:10px;font-size:8.5px;font-weight:900;padding:4px 10px;border-radius:999px;background:linear-gradient(135deg,#FFD700,#FF8C00);color:#fff;z-index:3;">👑 PREMIUM</span>':'';
+    return `<div class="clay-card gift-card ${locked||premiumLocked?'locked':''}">
+      ${premiumTag}
+      <div class="gift-visual">${g.icon}${(locked||premiumLocked)?'<div class="gift-lock">'+(premiumLocked?'👑':'🔒')+'</div>':''}</div>
+      <div class="gift-name">${g.name}</div>
+      <div class="gift-desc">${g.desc}</div>
+      <div class="gift-cost-row"><span class="gift-cost">🪙 ${g.coins.toLocaleString('en-IN')}</span><span class="gift-lvl">Lv ${g.level}</span></div>
+      <button class="gift-btn" onclick="redeemGift(${g.id})" ${disabled?'disabled':''}>${btnTxt}</button>
+      <div class="gift-delivery-badge">🚚 ${g.days}</div>
+    </div>`;
+  }).join('');
+  renderActiveDeliveries();
+}
+function claimTask(id){const t=TASKS_DATA.find(x=>x.id===id);if(!t||!t.done||t.claimed)return;t.claimed=true;const mult=premiumState.isPremium?2:1;const reward=t.coins*mult;lifetimeCoins+=reward;spendableCoins+=reward;renderGiftsSection();renderWalletUI();toast('🎉 +'+reward+' IntaCoins'+(mult>1?' (2× Premium)':''))}
+function claimAllTasks(){let total=0;const mult=premiumState.isPremium?2:1;TASKS_DATA.forEach(t=>{if(t.done&&!t.claimed){t.claimed=true;total+=t.coins*mult}});if(total===0){toast('No claimable tasks');return}lifetimeCoins+=total;spendableCoins+=total;renderGiftsSection();toast('🎉 +'+total+' IntaCoins!')}
+function playClaimChime(){
+  try{
+    const ctx=new(window.AudioContext||window.webkitAudioContext)();
+    const notes=[523.25,659.25,783.99,1046.50];
+    notes.forEach((freq,i)=>{
+      const osc=ctx.createOscillator(),gain=ctx.createGain();
+      osc.connect(gain);gain.connect(ctx.destination);
+      osc.type='sine';osc.frequency.value=freq;
+      const start=ctx.currentTime+i*.13;
+      gain.gain.setValueAtTime(0,start);
+      gain.gain.linearRampToValueAtTime(.25,start+.02);
+      gain.gain.exponentialRampToValueAtTime(.001,start+1.2);
+      osc.start(start);osc.stop(start+1.2);
+    });
+  }catch(e){}
+}
+function showClaimBurst(){
+  const burst=document.createElement('div');burst.className='claim-burst';burst.textContent='🎉';document.body.appendChild(burst);
+  setTimeout(()=>burst.remove(),1800);
+  const colors=['#F56040','#FCAF45','#E1306C','#A855F7','#38BDF8','#10B981'];
+  for(let i=0;i<40;i++){
+    const c=document.createElement('div');c.className='confetti';c.style.left=Math.random()*100+'vw';
+    c.style.background=colors[Math.floor(Math.random()*colors.length)];
+    c.style.animationDelay=Math.random()*.5+'s';c.style.animationDuration=(2+Math.random()*1.5)+'s';
+    document.body.appendChild(c);setTimeout(()=>c.remove(),3500);
+  }
+}
+function redeemGift(id){
+  const g=GIFTS_DATA.find(x=>x.id===id);if(!g)return;
+  const cur=getCurrentLevel();
+  if(g.premium&&!premiumState.isPremium){toast('👑 Premium membership required');return}
+  if(cur.lvl<g.level){toast('🔒 Unlock Level '+g.level+' first');return}
+  if(spendableCoins<g.coins){toast('🪙 Need '+(g.coins-spendableCoins)+' more coins');return}
+  if(ownedGifts.includes(id)){toast('Already owned!');return}
+  if(!confirm(`Redeem "${g.name}" for ${g.coins} IntaCoins?\n\nEstimated delivery: ${g.days}`))return;
+  spendableCoins-=g.coins;ownedGifts.push(id);
+  playClaimChime();showClaimBurst();
+  const now=new Date();
+  const eta=new Date(now.getTime()+6*24*60*60*1000);
+  const deliveryId='DL'+Math.floor(10000+Math.random()*90000);
+  activeDeliveries.push({id:deliveryId,giftId:id,giftName:g.name,giftIcon:g.icon,claimDate:now.toLocaleDateString('en-IN',{day:'numeric',month:'short'}),etaDate:eta.toLocaleDateString('en-IN',{day:'numeric',month:'short'}),currentStep:1,steps:[{name:'Order Confirmed',desc:'Redemption confirmed'},{name:'Processing',desc:'Gift being packed'},{name:'Shipped',desc:'Out for delivery'},{name:'Delivered',desc:'Gift delivered'}]});
+  orders.unshift({id:deliveryId,title:g.name+' (Gift Reward)',icon:g.icon,amount:0,status:'confirmed',date:'Just now',type:'Gift',eta:g.days,location:'Warehouse → Your Address',progress:20});
+  renderGiftsSection();renderOrdersList();
+  toast('🎁 '+g.name+' claimed!');
+}
+function renderActiveDeliveries(){
+  const head=document.getElementById('activeOrdersHead'),list=document.getElementById('activeOrdersList');
+  if(activeDeliveries.length===0){head.style.display='none';list.innerHTML='';return}
+  head.style.display='flex';
+  list.innerHTML=activeDeliveries.map(d=>`
+    <div class="clay-card" style="padding:16px;cursor:pointer;" onclick="showDelivery('${d.id}')">
+      <div style="display:flex;align-items:center;gap:12px;">
+        <div style="width:50px;height:50px;border-radius:16px;background:var(--icon-bg);display:grid;place-items:center;font-size:24px;flex-shrink:0;">${d.giftIcon}</div>
+        <div style="flex:1;min-width:0;">
+          <div style="font-size:12.5px;font-weight:900;line-height:1.3;">${d.giftName}</div>
+          <div style="font-size:10px;font-weight:700;color:var(--txt-sub);margin-top:3px;">Order ${d.id} · Claimed ${d.claimDate}</div>
+          <div style="font-size:10.5px;font-weight:900;color:var(--success);margin-top:3px;">🚚 ETA: ${d.etaDate}</div>
+        </div>
+        <div style="font-size:18px;color:var(--txt-muted);">›</div>
+      </div>
+    </div>`).join('');
+}
+function showDelivery(id){const d=activeDeliveries.find(x=>x.id===id);if(!d)return;
+  document.getElementById('orderDetailContent').innerHTML=`
+    <div style="text-align:center;margin-bottom:12px;"><div style="font-size:48px;">${d.giftIcon}</div><h3 style="font-size:16px;font-weight:900;margin-top:8px;">${d.giftName}</h3><p style="font-size:11px;color:var(--txt-sub);font-weight:700;margin-top:4px;">Order ID: ${d.id}</p></div>
+    <div class="radar-container"><div class="radar-grid"></div><div class="radar-sweep"></div><div class="radar-center">🛰️</div>
+      <div class="radar-blip you" style="top:72%;left:32%;"></div><div class="radar-label" style="top:72%;left:32%;">YOU</div>
+      <div class="radar-blip dest" style="top:28%;left:68%;"></div><div class="radar-label" style="top:28%;left:68%;">DEST</div>
+      <div class="radar-blip" style="top:52%;left:48%;"></div><div class="radar-label" style="top:52%;left:48%;">📦 TRANSIT</div>
+    </div>
+    <div class="delivery-tracker">${d.steps.map((s,i)=>{const isDone=i<d.currentStep,isCurrent=i===d.currentStep;return `<div class="dt-step ${isDone?'done':''} ${isCurrent?'current':''}"><div class="dt-left"><div class="dt-dot">${isDone?'✓':(i+1)}</div>${i<d.steps.length-1?'<div class="dt-line"></div>':''}</div><div class="dt-right"><h5>${s.name}</h5><p>${s.desc}</p></div></div>`}).join('')}</div>`;
+  openModal('orderDetailModal');
+}
+
+/* WALLET */
+function updateAllBalanceDisplays(){const short='₹'+Math.floor(walletBalance).toLocaleString('en-IN');const el=document.getElementById('topBalance');if(el)el.textContent=short}
+function renderWalletUI(){const el=document.getElementById('walletDisplay');if(el)el.textContent='₹'+walletBalance.toLocaleString('en-IN',{minimumFractionDigits:2,maximumFractionDigits:2});updateAllBalanceDisplays()}
+function executeAddMoney(){const amt=parseFloat(document.getElementById('addAmountInput').value);if(!amt||amt<=0){toast('Enter valid amount');return}walletBalance+=amt;transactions.unshift({id:'TX'+Math.floor(1000+Math.random()*9000),desc:'Wallet Recharge',type:'credit',amt,date:'Just now'});renderWalletUI();closeModal('addMoneyModal');document.getElementById('addAmountInput').value='';toast('🎉 ₹'+amt.toLocaleString('en-IN')+' added')}
+function executeWithdrawal(){const upi=document.getElementById('withdrawUpiInput').value.trim();const amt=parseFloat(document.getElementById('withdrawAmountInput').value);if(!upi||upi.length<5){toast('Enter valid UPI');return}if(!amt||amt<=0){toast('Enter valid amount');return}if(amt>walletBalance){toast('⚠️ Insufficient balance');return}walletBalance-=amt;transactions.unshift({id:'TX'+Math.floor(1000+Math.random()*9000),desc:'Payout to '+upi,type:'debit',amt,date:'Just now'});renderWalletUI();closeModal('withdrawModal');document.getElementById('withdrawUpiInput').value='';document.getElementById('withdrawAmountInput').value='';toast('💸 Withdrawal successful')}
+
+/* LEARN */
+function openLearnModal(){renderLearnGrid();openModal('learnModal')}
+function closeLearnModal(){const player=document.querySelector('.learn-player video');if(player)player.pause();closeModal('learnModal');if(musicWasPlayingBeforeVideo&&!musicPlaying){if(bgAudio){bgAudio.play().then(()=>{musicPlaying=true;updateMusicUI(true)}).catch(()=>{})}musicWasPlayingBeforeVideo=false}}
+function renderLearnGrid(){
+  document.getElementById('learnContent').innerHTML=`
+    <div style="font-size:12px;font-weight:700;color:var(--txt-sub);margin-bottom:14px;line-height:1.5;">👩‍🏫 Watch short animated tutorials. Background music auto-pauses when video plays.</div>
+    <div class="learn-video-grid">
+      ${LEARN_VIDEOS.map(v=>`<div class="learn-video-card" onclick="playLearnVideo('${v.id}')"><div class="learn-video-thumb"><video src="${v.srcs[0]}" preload="metadata" muted playsinline></video><div class="learn-video-badge">TUTORIAL</div><div class="learn-video-dur">${v.duration}</div></div><div class="learn-video-info"><h4>${v.title}</h4><p>${v.desc}</p></div></div>`).join('')}
+    </div>`;
+}
+function playLearnVideo(vid){
+  const v=LEARN_VIDEOS.find(x=>x.id===vid);if(!v)return;
+  document.querySelectorAll('.reel-video').forEach(vi=>vi.pause());
+  document.getElementById('learnContent').innerHTML=`
+    <button class="clay-button ghost" style="padding:9px 16px;font-size:11.5px;margin-bottom:12px;" onclick="renderLearnGrid()">← All Tutorials</button>
+    <div class="learn-player">
+      <video id="learnPlayerVideo" src="${v.srcs[0]}" controls playsinline autoplay data-idx="0"></video>
+      <div class="learn-player-error" id="learnPlayerError">
+        <div class="err-icon">🎥</div>
+        <p>Tutorial video is temporarily unavailable. Try another lesson or retry.</p>
+        <button class="clay-button" style="padding:11px 22px;font-size:12.5px;" onclick="renderLearnGrid()">Browse All Tutorials</button>
+      </div>
+      <div class="learn-player-info">
+        <h4>${v.title}</h4>
+        <p>${v.desc}</p>
+      </div>
+    </div>`;
+  const player=document.getElementById('learnPlayerVideo');
+  const errBox=document.getElementById('learnPlayerError');
+  player.addEventListener('play',()=>onVideoPlay());
+  player.addEventListener('pause',()=>setTimeout(onVideoPauseOrEnd,100));
+  player.addEventListener('ended',()=>onVideoPauseOrEnd());
+  player.addEventListener('error',()=>{
+    const idx=parseInt(player.dataset.idx||'0');
+    if(idx<v.srcs.length-1){
+      player.dataset.idx=(idx+1).toString();
+      player.src=v.srcs[idx+1];
+      player.load();
+      const pp=player.play();if(pp!==undefined)pp.catch(()=>{});
+    } else {
+      if(errBox)errBox.classList.add('show');
+    }
+  });
+  const pp=player.play();
+  if(pp!==undefined)pp.catch(()=>{});
+}
+
+/* TECH REG */
+const TECH_SKILLS=['📱 Mobile','💻 Laptop','📺 TV','❄️ AC','🧺 Washing','🎧 Audio','🎮 Console','📷 Camera'];
+function openTechRegister(){techFormStep=1;techSkills=[];document.getElementById('techSkillChips').innerHTML=TECH_SKILLS.map(s=>`<button class="store-tab" style="padding:9px 14px;font-size:10.5px;" onclick="toggleTechSkill(this,'${s}')">${s}</button>`).join('');updateTechFormUI();openModal('techRegisterModal')}
+function toggleTechSkill(el,s){el.classList.toggle('active');const idx=techSkills.indexOf(s);if(idx>=0)techSkills.splice(idx,1);else techSkills.push(s)}
+function updateTechFormUI(){
+  document.querySelectorAll('#techStepsBanner .step-chip').forEach(p=>{const n=parseInt(p.dataset.step);p.classList.toggle('active',n===techFormStep);p.classList.toggle('done',n<techFormStep)});
+  for(let i=1;i<=4;i++){const f=document.getElementById('techForm'+i);if(f)f.style.display=i===techFormStep?'block':'none'}
+  document.getElementById('techBackBtn').style.display=techFormStep>1?'block':'none';
+  document.getElementById('techNextBtn').textContent=techFormStep===4?'✅ Submit KYC':'Continue →';
+}
+function techFormBack(){if(techFormStep>1){techFormStep--;updateTechFormUI()}}
+function techFormNext(){
+  if(techFormStep===1){const name=document.getElementById('techName').value.trim(),phone=document.getElementById('techPhone').value.trim(),dob=document.getElementById('techDob').value;if(name.length<3){toast('⚠️ Enter full name');return}if(!/^\d{10}$/.test(phone)){toast('⚠️ Enter valid mobile');return}if(!dob){toast('⚠️ Select DOB');return}techFormStep=2;updateTechFormUI();return}
+  if(techFormStep===2){const aad=document.getElementById('techAadhaar').value.replace(/\s/g,''),pan=document.getElementById('techPan').value.trim().toUpperCase();if(aad.length!==12){toast('⚠️ Enter valid Aadhaar');return}if(!/^[A-Z]{5}[0-9]{4}[A-Z]$/.test(pan)){toast('⚠️ PAN format: ABCDE1234F');return}techFormStep=3;updateTechFormUI();return}
+  if(techFormStep===3){if(techSkills.length===0){toast('⚠️ Select at least 1 skill');return}const exp=document.getElementById('techExp').value;if(!exp){toast('⚠️ Enter experience');return}techFormStep=4;updateTechFormUI();return}
+  if(techFormStep===4){const acc=document.getElementById('techAcc').value.trim(),ifsc=document.getElementById('techIfsc').value.trim().toUpperCase();if(acc.length<8){toast('⚠️ Enter valid account');return}if(ifsc.length!==11){toast('⚠️ Enter valid IFSC');return}closeModal('techRegisterModal');toast('🎉 KYC submitted!')}
+}
+function formatAadhaar(input){let v=input.value.replace(/\D/g,'').slice(0,12);input.value=v.replace(/(\d{4})(?=\d)/g,'$1 ')}
+
+/* LOGOUT */
+function logout(){if(!confirm('Logout from InstaKart?'))return;toast('👋 Logging out...');setTimeout(()=>location.reload(),700)}
+
+/* HELPERS */
+function openModal(id){document.getElementById(id).classList.add('open')}
+function closeModal(id){document.getElementById(id).classList.remove('open')}
+let toastTimer;
+function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.classList.remove('show'),2400)}
+function globalSearch(v){if(!v.trim())return;go('store');document.getElementById('storeSearch').value=v;renderCatalog(v)}
+document.querySelectorAll('.modal-backdrop').forEach(m=>{m.addEventListener('click',e=>{if(e.target===m){if(m.id==='learnModal')closeLearnModal();else m.classList.remove('open')}})});
+document.addEventListener('visibilitychange',()=>{if(document.hidden){document.querySelectorAll('video').forEach(v=>v.pause())}});
+</script>
+</body>
+</html>
